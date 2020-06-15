@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-My document
-=======
 Rita's document
->>>>>>> edits
