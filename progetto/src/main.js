@@ -8,9 +8,19 @@ import router from './router'
 import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default.css';
 
+import DataService from './dataservice';
+
 Vue.use(VueMaterial);
 
 Vue.config.productionTip = false
+
+router.beforeEach((to, from, next) => {
+  if(to.name !== 'Login' && !DataService.isAuthenticated()) {
+    next({name: 'Login'});
+  } else {
+    next();
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({

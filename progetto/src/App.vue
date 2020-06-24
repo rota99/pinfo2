@@ -2,8 +2,19 @@
   <div id="app">
     <md-app>
       <md-app-toolbar class="md-primary">
-        <span class="md-title">Lo progetto</span>
+        <div class="md-toolbar-section-start">
+          <span class="md-title">Lo progetto</span>
+        </div>
+
+        <div class="md-toolbar-section-end">
+          <md-tabs class="md-primary">
+            <md-tab id="tab-dashboard" md-label="Dashboard" :to="'/dashboard'"></md-tab>
+            <md-tab id="tab-profilo" md-label="Profilo" :to="'/profilo/' + this.username"></md-tab>
+            <md-tab id="tab-contagi" md-label="Contagi"></md-tab>
+          </md-tabs>
+        </div>
       </md-app-toolbar>
+
       <md-app-content>
         <router-view></router-view>
       </md-app-content>
@@ -13,7 +24,12 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data: function() {
+    return {
+      username: localStorage.getItem('username')
+    }
+  }
 }
 </script>
 
