@@ -3,9 +3,11 @@
 </template>
 
 <script>
-export default {
-
-}
+ export default{
+   created:function(){
+     console.log('ciao');
+   }
+ }
 </script>
 
 <style>
