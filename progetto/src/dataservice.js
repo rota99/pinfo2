@@ -19,5 +19,8 @@ export default {
   },
   logout() {
     localStorage.removeItem('username');
+  },
+  getCountries(){
+    return axios.get('https://api.covid19api.com/countries');
   }
 }

@@ -23,13 +23,25 @@ import DataService from '../dataservice';
 export default {
   data: function() {
     return {
-      username: ''
+      username: '',
+      countries:[]
     }
+  },
+  created:function(){
+    this.load();
   },
   methods: {
     signIn: function() {
       DataService.login(this.username);
       this.$router.push({path: '/'});
+    },
+    load:function(){
+      DataService.getCountries().then(data =>{
+        for(var i=0;i<data.data.length;i++){
+          this.countries[i]=data.data[i].Country;
+        }
+        console.log(this.countries);
+      });
     }
   }
 }
