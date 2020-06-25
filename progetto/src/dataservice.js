@@ -2,13 +2,13 @@ import axios from 'axios';
 import firebase from '@firebase/app';
 import '@firebase/firestore';
 
-/*firebase.initializeApp({
-  apiKey: "",
-  authDomain: "",
-  projectId: ""
+firebase.initializeApp({
+  apiKey: "AIzaSyCCO5HeWTQLpOLy9RbqTD-K3dAdR4lbPKE",
+  authDomain: "progettoinfo2.firebaseapp.com",
+  projectId: "progettoinfo2"
 });
 
-var db = firebase.firestore();*/
+var db = firebase.firestore();
 
 export default {
   isAuthenticated() {
