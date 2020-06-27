@@ -7,7 +7,7 @@
             <!--struttura dell'immagine <img :src="url" />.
             l'url va preso dal db, quindi va fatta una funzione getUserInfo() in dataservice che recupera le informazioni
             dell'utente sapendo il suo username-->
-            <img>
+            <img :src="this.img" />
           </md-avatar>
           <span class="md-title">{{ username }}</span>
         </md-card-header>
@@ -30,11 +30,24 @@
 </template>
 
 <script>
+import DataService from '../dataservice';
+
 export default {
   data: function() {
     return {
       username: localStorage.getItem('username'),
-      postContent: null
+      postContent: null,
+      img: null
+    }
+  },
+  created: function() {
+    this.load();
+  },
+  methods: {
+    load: function(){
+      this.img = DataService.getUserInfo();
+      //console.log(this.img);
+      console.log(DataService.getUserInfo());
     }
   }
 }

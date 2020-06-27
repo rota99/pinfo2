@@ -3,7 +3,7 @@
     <md-app>
       <md-app-toolbar class="md-primary">
         <div class="md-toolbar-section-start">
-          <span class="md-title">Lo progetto</span>
+          <span class="md-title">Lol progetto</span>
         </div>
 
         <div class="md-toolbar-section-end">

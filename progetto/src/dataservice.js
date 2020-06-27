@@ -20,14 +20,24 @@ export default {
   logout() {
     localStorage.removeItem('username');
   },
-  signin(country,propic){
+  signin(country,propic) {
     return db.collection('user').doc().set({
       country:country,
       username:localStorage.getItem('username'),
       proPic:propic
     });
   },
-  getCountries(){
+  getCountries() {
     return axios.get('https://api.covid19api.com/countries');
+  },
+  getUserInfo() {
+    return db.collection('user').where('username','==', localStorage.getItem('username')).get().then((data) => {
+      data.forEach(doc => {
+        return {
+          proPic: doc.data().proPic,
+          country: doc.data().country
+        };
+      });
+    });
   }
 }
