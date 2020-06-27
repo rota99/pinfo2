@@ -31,13 +31,6 @@ export default {
     return axios.get('https://api.covid19api.com/countries');
   },
   getUserInfo() {
-    return db.collection('user').where('username','==', localStorage.getItem('username')).get().then((data) => {
-      data.forEach(doc => {
-        return {
-          proPic: doc.data().proPic,
-          country: doc.data().country
-        };
-      });
-    });
+    return db.collection('user').where('username','==', localStorage.getItem('username')).get();
   }
 }

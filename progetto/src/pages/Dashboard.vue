@@ -20,14 +20,14 @@
         </md-card-content>
 
         <md-card-actions>
-          <md-button class="md-icon-button">
+          <md-button class="md-icon-button" @click="">
             <md-icon>send</md-icon>
           </md-button>
         </md-card-actions>
       </md-card>
 
       <md-empty-state
-        
+
         md-icon="access_time"
         md-label="Nothing in Snoozed"
         md-description="Anything you snooze will go here until it's time for it to return to the inbox.">
@@ -51,10 +51,12 @@ export default {
     this.load();
   },
   methods: {
-    load: function(){
-      this.img = DataService.getUserInfo();
-      //console.log(this.img);
-      console.log(DataService.getUserInfo());
+    load: function() {
+      DataService.getUserInfo().then((data) => {
+        data.forEach(doc => {
+          this.img = doc.data().proPic;
+        });
+      });
     }
   }
 }
