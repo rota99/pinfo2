@@ -20,6 +20,13 @@ export default {
   logout() {
     localStorage.removeItem('username');
   },
+  signin(country,propic){
+    return db.collection('user').doc().set({
+      country:country,
+      username:localStorage.getItem('username'),
+      proPic:propic
+    });
+  },
   getCountries(){
     return axios.get('https://api.covid19api.com/countries');
   }

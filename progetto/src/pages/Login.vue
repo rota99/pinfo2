@@ -12,7 +12,7 @@
         <md-field>
           <label>Paese</label>
           <md-select v-model="paese">
-            <md-option v-for="country in countries" :key="country" value="country">{{ country }}</md-option>
+            <md-option v-for="country in countries" :key="country" :value="country">{{ country }}</md-option>
           </md-select>
         </md-field>
         <md-field>
@@ -45,7 +45,9 @@ export default {
   methods: {
     signIn: function() {
       DataService.login(this.username);
-      this.$router.push({ path: '/' });
+      DataService.signin(this.paese,this.img).then(()=>{
+        this.$router.push({ path: '/' });
+      });
     },
     load: function() {
       DataService.getCountries().then(data => {
