@@ -32,5 +32,11 @@ export default {
   },
   getUserInfo() {
     return db.collection('user').where('username','==', localStorage.getItem('username')).get();
+  },
+  sendPost(content) {
+    return db.collection('post').doc().set({
+      postContent:content,
+      username:localStorage.getItem('username'),
+    });
   }
 }

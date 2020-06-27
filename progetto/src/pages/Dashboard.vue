@@ -20,17 +20,16 @@
         </md-card-content>
 
         <md-card-actions>
-          <md-button class="md-icon-button" @click="">
+          <md-button class="md-icon-button" @click="sendPost()">
             <md-icon>send</md-icon>
           </md-button>
         </md-card-actions>
       </md-card>
 
       <md-empty-state
-
-        md-icon="access_time"
-        md-label="Nothing in Snoozed"
-        md-description="Anything you snooze will go here until it's time for it to return to the inbox.">
+        md-icon="no_sim"
+        md-label="Nessuna novità per ora!"
+        md-description="Scrivi il primo post!">
       </md-empty-state>
     </div>
   </div>
@@ -57,6 +56,9 @@ export default {
           this.img = doc.data().proPic;
         });
       });
+    },
+    sendPost: function() {
+      DataService.sendPost(this.postContent);
     }
   }
 }
