@@ -1,35 +1,65 @@
 <template>
   <div class="md-layout md-alignment-top-center">
-    <div class="md-layout-item md-large-size-66">
-      <md-card>
-        <md-card-header>
+    <div class="md-layout-item md-large-size-66 addMargin">
+
+      <!--Card per "Scrivi un post"-->
+      <md-card class="md-layout md-alignment-top-right">
+        <md-card-header class="md-layout-item md-size-100">
           <md-avatar>
-            <!--struttura dell'immagine <img :src="url" />.
-            l'url va preso dal db, quindi va fatta una funzione getUserInfo() in dataservice che recupera le informazioni
-            dell'utente sapendo il suo username-->
             <img :src="this.img" />
           </md-avatar>
           <span class="md-title">{{ username }}</span>
         </md-card-header>
 
-        <md-card-content>
+        <md-card-content class="md-layout-item md-size-95">
           <md-field>
             <label>Scrivi qualcosa...</label>
             <md-textarea v-model="postContent" md-autogrow></md-textarea>
           </md-field>
         </md-card-content>
 
-        <md-card-actions>
+        <md-card-actions class="md-layout-item md-size-100">
           <md-button class="md-icon-button" @click="sendPost()">
             <md-icon>send</md-icon>
           </md-button>
         </md-card-actions>
       </md-card>
+    </div>
 
+    <div class="md-layout-item md-large-size-66 addMargin">
+      <!--Card per i post-->
+      <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
+      <div>
+        <md-card class="md-layout md-alignment-top-right">
+          <!--in questa prima parte ci vanno immagine del profilo e username-->
+          <md-card-header class="md-layout-item md-size-100">
+            <md-avatar>
+              <img />
+            </md-avatar>
+            <span class="md-title"></span>
+          </md-card-header>
+
+          <!--qui ci va il contenuto del post-->
+          <md-card-content class="md-layout-item md-size-95">
+            <span></span>
+          </md-card-content>
+
+          <!--questo invece è il bottone per il like-->
+          <md-card-actions class="md-layout-item md-size-100">
+            <md-button class="md-icon-button">
+              <md-icon>favorite</md-icon>
+            </md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+    </div>
+
+      <!--Messaggio che viene visualizzato quando non ci sono post-->
+    <div class="md-layout-item md-large-size-66 addMargin">
       <md-empty-state
         md-icon="no_sim"
         md-label="Nessuna novità per ora!"
-        md-description="Scrivi il primo post!">
+        md-description="Scrivi il primo post.">
       </md-empty-state>
     </div>
   </div>
@@ -65,4 +95,21 @@ export default {
 </script>
 
 <style>
+.md-elevation-4 {
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+}
+
+.md-card-content {
+  padding-bottom: 0px;
+  padding-left: 30px;
+}
+
+.addMargin {
+  margin-bottom: 16px;
+}
+
+div .addMargin:first-child {
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
 </style>

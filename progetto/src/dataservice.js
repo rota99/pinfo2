@@ -22,9 +22,9 @@ export default {
   },
   signin(country,propic) {
     return db.collection('user').doc().set({
-      country:country,
-      username:localStorage.getItem('username'),
-      proPic:propic
+      country: country,
+      username: localStorage.getItem('username'),
+      proPic: propic
     });
   },
   getCountries() {
@@ -32,11 +32,5 @@ export default {
   },
   getUserInfo() {
     return db.collection('user').where('username','==', localStorage.getItem('username')).get();
-  },
-  sendPost(content) {
-    return db.collection('post').doc().set({
-      postContent:content,
-      username:localStorage.getItem('username'),
-    });
   }
 }
