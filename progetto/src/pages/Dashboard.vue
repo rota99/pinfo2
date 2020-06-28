@@ -54,7 +54,7 @@
       </div>
     </div>
 
-      <!--Messaggio che viene visualizzato quando non ci sono post-->
+    <!--Messaggio che viene visualizzato quando non ci sono post-->
     <div class="md-layout-item md-large-size-66 addMargin">
       <md-empty-state
         md-icon="no_sim"
