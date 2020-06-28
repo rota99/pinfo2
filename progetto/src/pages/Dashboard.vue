@@ -26,10 +26,10 @@
       </md-card>
     </div>
 
-    <div class="md-layout-item md-large-size-66 addMargin">
+    <div class="md-layout-item md-large-size-66" v-if="this.postList">
       <!--Card per i post-->
       <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
-      <div v-for="post in postList">
+      <div v-for="post in postList" class="addMargin">
         <md-card class="md-layout md-alignment-top-right">
           <!--in questa prima parte ci vanno immagine del profilo e username-->
           <md-card-header class="md-layout-item md-size-100">
@@ -55,7 +55,7 @@
     </div>
 
     <!--Messaggio che viene visualizzato quando non ci sono post-->
-    <div class="md-layout-item md-large-size-66 addMargin">
+    <div class="md-layout-item md-large-size-66 addMargin" v-if="!this.postList">
       <md-empty-state
         md-icon="no_sim"
         md-label="Nessuna novità per ora!"
