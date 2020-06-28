@@ -30,7 +30,11 @@ export default {
   getCountries() {
     return axios.get('https://api.covid19api.com/countries');
   },
-  getUserInfo() {
-    return db.collection('user').where('username','==', localStorage.getItem('username')).get();
+  getUserInfo(username) {
+    return db.collection('user').where('username','==',username).get();
+  },
+  getPost() {
+    return db.collection('post').get();
+    //return db.collection("post").doc().collection("user").get();
   }
 }

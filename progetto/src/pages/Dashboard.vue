@@ -29,19 +29,19 @@
     <div class="md-layout-item md-large-size-66 addMargin">
       <!--Card per i post-->
       <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
-      <div>
+      <div v-for="post in postList">
         <md-card class="md-layout md-alignment-top-right">
           <!--in questa prima parte ci vanno immagine del profilo e username-->
           <md-card-header class="md-layout-item md-size-100">
             <md-avatar>
               <img />
             </md-avatar>
-            <span class="md-title"></span>
+            <span class="md-title"> {{ post.username }}</span>
           </md-card-header>
 
           <!--qui ci va il contenuto del post-->
           <md-card-content class="md-layout-item md-size-95">
-            <span></span>
+            <span> {{ post.content }}</span>
           </md-card-content>
 
           <!--questo invece è il bottone per il like-->
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-      <!--Messaggio che viene visualizzato quando non ci sono post-->
+      <!--Messaggio che viene visualizzato quando non ci sono nuovi post-->
     <div class="md-layout-item md-large-size-66 addMargin">
       <md-empty-state
         md-icon="no_sim"
@@ -73,7 +73,8 @@ export default {
     return {
       username: localStorage.getItem('username'),
       postContent: null,
-      img: null
+      img: null,
+      postList: []
     }
   },
   created: function() {
@@ -81,14 +82,27 @@ export default {
   },
   methods: {
     load: function() {
-      DataService.getUserInfo().then((data) => {
+      DataService.getUserInfo(this.username).then((data) => {
         data.forEach(doc => {
           this.img = doc.data().proPic;
         });
       });
+      this.getPost();
     },
     sendPost: function() {
       DataService.sendPost(this.postContent);
+    },
+    getPost: function() {
+      DataService.getPost().then((data) => {
+        data.forEach((doc) => {
+          let un = doc.data().username;
+          let c = doc.data().postContent;
+          this.postList.push({
+            username: un,
+            content: c
+          });
+        });
+      });
     }
   }
 }
