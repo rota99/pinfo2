@@ -54,7 +54,7 @@
       </div>
     </div>
 
-      <!--Messaggio che viene visualizzato quando non ci sono post-->
+    <!--Messaggio che viene visualizzato quando non ci sono post-->
     <div class="md-layout-item md-large-size-66 addMargin">
       <md-empty-state
         md-icon="no_sim"
@@ -95,10 +95,6 @@ export default {
 </script>
 
 <style>
-.md-elevation-4 {
-  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
-}
-
 .md-card-content {
   padding-bottom: 0px;
   padding-left: 30px;
