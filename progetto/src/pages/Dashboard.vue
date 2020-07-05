@@ -26,10 +26,10 @@
       </md-card>
     </div>
 
-    <div class="md-layout-item md-large-size-66" v-if="this.postList">
+    <div class="md-layout-item md-large-size-66 addMargin">
       <!--Card per i post-->
       <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
-      <div v-for="post in postList" class="addMargin">
+      <div v-for="post in postList">
         <md-card class="md-layout md-alignment-top-right">
           <!--in questa prima parte ci vanno immagine del profilo e username-->
           <md-card-header class="md-layout-item md-size-100">
@@ -54,8 +54,8 @@
       </div>
     </div>
 
-    <!--Messaggio che viene visualizzato quando non ci sono post-->
-    <div class="md-layout-item md-large-size-66 addMargin" v-if="!this.postList">
+      <!--Messaggio che viene visualizzato quando non ci sono nuovi post-->
+    <div class="md-layout-item md-large-size-66 addMargin">
       <md-empty-state
         md-icon="no_sim"
         md-label="Nessuna novità per ora!"
@@ -93,22 +93,61 @@ export default {
       DataService.sendPost(this.postContent);
     },
     getPost: function() {
+      var objPost = [];
+      var objImg = [];
+
       DataService.getPost().then((data) => {
         data.forEach((doc) => {
           let un = doc.data().username;
           let c = doc.data().postContent;
-          this.postList.push({
+          objPost.push({
             username: un,
             content: c
           });
         });
       });
+
+      DataService.getUsers().then((data) => {
+        data.forEach((doc) => {
+          let un = doc.data().username;
+          let i = doc.data().proPic;
+          objImg.push(Object.create{
+            username: un,
+            img : i
+          });
+        });
+      });
+
+      console.log(objImg);
+
+      for(let i = 0; i < objImg.length; i++) {
+        for(let j = 0; j < objPost.length; j++) {
+          if(objImg[i].username == objPost[j].username) {
+            /*let u =  objPost[j].username;
+            let c = objPost[j].content;
+            let i = objImg[i].img;*/
+            /*this.postList.push({
+              username: u,
+              img: i,
+              content: c
+            });*/
+
+          }
+        }
+      }
+
+      console.log(this.postList);
     }
   }
 }
+
 </script>
 
 <style>
+.md-elevation-4 {
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+}
+
 .md-card-content {
   padding-bottom: 0px;
   padding-left: 30px;
