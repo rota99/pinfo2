@@ -54,7 +54,6 @@
         </md-card-area>
       </md-card-media-cover>
     </md-card>
-
     <div class="md-layout md-alignment-top-center">
       <div class="md-layout-item md-large-size-66 addMargin">
 
@@ -81,7 +80,33 @@
           </md-card-actions>
         </md-card>
       </div>
+      <div class="md-layout-item md-large-size-66" v-if="this.postList">
+        <!--Card per i post-->
+        <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
+        <div class="addMargin" v-for="post in postList">
+          <md-card class="md-layout md-alignment-top-right">
+            <!--in questa prima parte ci vanno immagine del profilo e username-->
+            <md-card-header class="md-layout-item md-size-100">
+              <md-avatar>
+                <img :src="this.img" />
+              </md-avatar>
+              <span class="md-title">{{ username }}</span>
+            </md-card-header>
 
+            <!--qui ci va il contenuto del post-->
+            <md-card-content class="md-layout-item md-size-95">
+              <span>{{post}}</span>
+            </md-card-content>
+
+            <!--questo invece è il bottone per il like-->
+            <md-card-actions class="md-layout-item md-size-100">
+              <md-button class="md-icon-button">
+                <md-icon>favorite</md-icon>
+              </md-button>
+            </md-card-actions>
+          </md-card>
+        </div>
+      </div>
 
     </div>
   </div>
@@ -95,7 +120,8 @@ export default {
     return {
       username: localStorage.getItem('username'),
       img: null,
-      postContent: null
+      postContent: null,
+      postList: []
     }
   },
   created:function () {
@@ -109,9 +135,17 @@ export default {
           this.img = doc.data().proPic;
         });
       });
+      this.getPost();
     },
     sendPost: function () {
-
+      DataService.sendPost(this.postContent);
+    },
+    getPost: function () {
+      DataService.getPost().then((data)=>{
+        data.forEach(doc=>{
+          postList.push(doc.data().postContent);
+        });
+      });
     }
   }
 }

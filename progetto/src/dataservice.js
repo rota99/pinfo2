@@ -42,8 +42,7 @@ export default {
   },
   sendPost(postContent) {
     return db.collection('post').doc().set({
-      voto: valore,
-      pokemon: name,
+      postContent: postContent,
       username: localStorage.getItem('username')
     });
   }
