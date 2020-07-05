@@ -9,7 +9,7 @@
         <md-card-area>
           <div class="containerImgName">
             <md-avatar class="md-large" id="avatarCopertina">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg" />
+              <img :src="this.img" />
             </md-avatar>
 
             <md-card-header>
@@ -22,6 +22,7 @@
           </div>
 
           <md-card-actions>
+
             <md-menu md-size="big" md-direction="bottom-end">
               <md-button class="md-icon-button" md-menu-trigger>
                 <md-icon>more_vert</md-icon>
@@ -29,8 +30,18 @@
 
               <md-menu-content>
                 <md-menu-item>
+                  <span>Modifica l'immagine<br />di profilo</span>
+                  <md-icon>insert_photo</md-icon>
+                </md-menu-item>
+
+                <md-menu-item>
                   <span>Modifica l'immagine<br />di copertina</span>
                   <md-icon>wallpaper</md-icon>
+                </md-menu-item>
+
+                <md-menu-item>
+                  <span>Modifica la bio</span>
+                  <md-icon>edit</md-icon>
                 </md-menu-item>
 
                 <md-menu-item>
@@ -71,42 +82,36 @@
         </md-card>
       </div>
 
-      <div class="md-layout-item md-large-size-66" v-if="this.postList">
-        <!--Card per i post-->
-        <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
-        <div class="addMargin">
-          <md-card class="md-layout md-alignment-top-right">
-            <!--in questa prima parte ci vanno immagine del profilo e username-->
-            <md-card-header class="md-layout-item md-size-100">
-              <md-avatar>
-                <img />
-              </md-avatar>
-              <span class="md-title">{{ username }}</span>
-            </md-card-header>
 
-            <!--qui ci va il contenuto del post-->
-            <md-card-content class="md-layout-item md-size-95">
-              <span>contenuto</span>
-            </md-card-content>
-
-            <!--questo invece è il bottone per il like-->
-            <md-card-actions class="md-layout-item md-size-100">
-              <md-button class="md-icon-button">
-                <md-icon>favorite</md-icon>
-              </md-button>
-            </md-card-actions>
-          </md-card>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
+import DataService from '../dataservice';
+
 export default {
   data: function() {
     return {
-      username: localStorage.getItem('username')
+      username: localStorage.getItem('username'),
+      img: null,
+      postContent: null
+    }
+  },
+  created:function () {
+    this.load();
+  },
+
+  methods: {
+    load: function() {
+      DataService.getUserInfo(this.username).then((data)=>{
+        data.forEach(doc=>{
+          this.img = doc.data().proPic;
+        });
+      });
+    },
+    sendPost: function () {
+
     }
   }
 }
