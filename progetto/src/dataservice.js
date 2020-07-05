@@ -33,8 +33,18 @@ export default {
   getUserInfo(username) {
     return db.collection('user').where('username','==',username).get();
   },
+  getUsers() {
+    return db.collection('user').get();
+  },
   getPost() {
     return db.collection('post').get();
     //return db.collection("post").doc().collection("user").get();
+  },
+  sendPost(postContent) {
+    return db.collection('post').doc().set({
+      voto: valore,
+      pokemon: name,
+      username: localStorage.getItem('username')
+    });
   }
 }
