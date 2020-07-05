@@ -40,6 +40,9 @@ export default {
     return db.collection('post').get();
     //return db.collection("post").doc().collection("user").get();
   },
+  getUserPost(username) {
+    return db.collection('post').where('username', '==', username).get();
+  },
   sendPost(postContent) {
     return db.collection('post').doc().set({
       postContent: postContent,

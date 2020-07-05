@@ -54,6 +54,7 @@
         </md-card-area>
       </md-card-media-cover>
     </md-card>
+
     <div class="md-layout md-alignment-top-center">
       <div class="md-layout-item md-large-size-66 addMargin">
 
@@ -80,7 +81,8 @@
           </md-card-actions>
         </md-card>
       </div>
-      <div class="md-layout-item md-large-size-66" v-if="this.postList">
+
+      <div class="md-layout-item md-large-size-66">
         <!--Card per i post-->
         <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
         <div class="addMargin" v-for="post in postList">
@@ -95,7 +97,7 @@
 
             <!--qui ci va il contenuto del post-->
             <md-card-content class="md-layout-item md-size-95">
-              <span>{{post}}</span>
+              <span>{{ post }}</span>
             </md-card-content>
 
             <!--questo invece è il bottone per il like-->
@@ -124,10 +126,9 @@ export default {
       postList: []
     }
   },
-  created:function () {
+  created:function() {
     this.load();
   },
-
   methods: {
     load: function() {
       DataService.getUserInfo(this.username).then((data)=>{
@@ -137,15 +138,18 @@ export default {
       });
       this.getPost();
     },
-    sendPost: function () {
+    sendPost: function() {
       DataService.sendPost(this.postContent);
     },
-    getPost: function () {
-      DataService.getPost().then((data)=>{
+    getPost: function() {
+      DataService.getUserPost(this.username).then((data)=>{
+        var i = 0;
         data.forEach(doc=>{
-          postList.push(doc.data().postContent);
+          this.postList[i] = doc.data().postContent;
+          i++;
         });
       });
+      console.log(this.postList);
     }
   }
 }
@@ -153,19 +157,18 @@ export default {
 </script>
 
 <style>
-/*.md-content {
-  margin: 0px;
-  padding: 0px;
+.md-content {
+  margin-top: 0px;
+  padding-top: 0px;
   border: none;
-  width: 100%;
-}*/
+}
 
 #copertina {
   margin: 0px;
   padding: 0px;
   border: none;
   width: 90%;
-  height: 375px;
+  height: 300px;
   background-color: #fafafa;
   box-shadow: none;
 }

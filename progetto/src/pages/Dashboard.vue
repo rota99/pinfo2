@@ -41,7 +41,7 @@
 
           <!--qui ci va il contenuto del post-->
           <md-card-content class="md-layout-item md-size-95">
-            <span> {{ post.content }}</span>
+            <span>{{ post.content }}</span>
           </md-card-content>
 
           <!--questo invece è il bottone per il like-->
