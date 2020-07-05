@@ -93,17 +93,18 @@ export default {
       DataService.sendPost(this.postContent);
     },
     getPost: function() {
-      var objPost = [];
-      var objImg = [];
+      var arrPost = [];
+      var arrImg = [];
 
       DataService.getPost().then((data) => {
         data.forEach((doc) => {
           let un = doc.data().username;
           let c = doc.data().postContent;
-          objPost.push({
+          var obj = {
             username: un,
             content: c
-          });
+          };
+          arrPost.push(obj);
         });
       });
 
@@ -111,32 +112,43 @@ export default {
         data.forEach((doc) => {
           let un = doc.data().username;
           let i = doc.data().proPic;
-          objImg.push(Object.create{
+          var obj = {
             username: un,
-            img : i
-          });
+            img: i
+          };
+          arrImg.push(obj);
         });
+        console.log("Dentro ->" + arrImg);
       });
 
-      console.log(objImg);
+      console.log("Fuori ->" + arrImg);
 
-      for(let i = 0; i < objImg.length; i++) {
-        for(let j = 0; j < objPost.length; j++) {
-          if(objImg[i].username == objPost[j].username) {
-            /*let u =  objPost[j].username;
-            let c = objPost[j].content;
-            let i = objImg[i].img;*/
-            /*this.postList.push({
+      for(var i = 0; i < arrImg.length; i++)
+      {
+        console.log(i + "->" + arrImg[i]);
+        console.log("qui");
+      }
+
+      for(var i = 0; i < arrImg.length; i++) {
+        for(var j = 0; j < arrPost.length; j++) {
+          if(arrImg[i].username == arrPost[j].username) {
+            var u = arrPost[j].username;
+            var c = arrPost[j].content;
+            var i = arrImg[i].img;
+            var obj = {
               username: u,
               img: i,
               content: c
-            });*/
-
+            };
+            this.postList.push(obj);
           }
         }
       }
 
-      console.log(this.postList);
+      /*console.log(arrPost);
+      console.log(arrImg);
+
+      console.log(this.postList);*/
     }
   }
 }
