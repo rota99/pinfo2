@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="md-layout md-alignment-top-center">
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
@@ -130,7 +130,7 @@ export default {
   margin: 0px;
   padding: 0px;
   border: none;
-  width: 100%;
+  width: 90%;
   height: 375px;
   background-color: #fafafa;
   box-shadow: none;
@@ -150,8 +150,8 @@ export default {
 #avatarCopertina {
   margin-left: 16px;
   margin-right: 16px;
-  width: 200px;
-  height: 200px;
+  width: 128px;
+  height: 128px;
   border-radius: 128px;
   border: 5px solid white;
 }
