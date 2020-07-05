@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <span class="title">Contagi</span>
+  </div>
 </template>
 
 <script>

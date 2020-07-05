@@ -114,12 +114,12 @@ export default {
 </script>
 
 <style>
-.md-content {
+/*.md-content {
   margin: 0px;
   padding: 0px;
   border: none;
   width: 100%;
-}
+}*/
 
 #copertina {
   margin: 0px;

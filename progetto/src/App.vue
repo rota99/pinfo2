@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <md-app md-waterfall>
+    <md-app>
       <md-app-toolbar class="md-primary">
         <div class="md-toolbar-section-start">
           <span class="md-title">Lol progetto</span>
