@@ -83,12 +83,15 @@
           </md-card>
 
           <!--Snackbar-->
+
           <md-snackbar :md-position="this.position" :md-duration="isInfinity ? Infinity : this.duration" :md-active.sync="this.showSnackbar" md-persistent>
             <span>Il tuo commento è stato inviato!</span>
             <md-button class="md-primary" @click="this.showSnackbar = false">Ok</md-button>
           </md-snackbar>
         </form>
       </div>
+
+      
 
       <div class="md-layout-item md-large-size-66">
         <!--Card per i post-->

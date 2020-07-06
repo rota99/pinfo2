@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <md-app>
-      <md-app-toolbar class="md-primary">
+      <md-app-toolbar class="md-primary" md-theme="default">
         <div class="md-toolbar-section-start">
           <span class="md-title">Lol progetto</span>
         </div>

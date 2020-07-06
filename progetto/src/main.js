@@ -7,6 +7,7 @@ import router from './router'
 
 import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default.css';
+//import "./Viewport.scss";
 
 import DataService from './dataservice';
 
