@@ -13,7 +13,7 @@ export default new Router({
   routes: [
     {name: 'Login', path: '/login', component: Login},
     {name: 'Dashboard', path: '/dashboard', component: Dashboard},
-    {name: 'Profilo', path: '/profilo/:username', component: Profilo},
+    {name: 'Profilo', path: '/profilo', component: Profilo},
     {name: 'Contagi', path: '/contagi', component: Contagi},
     {name: 'default', path: '/', redirect: '/dashboard'}
 
