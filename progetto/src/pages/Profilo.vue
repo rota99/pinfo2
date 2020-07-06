@@ -57,7 +57,6 @@
 
     <div class="md-layout md-alignment-top-center">
       <div class="md-layout-item md-large-size-66 addMargin">
-
         <!--Card per "Scrivi un post"-->
         <md-card class="md-layout md-alignment-top-right">
           <md-card-header class="md-layout-item md-size-100">
@@ -81,6 +80,11 @@
           </md-card-actions>
         </md-card>
       </div>
+      <!--Snackbar-->
+      <md-snackbar md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+        <span>Il tuo post è stato pubblicato!</span>
+        <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
+      </md-snackbar>
 
       <div class="md-layout-item md-large-size-66">
         <!--Card per i post-->
@@ -109,7 +113,6 @@
           </md-card>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -123,7 +126,11 @@ export default {
       username: localStorage.getItem('username'),
       img: null,
       postContent: null,
-      postList: []
+      postList: [],
+      showSnackbar: false,
+      position: 'center',
+      duration: 4000,
+      isInfinity: false
     }
   },
   created:function() {
@@ -140,6 +147,7 @@ export default {
     },
     sendPost: function() {
       DataService.sendPost(this.postContent);
+      this.showSnackbar = true;
     },
     getPost: function() {
       DataService.getUserPost(this.username).then((data)=>{
@@ -153,7 +161,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style>

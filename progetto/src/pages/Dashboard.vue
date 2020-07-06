@@ -25,6 +25,11 @@
         </md-card-actions>
       </md-card>
     </div>
+    <!--snackbar-->
+    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>Il tuo post è stato pubblicato!</span>
+      <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
+    </md-snackbar>
 
     <div class="md-layout-item md-large-size-66 addMargin">
       <!--Card per i post-->
@@ -74,7 +79,11 @@ export default {
       username: localStorage.getItem('username'),
       postContent: null,
       img: null,
-      postList: []
+      postList: [],
+      showSnackbar: false,
+      position: 'center',
+      duration: 4000,
+      isInfinity: false
     }
   },
   created: function() {
@@ -91,6 +100,7 @@ export default {
     },
     sendPost: function() {
       DataService.sendPost(this.postContent);
+      this.showSnackbar = true;
     },
     getPost: function() {
       var arrPost = [];
