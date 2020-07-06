@@ -48,5 +48,14 @@ export default {
       postContent: postContent,
       username: localStorage.getItem('username')
     });
+  },
+  getDayOneLiveConfirmed() {
+    return axios.get('https://api.covid19api.com/dayone/country/italy/status/confirmed/live')
+  },
+  getDayOneLiveRecovered() {
+    return axios.get('https://api.covid19api.com/dayone/country/italy/status/recovered/live')
+  },
+  getDayOneLiveDeaths() {
+    return axios.get('https://api.covid19api.com/dayone/country/italy/status/deaths/live')
   }
 }

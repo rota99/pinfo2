@@ -57,41 +57,34 @@
 
     <div class="md-layout md-alignment-top-center">
       <div class="md-layout-item md-large-size-66 addMargin">
-
         <!--Card per "Scrivi un post"-->
-        <form novalidate @submit.stop.prevent="this.showSnackbar = true">
-          <md-card class="md-layout md-alignment-top-right">
-            <md-card-header class="md-layout-item md-size-100">
-              <md-avatar>
-                <img :src="this.img" />
-              </md-avatar>
-              <span class="md-title">{{ username }}</span>
-            </md-card-header>
+        <md-card class="md-layout md-alignment-top-right">
+          <md-card-header class="md-layout-item md-size-100">
+            <md-avatar>
+              <img :src="this.img" />
+            </md-avatar>
+            <span class="md-title">{{ username }}</span>
+          </md-card-header>
 
-            <md-card-content class="md-layout-item md-size-95">
-              <md-field>
-                <label>Scrivi qualcosa...</label>
-                <md-textarea v-model="postContent" md-autogrow></md-textarea>
-              </md-field>
-            </md-card-content>
+          <md-card-content class="md-layout-item md-size-95">
+            <md-field>
+              <label>Scrivi qualcosa...</label>
+              <md-textarea v-model="postContent" md-autogrow></md-textarea>
+            </md-field>
+          </md-card-content>
 
-            <md-card-actions class="md-layout-item md-size-100">
-              <md-button type="submit" class="md-icon-button">
-                <md-icon>send</md-icon>
-              </md-button>
-            </md-card-actions>
-          </md-card>
-
-          <!--Snackbar-->
-
-          <md-snackbar :md-position="this.position" :md-duration="isInfinity ? Infinity : this.duration" :md-active.sync="this.showSnackbar" md-persistent>
-            <span>Il tuo commento è stato inviato!</span>
-            <md-button class="md-primary" @click="this.showSnackbar = false">Ok</md-button>
-          </md-snackbar>
-        </form>
+          <md-card-actions class="md-layout-item md-size-100">
+            <md-button class="md-icon-button" @click="sendPost()">
+              <md-icon>send</md-icon>
+            </md-button>
+          </md-card-actions>
+        </md-card>
       </div>
-
-      
+      <!--Snackbar-->
+      <md-snackbar md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+        <span>Il tuo post è stato pubblicato!</span>
+        <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
+      </md-snackbar>
 
       <div class="md-layout-item md-large-size-66">
         <!--Card per i post-->
@@ -153,7 +146,7 @@ export default {
       this.getPost();
     },
     sendPost: function() {
-      DataService.sendPost(this.postContent).then(data => {      });
+      DataService.sendPost(this.postContent);
       this.showSnackbar = true;
     },
     getPost: function() {
