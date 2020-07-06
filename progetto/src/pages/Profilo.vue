@@ -59,27 +59,35 @@
       <div class="md-layout-item md-large-size-66 addMargin">
 
         <!--Card per "Scrivi un post"-->
-        <md-card class="md-layout md-alignment-top-right">
-          <md-card-header class="md-layout-item md-size-100">
-            <md-avatar>
-              <img :src="this.img" />
-            </md-avatar>
-            <span class="md-title">{{ username }}</span>
-          </md-card-header>
+        <form novalidate @submit.stop.prevent="this.showSnackbar = true">
+          <md-card class="md-layout md-alignment-top-right">
+            <md-card-header class="md-layout-item md-size-100">
+              <md-avatar>
+                <img :src="this.img" />
+              </md-avatar>
+              <span class="md-title">{{ username }}</span>
+            </md-card-header>
 
-          <md-card-content class="md-layout-item md-size-95">
-            <md-field>
-              <label>Scrivi qualcosa...</label>
-              <md-textarea v-model="postContent" md-autogrow></md-textarea>
-            </md-field>
-          </md-card-content>
+            <md-card-content class="md-layout-item md-size-95">
+              <md-field>
+                <label>Scrivi qualcosa...</label>
+                <md-textarea v-model="postContent" md-autogrow></md-textarea>
+              </md-field>
+            </md-card-content>
 
-          <md-card-actions class="md-layout-item md-size-100">
-            <md-button class="md-icon-button" @click="sendPost()">
-              <md-icon>send</md-icon>
-            </md-button>
-          </md-card-actions>
-        </md-card>
+            <md-card-actions class="md-layout-item md-size-100">
+              <md-button type="submit" class="md-icon-button">
+                <md-icon>send</md-icon>
+              </md-button>
+            </md-card-actions>
+          </md-card>
+
+          <!--Snackbar-->
+          <md-snackbar :md-position="this.position" :md-duration="isInfinity ? Infinity : this.duration" :md-active.sync="this.showSnackbar" md-persistent>
+            <span>Il tuo commento è stato inviato!</span>
+            <md-button class="md-primary" @click="this.showSnackbar = false">Ok</md-button>
+          </md-snackbar>
+        </form>
       </div>
 
       <div class="md-layout-item md-large-size-66">
@@ -109,7 +117,6 @@
           </md-card>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -123,7 +130,11 @@ export default {
       username: localStorage.getItem('username'),
       img: null,
       postContent: null,
-      postList: []
+      postList: [],
+      showSnackbar: false,
+      position: 'center',
+      duration: 4000,
+      isInfinity: false
     }
   },
   created:function() {
@@ -139,7 +150,8 @@ export default {
       this.getPost();
     },
     sendPost: function() {
-      DataService.sendPost(this.postContent);
+      DataService.sendPost(this.postContent).then(data => {      });
+      this.showSnackbar = true;
     },
     getPost: function() {
       DataService.getUserPost(this.username).then((data)=>{
@@ -153,7 +165,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style>
