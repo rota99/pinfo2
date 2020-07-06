@@ -3,7 +3,7 @@
     <span class="title">Contagi</span>
 
     <!--Card numeri contagi-->
-    
+
   </div>
 </template>
 
