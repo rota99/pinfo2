@@ -1,7 +1,4 @@
 <template>
-  <div>
-    <span class="title">Contagi</span>
-
   <div  class="md-layout md-alignment-top-center">
     <!--Card numeri contagi-->
     <md-card md-with-hover class="md-layout-item md-size-15">
