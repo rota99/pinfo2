@@ -7,10 +7,10 @@
         </div>
 
         <div class="md-toolbar-section-end">
-          <md-tabs class="md-primary">
-            <md-tab id="tab-dashboard" md-label="Dashboard" to="/dashboard"></md-tab>
-            <md-tab id="tab-profilo" md-label="Profilo" to="/profilo"></md-tab>
-            <md-tab id="tab-contagi" md-label="Contagi" :to="'/contagi/'+ country"></md-tab>
+          <md-tabs class="md-primary" md-sync-route>
+            <md-tab id="tab-dashboard" md-label="Dashboard" :to="'/dashboard'"></md-tab>
+            <md-tab id="tab-profilo" md-label="Profilo" :to="'/profilo/' + username"></md-tab>
+            <md-tab id="tab-contagi" md-label="Contagi" :to="'/contagi'"></md-tab>
           </md-tabs>
         </div>
       </md-app-toolbar>

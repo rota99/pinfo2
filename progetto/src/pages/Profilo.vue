@@ -22,34 +22,9 @@
           </div>
 
           <md-card-actions>
-
-            <md-menu md-size="big" md-direction="bottom-end">
-              <md-button class="md-icon-button" md-menu-trigger>
-                <md-icon>more_vert</md-icon>
-              </md-button>
-
-              <md-menu-content>
-                <md-menu-item>
-                  <span>Modifica l'immagine<br />di profilo</span>
-                  <md-icon>insert_photo</md-icon>
-                </md-menu-item>
-
-                <md-menu-item>
-                  <span>Modifica l'immagine<br />di copertina</span>
-                  <md-icon>wallpaper</md-icon>
-                </md-menu-item>
-
-                <md-menu-item>
-                  <span>Modifica la bio</span>
-                  <md-icon>edit</md-icon>
-                </md-menu-item>
-
-                <md-menu-item>
-                  <span>Modifica il tema</span>
-                  <md-icon>style</md-icon>
-                </md-menu-item>
-              </md-menu-content>
-            </md-menu>
+            <md-button class="md-icon-button md-fab md-mini md-primary" md-menu-trigger :to="'/modifica_profilo/' + username">
+              <md-icon>edit</md-icon>
+            </md-button>
           </md-card-actions>
         </md-card-area>
       </md-card-media-cover>
@@ -81,7 +56,7 @@
         </md-card>
       </div>
       <!--Snackbar-->
-      <md-snackbar md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <md-snackbar md-position="center" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
         <span>Il tuo post è stato pubblicato!</span>
         <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
       </md-snackbar>
@@ -150,14 +125,9 @@ export default {
       this.showSnackbar = true;
     },
     getPost: function() {
-      DataService.getUserPost(this.username).then((data)=>{
-        var i = 0;
-        data.forEach(doc=>{
-          this.postList[i] = doc.data().postContent;
-          i++;
-        });
+      DataService.getUserPost(this.username).then(data => {
+        console.log(data);
       });
-      console.log(this.postList);
     }
   }
 }

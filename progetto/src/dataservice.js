@@ -43,7 +43,17 @@ export default {
     //return db.collection("post").doc().collection("user").get();
   },
   getUserPost(username) {
-    return db.collection('post').where('username', '==', username).get();
+    db.collection('post').where('username', '==', username).get().then(data => {
+      var i = 0;
+      var postList = [];
+      data.forEach(doc => {
+        if(doc.data().postContent != null) {
+          postList[i] = {id: i, postContent: doc.data().postContent};
+          i++;
+        }
+      });
+      return postList;
+    });
   },
   sendPost(postContent) {
     return db.collection('post').doc().set({
