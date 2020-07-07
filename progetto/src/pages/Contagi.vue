@@ -1,5 +1,11 @@
 <template>
   <div  class="md-layout md-alignment-top-center">
+
+    <!--Autocomplete-->
+    <md-autocomplete class="md-layout-item md-size-66" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense>
+      <label>Seleziona un paese</label>
+    </md-autocomplete>
+
     <!--Card numeri contagi-->
     <md-card md-with-hover class="md-layout-item md-size-15">
       <md-ripple>
@@ -42,7 +48,9 @@ export default {
       positivi: null,
       guariti: null,
       morti: null,
-      data: null
+      data: null,
+      countries: ["Italy", "USA", "Spain"],
+      selectedCountry: null
     }
   },
   created: function() {
