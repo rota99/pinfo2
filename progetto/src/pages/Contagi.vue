@@ -1,41 +1,49 @@
 <template>
-  <div  class="md-layout md-alignment-top-center">
+  <div class="md-layout md-alignment-top-center">
+    <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
-    <!--Autocomplete-->
-    <md-autocomplete class="md-layout-item md-size-66" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
-      <label>Seleziona un paese</label>
-    </md-autocomplete>
+    <div id="container" class="md-layout-item md-layout md-alignment-top-center">
+      <!--Autocomplete-->
+      <div class="md-layout-item md-size-100 md-layout md-alignment-top-center">
+        <md-autocomplete class="searchBar md-layout-item md-size-66" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
+          <label>Seleziona un paese</label>
+        </md-autocomplete>
+      </div>
 
-    <!--Card numeri contagi-->
-    <md-card md-with-hover class="md-layout-item md-size-15">
-      <md-ripple>
-        <md-card-header class="header">
-          <div class="md-title">{{ positivi }}</div>
-          <div class="md-subhead">Positivi</div>
-        </md-card-header>
-      </md-ripple>
-    </md-card>
+      <!--Card numeri contagi-->
+      <div class="md-layout-item md-size-100 md-layout md-alignment-top-center">
+        <md-card md-with-hover id="positivi" class="md-layout-item md-size-15">
+          <md-ripple>
+            <md-card-header class="header">
+              <div class="md-title">{{ positivi }}</div>
+              <div class="md-subhead">Positivi</div>
+            </md-card-header>
+          </md-ripple>
+        </md-card>
 
-    <md-card md-with-hover class="md-layout-item md-size-15">
-      <md-ripple>
-        <md-card-header class="header">
-          <div class="md-title">{{ guariti }}</div>
-          <div class="md-subhead">Guariti</div>
-        </md-card-header>
-      </md-ripple>
-    </md-card>
+        <md-card md-with-hover id="guariti" class="md-layout-item md-size-15">
+          <md-ripple>
+            <md-card-header class="header">
+              <div class="md-title">{{ guariti }}</div>
+              <div class="md-subhead">Guariti</div>
+            </md-card-header>
+          </md-ripple>
+        </md-card>
 
-    <md-card md-with-hover class="md-layout-item md-size-15">
-      <md-ripple>
-        <md-card-header class="header">
-          <div class="md-title">{{ morti }}</div>
-          <div class="md-subhead">Morti</div>
-        </md-card-header>
-      </md-ripple>
-    </md-card>
-    <span class="md-layout-item md-size-10 md-subhead">
-      Dati aggiornati al: {{ data }}
-    </span>
+        <md-card md-with-hover id="morti" class="md-layout-item md-size-15">
+          <md-ripple>
+            <md-card-header class="header">
+              <div class="md-title">{{ morti }}</div>
+              <div class="md-subhead">Morti</div>
+            </md-card-header>
+          </md-ripple>
+        </md-card>
+      </div>
+
+      <span class="addMargin md-layout md-alignment-top-center md-size-100 md-subhead">
+        Dati aggiornati al: {{ data }}
+      </span>
+    </div>
   </div>
 </template>
 
@@ -50,7 +58,8 @@ export default {
       morti: null,
       data: null,
       countries: [],
-      selectedCountry: null
+      selectedCountry: null,
+      showProgress: false
     }
   },
   watch: {
@@ -63,6 +72,7 @@ export default {
   },
   methods: {
     load: function () {
+      this.showProgress = true;
       DataService.getDayOneTotalConfirmed(this.$route.params.slug). then((data) => {
         var tmpObj = data.data.pop();
         this.positivi = tmpObj.Cases;
@@ -77,6 +87,7 @@ export default {
       });
       DataService.getDayOneTotalDeaths(this.$route.params.slug). then((data) => {
         this.morti = data.data.pop().Cases;
+        this.showProgress = false;
       });
     },
     search: function(term) {
@@ -101,7 +112,51 @@ export default {
 </script>
 
 <style>
+.md-content {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+}
+
+.progressBar {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+}
+
+#container {
+  margin-top: 16px;
+  margin-right: 16px;
+  margin-left: 16px;
+  width: 100%;
+}
+
+.searchBar {
+  margin-top: 20px;
+  margin-bottom: 36px;
+}
+
 .header {
   text-align: center;
+}
+
+#positivi {
+  color: rgba(254, 181, 72, 1);
+}
+
+#guariti {
+  color: rgba(25, 178, 144, 1);
+}
+
+#morti {
+  color: rgba(19, 21, 21, 1);
+}
+
+#positivi .md-subhead, #guariti .md-subhead, #morti .md-subhead {
+  font-weight: bold;
+}
+
+.addMargin {
+  margin-top: 8px;
 }
 </style>

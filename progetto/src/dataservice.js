@@ -14,24 +14,6 @@ export default {
   isAuthenticated() {
     return !!localStorage.getItem('username');
   },
-  isSignedIn(username, slug) {
-    console.log(username);
-    console.log(slug);
-    db.collection('user').where('username', '==', username).where('country', '==', slug).get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-        if(doc.exists) {
-          return 1;
-        }
-        else {
-          return 0;
-        }
-      });
-    })
-    .catch(function(error) {
-      return "Error getting documents: " + error;
-    });
-  },
   login(username,slug) {
     localStorage.setItem('username', username);
     localStorage.setItem('country', slug);
@@ -40,7 +22,7 @@ export default {
     localStorage.removeItem('username');
     localStorage.removeItem('country');
   },
-  signin(country, propic) {
+  signin(country,propic) {
     return db.collection('user').doc().set({
       country: country,
       username: localStorage.getItem('username'),
