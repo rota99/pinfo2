@@ -14,11 +14,13 @@ export default {
   isAuthenticated() {
     return !!localStorage.getItem('username');
   },
-  login(username) {
+  login(username,slug) {
     localStorage.setItem('username', username);
+    localStorage.setItem('country', slug);
   },
   logout() {
     localStorage.removeItem('username');
+    localStorage.removeItem('country');
   },
   signin(country,propic) {
     return db.collection('user').doc().set({
@@ -49,13 +51,23 @@ export default {
       username: localStorage.getItem('username')
     });
   },
-  getDayOneLiveConfirmed() {
-    return axios.get('https://api.covid19api.com/dayone/country/italy/status/confirmed/live')
+  getDayOneTotalConfirmed(slug) {
+    return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug+'/status/confirmed')
   },
-  getDayOneLiveRecovered() {
-    return axios.get('https://api.covid19api.com/dayone/country/italy/status/recovered/live')
+  getDayOneTotalRecovered(slug) {
+    return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug+'/status/recovered')
   },
-  getDayOneLiveDeaths() {
-    return axios.get('https://api.covid19api.com/dayone/country/italy/status/deaths/live')
+  getDayOneTotalDeaths(slug) {
+    return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug+'/status/deaths')
+  },
+  searchCountries(text) {
+    if(!text || text.length < 2) {
+      return new Promise(resolve => {
+        resolve([]);
+      });
+    }
+    return axios.get('https://api.covid19api.com/countries').then(data => {
+      return data.data.filter((element) => element.Country.toLowerCase().indexOf(text.toLowerCase()) >= 0).map(element => element.Country);
+    });
   }
 }

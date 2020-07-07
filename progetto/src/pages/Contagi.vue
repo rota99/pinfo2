@@ -2,7 +2,7 @@
   <div  class="md-layout md-alignment-top-center">
 
     <!--Autocomplete-->
-    <md-autocomplete class="md-layout-item md-size-66" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense>
+    <md-autocomplete class="md-layout-item md-size-66" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
       <label>Seleziona un paese</label>
     </md-autocomplete>
 
@@ -49,8 +49,13 @@ export default {
       guariti: null,
       morti: null,
       data: null,
-      countries: ["Italy", "USA", "Spain"],
+      countries: [],
       selectedCountry: null
+    }
+  },
+  watch: {
+    $route: function() {
+      this.load();
     }
   },
   created: function() {
@@ -58,7 +63,7 @@ export default {
   },
   methods: {
     load: function () {
-      DataService.getDayOneLiveConfirmed(). then((data) => {
+      DataService.getDayOneTotalConfirmed(this.$route.params.slug). then((data) => {
         var tmpObj = data.data.pop();
         this.positivi = tmpObj.Cases;
         var date = new Date(tmpObj.Date);
@@ -67,14 +72,30 @@ export default {
         var giorno = date.getDate();
         this.data = giorno + "/" + mese + "/" + anno;
       });
-      DataService.getDayOneLiveRecovered(). then((data) => {
+      DataService.getDayOneTotalRecovered(this.$route.params.slug). then((data) => {
         this.guariti = data.data.pop().Cases;
       });
-      DataService.getDayOneLiveDeaths(). then((data) => {
+      DataService.getDayOneTotalDeaths(this.$route.params.slug). then((data) => {
         this.morti = data.data.pop().Cases;
       });
-    }
+    },
+    search: function(term) {
+      this.countries = DataService.searchCountries(term);
+    },
+    select: function(selected) {
+      var selectedSlug = '';
 
+      DataService.getCountries().then(data => {
+        for(var i=0; i<data.data.length; i++) {
+          if(data.data[i].Country == selected)
+            selectedSlug = data.data[i].Slug
+        }
+
+        if(selectedSlug === this.$route.params.slug) return;
+
+        this.$router.push({path: '/contagi/' + selectedSlug});
+      });
+    }
   }
 }
 </script>

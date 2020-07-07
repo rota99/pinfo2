@@ -9,12 +9,10 @@
           <label>Username</label>
           <md-input v-model="username"></md-input>
         </md-field>
-        <md-field>
-          <label>Paese</label>
-          <md-select v-model="paese">
-            <md-option v-for="country in countries" :key="country" :value="country">{{ country }}</md-option>
-          </md-select>
-        </md-field>
+        <!--Autocomplete-->
+        <md-autocomplete class="md-layout-item md-size-100" v-model="selectedCountry" :md-options="countries" @md-changed="search" @md-selected="select">
+          <label>Seleziona un paese</label>
+        </md-autocomplete>
         <md-field>
           <label>Immagine del profilo (link)</label>
           <md-input v-model="img"></md-input>
@@ -44,18 +42,33 @@ export default {
   },
   methods: {
     signIn: function() {
-      DataService.login(this.username);
-      DataService.signin(this.paese,this.img).then(()=>{
+      DataService.login(this.username, this.paese);
+      DataService.signin(this.paese,this.img).then(() => {
         this.$router.push({ path: '/' });
       });
     },
     load: function() {
       DataService.getCountries().then(data => {
         for(var i=0; i<data.data.length; i++) {
-          this.countries[i] = data.data[i].Country;
+          this.countries[i] = {
+            country: data.data[i].Country,
+            slug: data.data[i].Slug
+          };
         }
+      });
+    },
+    search: function(term) {
+      this.countries = DataService.searchCountries(term);
+    },
+    select: function(selected) {
+      var selectedSlug = '';
 
-        this.countries.sort();
+      DataService.getCountries().then(data => {
+        for(var i=0; i<data.data.length; i++) {
+          if(data.data[i].Country == selected)
+            selectedSlug = data.data[i].Slug
+        }
+        this.paese = selectedSlug;
       });
     }
   }
