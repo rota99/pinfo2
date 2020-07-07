@@ -19,7 +19,7 @@
         </md-field>
       </md-card-content>
       <md-card-actions>
-        <md-button class="md-primary md-raised" :disabled="(!username || !paese || !img)" @click="signIn()">Sign in</md-button>
+        <md-button class="md-primary md-raised" :disabled="(!username || !paese || !img)" @click="checkUser()">Sign in</md-button>
       </md-card-actions>
     </md-card>
   </div>
@@ -41,11 +41,15 @@ export default {
     this.load();
   },
   methods: {
-    signIn: function() {
-      DataService.login(this.username, this.paese);
-      DataService.signin(this.paese,this.img).then(() => {
-        this.$router.push({ path: '/' });
-      });
+    checkUser: function() {
+      if(DataService.isSignedIn(this.username, this.paese))
+        DataService.login(this.username, this.paese);
+      else {
+        DataService.login(this.username, this.paese);
+        DataService.signin(this.paese, this.img);
+      }
+
+      this.$router.push({path: '/'});
     },
     load: function() {
       DataService.getCountries().then(data => {

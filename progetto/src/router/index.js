@@ -16,7 +16,7 @@ export default new Router({
     {name: 'Dashboard', path: '/dashboard', component: Dashboard},
     {name: 'Profilo', path: '/profilo/:username', component: Profilo},
     {name: 'ModificaProfilo', path: '/modifica_profilo/:username', component: ModificaProfilo},
-    {name: 'Contagi', path: '/contagi', component: Contagi},
+    {name: 'Contagi', path: '/contagi/:slug', component: Contagi},
     {name: 'default', path: '/', redirect: '/dashboard'}
 
   ]
