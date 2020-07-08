@@ -43,6 +43,13 @@
       <span class="addMargin md-layout md-alignment-top-center md-size-100 md-subhead">
         Dati aggiornati al: {{ data }}
       </span>
+
+      <!--Google Charts-->
+      <div class="md-layout md-alignment-top-center">
+        <GChart class="md-layout-item" type="AreaChart" :data="chartDataConfirmed" :options="chartOptionsConfirmed" />
+        <GChart class="md-layout-item" type="AreaChart" :data="chartDataRecovered" :options="chartOptionsRecovered" />
+        <GChart class="md-layout-item" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
+      </div>
     </div>
   </div>
 </template>
@@ -59,7 +66,59 @@ export default {
       data: null,
       countries: [],
       selectedCountry: null,
-      showProgress: false
+      showProgress: false,
+        //Google Charts
+      chartDataConfirmed: [],
+      chartOptionsConfirmed: {
+        title: 'Positivi',
+        hAxis: {
+          title: 'Date',
+          titleTextStyle: {color: '#333'}
+        },
+        vAxis: {
+          title: 'Casi',
+          minValue: 0
+        },
+        height: 300,
+        legend: {
+          position: 'none'
+        },
+        colors: ['#FEB548']
+      },
+      chartDataRecovered: [],
+      chartOptionsRecovered: {
+        title: 'Guariti',
+        hAxis: {
+          title: 'Date',
+          titleTextStyle: {color: '#333'}
+        },
+        vAxis: {
+          title: 'Casi',
+          minValue: 0
+        },
+        height: 300,
+        legend: {
+          position: 'none'
+        },
+        colors: ['#19B290']
+      },
+      chartDataDeaths: [],
+      chartOptionsDeaths: {
+        title: 'Morti',
+        hAxis: {
+          title: 'Date',
+          titleTextStyle: {color: '#333'}
+        },
+        vAxis: {
+          title: 'Casi',
+          minValue: 0
+        },
+        height: 300,
+        legend: {
+          position: 'none'
+        },
+        colors: ['#131515']
+      }
     }
   },
   watch: {
@@ -89,6 +148,9 @@ export default {
         this.morti = data.data.pop().Cases;
         this.showProgress = false;
       });
+      this.confirmedChart();
+      this.recoveredChart();
+      this.deathsChart()
     },
     search: function(term) {
       this.countries = DataService.searchCountries(term);
@@ -105,6 +167,55 @@ export default {
         if(selectedSlug === this.$route.params.slug) return;
 
         this.$router.push({path: '/contagi/' + selectedSlug});
+      });
+    },
+    confirmedChart: function() {
+      DataService.getDayOneTotalConfirmed(this.$route.params.slug).then(data => {
+        var tmpArr = ["Date", "Cases"];
+        this.chartDataConfirmed.push(tmpArr);
+
+        for(var i = 0; i < data.data.length; i++) {
+          var date = new Date(data.data[i].Date);
+          var anno = date.getFullYear();
+          var mese = date.getMonth() + 1;
+          var giorno = date.getDate();
+          var tmpDate = giorno + "/" + mese + "/" + anno;
+          this.chartDataConfirmed.push([tmpDate, data.data[i].Cases]);
+        }
+      });
+    },
+    recoveredChart: function() {
+      DataService.getDayOneTotalRecovered(this.$route.params.slug).then(data => {
+        var tmpArr = ["Date", "Cases"];
+        this.chartDataRecovered.push(tmpArr);
+
+        for(var i = 0; i < data.data.length; i++) {
+          var date = new Date(data.data[i].Date);
+          var anno = date.getFullYear();
+          var mese = date.getMonth() + 1;
+          var giorno = date.getDate();
+          var tmpDate = giorno + "/" + mese + "/" + anno;
+          this.chartDataRecovered.push([tmpDate, data.data[i].Cases]);
+        }
+      });
+    },
+    deathsChart: function() {
+      DataService.getDayOneTotalDeaths(this.$route.params.slug).then(data => {
+        var tmpArr = ["Date", "Cases"];
+        this.chartDataDeaths.push(tmpArr);
+
+        for(var i = 0; i < data.data.length; i++) {
+          var date = new Date(data.data[i].Date);
+          var anno = date.getFullYear();
+          var mese = date.getMonth() + 1;
+          var giorno = date.getDate();
+          var tmpDate = giorno + "/" + mese + "/" + anno;
+          /*if(i > 0) {this.chartDataDeaths.push([tmpDate, data.data[i].Cases - data.data[i-1].Cases],
+          } else {
+            this.chartDataDeaths.push([tmpDate, data.data[i].Cases]
+            },*/
+          this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
+        }
       });
     }
   }

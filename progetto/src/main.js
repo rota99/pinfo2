@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import VueMaterial from 'vue-material'
 import router from './router'
+import VueGoogleCharts from 'vue-google-charts'
 
 import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default.css';
@@ -12,6 +13,7 @@ import 'vue-material/dist/theme/default.css';
 import DataService from './dataservice';
 
 Vue.use(VueMaterial);
+Vue.use(VueGoogleCharts);
 
 Vue.config.productionTip = false
 
