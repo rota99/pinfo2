@@ -70,6 +70,9 @@ export default {
   getDayOneTotalDeaths(slug) {
     return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/deaths')
   },
+  getDayOneTotalAllStatus(slug) {
+    return axios.get('https://api.covid19api.com/total/dayone/country/' + slug);
+  },
   searchCountries(text) {
     if(!text || text.length < 2) {
       return new Promise(resolve => {
