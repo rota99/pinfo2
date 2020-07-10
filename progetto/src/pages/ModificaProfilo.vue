@@ -72,7 +72,6 @@
         </md-dialog>
       <md-button class="md-primary md-raised" @click="showDialog = true">Show Dialog</md-button>
 
-
       </md-card-media-cover>
     </md-card>
 
