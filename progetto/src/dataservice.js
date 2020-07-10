@@ -43,16 +43,19 @@ export default {
     //return db.collection("post").doc().collection("user").get();
   },
   getUserPost(username) {
-    db.collection('post').where('username', '==', username).get().then(data => {
-      var i = 0;
-      var postList = [];
-      data.forEach(doc => {
-        if(doc.data().postContent != null) {
-          postList[i] = {id: i, postContent: doc.data().postContent};
-          i++;
-        }
+    var postList = [];
+    var i = 0;
+    return db.collection('post').where('username', '==', username).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        postList[i] = doc.data().postContent;
+        i++;
       });
       return postList;
+    })
+    .catch(function(error) {
+      console.log("Error getting documents: ", error);
+      return;
     });
   },
   sendPost(postContent) {
