@@ -42,12 +42,14 @@ export default {
   },
   methods: {
     checkUser: function() {
-      if(DataService.isSignedIn(this.username, this.paese))
+      /*if(DataService.isSignedIn(this.username, this.paese))
         DataService.login(this.username, this.paese);
       else {
         DataService.login(this.username, this.paese);
         DataService.signin(this.paese, this.img);
-      }
+      }*/
+      DataService.login(this.username, this.paese);
+      DataService.signin(this.paese, this.img);
 
       this.$router.push({path: '/'});
     },

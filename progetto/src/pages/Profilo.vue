@@ -3,7 +3,7 @@
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
-          <img src="https://scipy-lectures.org/_images/face.png">
+          <img :src="this.coverPic" />
         </md-card-media>
 
         <md-card-area>
@@ -14,15 +14,12 @@
 
             <md-card-header>
               <span class="md-title">{{ username }}</span>
-              <span class="md-subhead">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua.
-              </span>
+              <span class="md-subhead">{{ bio }}</span>
             </md-card-header>
           </div>
 
           <md-card-actions>
-            <md-button class="md-icon-button md-fab md-mini md-primary" md-menu-trigger :to="'/modifica_profilo/' + username">
+            <md-button class="md-icon-button md-fab md-mini md-primary" md-menu-trigger :to="'/modifica_profilo/' + username" title="Modifica profilo">
               <md-icon>edit</md-icon>
             </md-button>
           </md-card-actions>
@@ -98,8 +95,10 @@ import DataService from '../dataservice';
 export default {
   data: function() {
     return {
+      coverPic: null,
       username: localStorage.getItem('username'),
       img: null,
+      bio: null,
       postContent: null,
       postList: [],
       showSnackbar: false,
@@ -118,6 +117,17 @@ export default {
           this.img = doc.data().proPic;
         });
       });
+      DataService.getUserInfo(this.username).then((data)=>{
+        data.forEach(doc=>{
+          this.coverPic = doc.data().coverPic;
+        });
+      });
+      DataService.getUserInfo(this.username).then((data)=>{
+        data.forEach(doc=>{
+          this.bio = doc.data().bio;
+        });
+      });
+
       this.getPost();
     },
     sendPost: function() {
