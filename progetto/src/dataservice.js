@@ -61,6 +61,7 @@ export default {
       username: localStorage.getItem('username')
     });
   },
+  //funzioni per Cards
   getDayOneTotalConfirmed(slug) {
     return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/confirmed')
   },

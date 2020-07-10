@@ -44,7 +44,7 @@
         Dati aggiornati al: {{ data }}
       </span>
 
-      <!--Google Charts-->
+      <!--Google Area Charts-->
       <div class="md-layout md-alignment-top-center">
         <GChart class="md-layout-item" type="AreaChart" :data="chartDataConfirmed" :options="chartOptionsConfirmed" />
         <GChart class="md-layout-item" type="AreaChart" :data="chartDataRecovered" :options="chartOptionsRecovered" />
@@ -210,11 +210,13 @@ export default {
           var mese = date.getMonth() + 1;
           var giorno = date.getDate();
           var tmpDate = giorno + "/" + mese + "/" + anno;
-          /*if(i > 0) {this.chartDataDeaths.push([tmpDate, data.data[i].Cases - data.data[i-1].Cases],
+          if(i > 0) {
+            this.chartDataDeaths.push([tmpDate, data.data[i].Cases - data.data[i-1].Cases]);
           } else {
-            this.chartDataDeaths.push([tmpDate, data.data[i].Cases]
-            },*/
-          this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
+            this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
+          }
+            console.log(this.chartDataDeaths);
+          //this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
         }
       });
     }
@@ -266,6 +268,7 @@ export default {
 #positivi .md-subhead, #guariti .md-subhead, #morti .md-subhead {
   font-weight: bold;
 }
+
 
 .addMargin {
   margin-top: 8px;

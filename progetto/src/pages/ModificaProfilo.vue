@@ -51,12 +51,34 @@
             </md-menu>
           </md-card-actions>
         </md-card-area>
+        <!--Dialog-->
+        <md-dialog :md-active.sync="showDialog">
+        <md-dialog-title>Preferences</md-dialog-title>
+
+        <md-tabs md-dynamic-height>
+          <md-tab md-label="Immagine profilo">
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          </md-tab>
+          <md-tab md-label="Immagine copertina">
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          </md-tab>
+          <md-tab md-label="Bio">
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          </md-tab>
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
+            <md-button class="md-primary" @click="showDialog = false">Salva</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+      <md-button class="md-primary md-raised" @click="showDialog = true">Show Dialog</md-button>
+
+
       </md-card-media-cover>
     </md-card>
 
-    <div v-for="post in postList">
+    <!--<div v-for="post in postList">
       <span>{{ post }}</span>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -68,7 +90,8 @@ export default {
     return {
       username: localStorage.getItem('username'),
       img: null,
-      postList: []
+      postList: [],
+       showDialog: false
     }
   },
   created:function() {
