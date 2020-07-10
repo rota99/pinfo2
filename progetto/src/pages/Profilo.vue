@@ -3,7 +3,8 @@
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
-          <img :src="this.coverPic" />
+          <img v-if="this.coverPic" :src="this.coverPic" />
+          <img v-if="!this.coverPic" src="https://www.ersupalermo.it/wp-content/uploads/2020/07/banner.png" />
         </md-card-media>
 
         <md-card-area>

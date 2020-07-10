@@ -1,18 +1,18 @@
 <template>
-  <div class="md-layout md-alignment-top-center">
+  <div>
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
-    <div id="container" class="md-layout-item md-layout md-alignment-top-center">
+    <div id="container" class="md-layout md-alignment-top-center">
       <!--Autocomplete-->
-      <div class="md-layout-item md-size-100 md-layout md-alignment-top-center">
-        <md-autocomplete class="searchBar md-layout-item md-size-66" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
+      <div class="md-layout-item md-size-60">
+        <md-autocomplete class="searchBar" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
           <label>Seleziona un paese</label>
         </md-autocomplete>
       </div>
 
       <!--Card numeri contagi-->
-      <div class="md-layout-item md-size-100 md-layout md-alignment-top-center">
-        <md-card md-with-hover id="positivi" class="md-layout-item md-size-15">
+      <div class="md-layout-item md-size-60 md-layout md-alignment-top-center">
+        <md-card md-with-hover id="positivi" class="md-layout-item md-size-20">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ positivi }}</div>
@@ -21,7 +21,7 @@
           </md-ripple>
         </md-card>
 
-        <md-card md-with-hover id="guariti" class="md-layout-item md-size-15">
+        <md-card md-with-hover id="guariti" class="md-layout-item md-size-20">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ guariti }}</div>
@@ -30,7 +30,7 @@
           </md-ripple>
         </md-card>
 
-        <md-card md-with-hover id="morti" class="md-layout-item md-size-15">
+        <md-card md-with-hover id="morti" class="md-layout-item md-size-20">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ morti }}</div>
@@ -40,15 +40,15 @@
         </md-card>
       </div>
 
-      <span class="addMargin md-layout md-alignment-top-center md-size-100 md-subhead">
-        Dati aggiornati al: {{ data }}
+      <span class="md-subhead md-layout-item md-size-100 md-layout md-alignment-top-center header">
+        <p class="md-layout-item">Dati aggiornati al: {{ data }}</p>
       </span>
 
       <!--Google Area Charts-->
-      <div class="md-layout md-alignment-top-center">
-        <GChart class="md-layout-item" type="AreaChart" :data="chartDataConfirmed" :options="chartOptionsConfirmed" />
-        <GChart class="md-layout-item" type="AreaChart" :data="chartDataRecovered" :options="chartOptionsRecovered" />
-        <GChart class="md-layout-item" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
+      <div class="md-layout-item md-size-60">
+        <GChart type="AreaChart" :data="chartDataConfirmed" :options="chartOptionsConfirmed" />
+        <GChart type="AreaChart" :data="chartDataRecovered" :options="chartOptionsRecovered" />
+        <GChart type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
       </div>
     </div>
   </div>
@@ -67,13 +67,14 @@ export default {
       countries: [],
       selectedCountry: null,
       showProgress: false,
-        //Google Charts
+      //Google Charts
       chartDataConfirmed: [],
       chartOptionsConfirmed: {
         title: 'Positivi',
         hAxis: {
           title: 'Date',
-          titleTextStyle: {color: '#333'}
+          titleTextStyle: {color: '#333'},
+          type: 'string'
         },
         vAxis: {
           title: 'Casi',
@@ -211,12 +212,6 @@ export default {
           var giorno = date.getDate();
           var tmpDate = giorno + "/" + mese + "/" + anno;
           this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
-          /*if(i > 0) {
-            this.chartDataDeaths.push([tmpDate, data.data[i].Cases - data.data[i-1].Cases]);
-          } else {
-            this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
-          }
-          console.log(this.chartDataDeaths);*/
         }
       });
     }
@@ -237,12 +232,12 @@ export default {
   width: 100%;
 }
 
-#container {
+/*#container {
   margin-top: 16px;
   margin-right: 16px;
   margin-left: 16px;
   width: 100%;
-}
+}*/
 
 .searchBar {
   margin-top: 20px;
@@ -269,8 +264,7 @@ export default {
   font-weight: bold;
 }
 
-
-.addMargin {
+/*.addMargin {
   margin-top: 8px;
-}
+}*/
 </style>
