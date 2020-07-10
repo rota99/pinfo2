@@ -42,6 +42,12 @@ export default {
     return db.collection('post').get();
     //return db.collection("post").doc().collection("user").get();
   },
+  //modifica profilo
+  setNewProPic() {
+    return db.collection('user').doc().set({
+      proPic: propic
+    });
+  },
   getUserPost(username) {
     db.collection('post').where('username', '==', username).get().then(data => {
       var i = 0;

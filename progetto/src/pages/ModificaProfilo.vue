@@ -3,7 +3,7 @@
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
-          <img src="https://scipy-lectures.org/_images/face.png">
+          <img :src="this.coverPic" />
         </md-card-media>
 
         <md-card-area>
@@ -14,10 +14,7 @@
 
             <md-card-header>
               <span class="md-title">{{ username }}</span>
-              <span class="md-subhead">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua.
-              </span>
+              <span class="md-subhead">{{ bio }}</span>
             </md-card-header>
           </div>
 
@@ -66,19 +63,31 @@ import DataService from '../dataservice';
 export default {
   data: function() {
     return {
+      coverPic: null,
       username: localStorage.getItem('username'),
       img: null,
+      bio: null,
       postList: []
     }
   },
   created:function() {
-    //this.load();
+    this.load();
   },
   methods: {
     load: function() {
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
           this.img = doc.data().proPic;
+        });
+      });
+      DataService.getUserInfo(this.username).then((data)=>{
+        data.forEach(doc=>{
+          this.coverPic = doc.data().coverPic;
+        });
+      });
+      DataService.getUserInfo(this.username).then((data)=>{
+        data.forEach(doc=>{
+          this.bio = doc.data().bio;
         });
       });
 
