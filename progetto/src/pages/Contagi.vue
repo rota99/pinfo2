@@ -148,10 +148,9 @@ export default {
         this.morti = data.data.pop().Cases;
         this.showProgress = false;
       });
-      /*this.confirmedChart();
+      this.confirmedChart();
       this.recoveredChart();
-      this.deathsChart();*/
-      this.drawCharts();
+      this.deathsChart();
     },
     search: function(term) {
       this.countries = DataService.searchCountries(term);
@@ -168,25 +167,6 @@ export default {
         if(selectedSlug === this.$route.params.slug) return;
 
         this.$router.push({path: '/contagi/' + selectedSlug});
-      });
-    },
-    drawCharts: function() {
-      DataService.getDayOneTotalAllStatus(this.$route.params.slug).then(data => {
-        var tmpArr = ["Date", "Cases"];
-        this.chartDataConfirmed.push(tmpArr);
-        this.chartDataRecovered.push(tmpArr);
-        this.chartDataDeaths.push(tmpArr);
-
-        for(var i = 0; i < data.data.length; i++) {
-          var date = new Date(data.data[i].Date);
-          var anno = date.getFullYear();
-          var mese = date.getMonth() + 1;
-          var giorno = date.getDate();
-          var tmpDate = giorno + "/" + mese + "/" + anno;
-          this.chartDataConfirmed.push([tmpDate, data.data[i].Confirmed]);
-          this.chartDataRecovered.push([tmpDate, data.data[i].Recovered]);
-          this.chartDataDeaths.push([tmpDate, data.data[i].Deaths]);
-        }
       });
     },
     confirmedChart: function() {

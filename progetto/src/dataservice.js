@@ -62,17 +62,17 @@ export default {
     });
   },
   //funzioni per la modifica profilo
-  setNewProPic() {
+  setProPic() {
     return db.collection('user').doc().set({
       proPic: propic
     });
   },
-  setNewCoverPic() {
+  setCoverPic() {
     return db.collection('user').doc().set({
       coverPic: coverpic
     });
   },
-  setNewBio() {
+  setBio() {
     return db.collection('user').doc().set({
       bio: bio
     });
