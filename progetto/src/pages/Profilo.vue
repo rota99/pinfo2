@@ -112,32 +112,41 @@ export default {
   },
   methods: {
     load: function() {
+      this.getPropic();
+      this.getCoverPic();
+      this.getBio();
+      this.getPost();
+    },
+    getPropic: function() {
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
           this.img = doc.data().proPic;
         });
       });
+    },
+    getCoverPic: function() {
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
           this.coverPic = doc.data().coverPic;
         });
       });
+    },
+    getBio: function() {
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
           this.bio = doc.data().bio;
         });
       });
-
-      this.getPost();
+    },
+    getPost: function() {
+      DataService.getUserPost(this.username).then(data => {
+        this.postList = data.slice();
+        console.log(this.postList);
+      });
     },
     sendPost: function() {
       DataService.sendPost(this.postContent);
       this.showSnackbar = true;
-    },
-    getPost: function() {
-      DataService.getUserPost(this.username).then(data => {
-        console.log(data);
-      });
     }
   }
 }
