@@ -42,12 +42,6 @@ export default {
     return db.collection('post').get();
     //return db.collection("post").doc().collection("user").get();
   },
-  //modifica profilo
-  setNewProPic() {
-    return db.collection('user').doc().set({
-      proPic: propic
-    });
-  },
   getUserPost(username) {
     db.collection('post').where('username', '==', username).get().then(data => {
       var i = 0;
@@ -67,6 +61,22 @@ export default {
       username: localStorage.getItem('username')
     });
   },
+  //funzioni per la modifica profilo
+  setNewProPic() {
+    return db.collection('user').doc().set({
+      proPic: propic
+    });
+  },
+  setNewCoverPic() {
+    return db.collection('user').doc().set({
+      coverPic: coverpic
+    });
+  },
+  setNewBio() {
+    return db.collection('user').doc().set({
+      bio: bio
+    });
+  },
   //funzioni per Cards
   getDayOneTotalConfirmed(slug) {
     return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/confirmed')
@@ -76,9 +86,6 @@ export default {
   },
   getDayOneTotalDeaths(slug) {
     return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/deaths')
-  },
-  getDayOneTotalAllStatus(slug) {
-    return axios.get('https://api.covid19api.com/total/dayone/country/' + slug);
   },
   searchCountries(text) {
     if(!text || text.length < 2) {

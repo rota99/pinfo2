@@ -230,24 +230,13 @@ export default {
           var mese = date.getMonth() + 1;
           var giorno = date.getDate();
           var tmpDate = giorno + "/" + mese + "/" + anno;
-<<<<<<< HEAD
-          if(i > 0) {
-=======
-
+          this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
           /*if(i > 0) {
->>>>>>> 8c2bae4615374d3b486ea173d81aa982631e8297
             this.chartDataDeaths.push([tmpDate, data.data[i].Cases - data.data[i-1].Cases]);
           } else {
             this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
           }
-<<<<<<< HEAD
-            console.log(this.chartDataDeaths);
-          //this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
-=======
-
           console.log(this.chartDataDeaths);*/
-          this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
->>>>>>> 8c2bae4615374d3b486ea173d81aa982631e8297
         }
       });
     }

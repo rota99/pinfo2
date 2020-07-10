@@ -1,5 +1,25 @@
 <template>
   <div class="md-layout md-alignment-top-center">
+    <!--Dialog-->
+    <md-dialog :md-active.sync="showDialog">
+    <md-dialog-title>Impostazioni</md-dialog-title>
+
+    <md-tabs md-dynamic-height>
+      <md-tab md-label="Modifica immagine profilo"></md-tab>
+      <md-tab md-label="Modifica immagine copertina"></md-tab>
+      <md-tab md-label="Bio">
+        <md-field>
+          <label>Textarea</label>
+          <md-textarea v-model="textarea"></md-textarea>
+        </md-field>
+      </md-tab>
+    </md-tabs>
+
+      <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
+        <md-button class="md-primary" @click="showDialog = false">Salva</md-button>
+    </md-dialog>
+    <md-button class="md-primary md-raised" @click="showDialog = true">Modifica</md-button>
+
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
@@ -40,36 +60,16 @@
                   <md-icon>edit</md-icon>
                 </md-menu-item>
 
-                <md-menu-item>
+                <!--<md-menu-item>
                   <span>Modifica il tema</span>
                   <md-icon>style</md-icon>
-                </md-menu-item>
+                </md-menu-item>-->
               </md-menu-content>
             </md-menu>
           </md-card-actions>
         </md-card-area>
-        <!--Dialog-->
-        <md-dialog :md-active.sync="showDialog">
-        <md-dialog-title>Preferences</md-dialog-title>
 
-        <md-tabs md-dynamic-height>
-          <md-tab md-label="Immagine profilo">
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-          </md-tab>
-          <md-tab md-label="Immagine copertina">
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-          </md-tab>
-          <md-tab md-label="Bio">
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-          </md-tab>
-          <md-dialog-actions>
-            <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
-            <md-button class="md-primary" @click="showDialog = false">Salva</md-button>
-          </md-dialog-actions>
-        </md-dialog>
-      <md-button class="md-primary md-raised" @click="showDialog = true">Show Dialog</md-button>
-
-      </md-card-media-cover>
+        </md-card-media-cover>
     </md-card>
 
     <!--<div v-for="post in postList">
@@ -87,13 +87,10 @@ export default {
       coverPic: null,
       username: localStorage.getItem('username'),
       img: null,
-<<<<<<< HEAD
-      postList: [],
-       showDialog: false
-=======
       bio: null,
-      postList: []
->>>>>>> 8c2bae4615374d3b486ea173d81aa982631e8297
+      postList: [],
+      showDialog: false,
+      textarea: null
     }
   },
   created:function() {
@@ -127,6 +124,10 @@ export default {
 </script>
 
 <style>
+.md-dialog {
+    width: 900px;
+}
+
 .md-content {
   margin-top: 0px;
   padding-top: 0px;
