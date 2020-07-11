@@ -1,23 +1,37 @@
 <template>
   <div class="md-layout md-alignment-top-center">
-    <!--Dialog-->
+    <!--Dialog ProPic-->
     <md-dialog :md-active.sync="showDialog">
     <md-dialog-title>Modfica immagine profilo</md-dialog-title>
     <md-field>
-      <label>Textarea</label>
+      <label>Inserisci il nuovo link</label>
       <md-textarea v-model="newProPic"></md-textarea>
     </md-field>
-
-    <!--<md-tabs md-dynamic-height>
-      <md-tab md-label="Modifica immagine profilo"></md-tab>
-      <md-tab md-label="Modifica immagine copertina"></md-tab>
-      <md-tab md-label="Bio">
-      </md-tab>
-    </md-tabs>-->
-
-      <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
-        <md-button class="md-primary" @click="editProPic()">Salva</md-button>
+    <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
+    <md-button class="md-primary" @click="editProPic()">Salva</md-button>
     </md-dialog>
+
+    <!--Dialog CoverPic
+    <md-dialog :md-active.sync="showDialog">
+    <md-dialog-title>Modfica immagine di copertina</md-dialog-title>
+    <md-field>
+      <label>Inserisci il nuovo link</label>
+      <md-textarea v-model="newCoverPic"></md-textarea>
+    </md-field>
+    <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
+    <md-button class="md-primary" @click="editCoverPic()">Salva</md-button>
+    </md-dialog>
+
+    <!--Dialog Bio
+    <md-dialog :md-active.sync="showDialog">
+    <md-dialog-title>Modfica la tua Bio</md-dialog-title>
+    <md-field>
+      <label>Textarea</label>
+      <md-textarea v-model="newBio"></md-textarea>
+    </md-field>
+    <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
+    <md-button class="md-primary" @click="editBio()">Salva</md-button>
+  </md-dialog>-->
 
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
@@ -89,7 +103,9 @@ export default {
       bio: null,
       postList: [],
       showDialog: false,
-      newProPic: null
+      newProPic: null,
+      newCoverPic: null,
+      newBio: null
     }
   },
   created:function() {
@@ -121,7 +137,19 @@ export default {
     editProPic: function() {
       DataService.setProPic(this.username, this.newProPic);
       this.showDialog = false;
-      
+
+      this.load();
+    },
+    editCoverPic: function() {
+      DataService.setCoverPic(this.username, this.newCoverPic);
+      this.showDialog = false;
+
+      this.load();
+    },
+    editBio: function() {
+      DataService.setBio(this.username, this.newBio);
+      this.showDialog = false;
+
       this.load();
     }
   }

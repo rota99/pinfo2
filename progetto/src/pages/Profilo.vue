@@ -54,7 +54,7 @@
         </md-card>
       </div>
       <!--Snackbar-->
-      <md-snackbar md-position="center" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
         <span>Il tuo post è stato pubblicato!</span>
         <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
       </md-snackbar>
