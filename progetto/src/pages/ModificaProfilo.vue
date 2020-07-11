@@ -2,23 +2,22 @@
   <div class="md-layout md-alignment-top-center">
     <!--Dialog-->
     <md-dialog :md-active.sync="showDialog">
-    <md-dialog-title>Impostazioni</md-dialog-title>
+    <md-dialog-title>Modfica immagine profilo</md-dialog-title>
+    <md-field>
+      <label>Textarea</label>
+      <md-textarea v-model="newProPic"></md-textarea>
+    </md-field>
 
-    <md-tabs md-dynamic-height>
+    <!--<md-tabs md-dynamic-height>
       <md-tab md-label="Modifica immagine profilo"></md-tab>
       <md-tab md-label="Modifica immagine copertina"></md-tab>
       <md-tab md-label="Bio">
-        <md-field>
-          <label>Textarea</label>
-          <md-textarea v-model="textarea"></md-textarea>
-        </md-field>
       </md-tab>
-    </md-tabs>
+    </md-tabs>-->
 
       <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
-        <md-button class="md-primary" @click="showDialog = false">Salva</md-button>
+        <md-button class="md-primary" @click="editProPic()">Salva</md-button>
     </md-dialog>
-    <md-button class="md-primary md-raised" @click="showDialog = true">Modifica</md-button>
 
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
@@ -45,7 +44,7 @@
               </md-button>
 
               <md-menu-content>
-                <md-menu-item>
+                <md-menu-item @click="showDialog = true">
                   <span>Modifica l'immagine<br />di profilo</span>
                   <md-icon>insert_photo</md-icon>
                 </md-menu-item>
@@ -90,7 +89,7 @@ export default {
       bio: null,
       postList: [],
       showDialog: false,
-      textarea: null
+      newProPic: null
     }
   },
   created:function() {
@@ -118,6 +117,12 @@ export default {
     },
     getPost: function() {
       DataService.getUserPost(this.username);
+    },
+    editProPic: function() {
+      DataService.setProPic(this.username, this.newProPic);
+      this.showDialog = false;
+      
+      this.load();
     }
   }
 }

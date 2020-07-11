@@ -64,18 +64,49 @@ export default {
       username: localStorage.getItem('username')
     });
   },
+  getId(username) {
+    return db.collection("user").where("username", "==", username)
+      .get()
+      .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+              // doc.data() is never undefined for query doc snapshots
+              return (doc.id);
+          });
+      })
+      .catch(function(error) {
+          console.log("Error getting documents: ", error);
+      });
+  },
   //funzioni per la modifica profilo
-  setProPic() {
-    return db.collection('user').doc().set({
+  setProPic(username,propic) {
+    var id = '';
+    db.collection("user").where("username", "==", username)
+      .get()
+      .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+              // doc.data() is never undefined for query doc snapshots
+              id = doc.id;
+          });
+      })
+      .catch(function(error) {
+          console.log("Error getting documents: ", error);
+      });
+
+      console.log(id);
+
+    return db.collection('user').doc(id).update({
       proPic: propic
+    })
+    .then(function() {
+        console.log("Document successfully updated!");
     });
   },
-  setCoverPic() {
-    return db.collection('user').doc().set({
+  setCoverPic(username) {
+    return db.collection('user').doc(id).set({
       coverPic: coverpic
     });
   },
-  setBio() {
+  setBio(username) {
     return db.collection('user').doc().set({
       bio: bio
     });
