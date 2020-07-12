@@ -3,8 +3,8 @@
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
-          <img v-if="this.coverPic" :src="this.coverPic" />
-          <img v-if="!this.coverPic" src="https://www.ersupalermo.it/wp-content/uploads/2020/07/banner.png" />
+          <img v-if="this.coverPic === 'undefined'" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" />
+          <img v-else :src="this.default" />
         </md-card-media>
 
         <md-card-area>
@@ -29,7 +29,7 @@
     </md-card>
 
     <div class="md-layout md-alignment-top-center">
-      <div class="md-layout-item md-large-size-66 addMargin">
+      <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin">
         <!--Card per "Scrivi un post"-->
         <md-card class="md-layout md-alignment-top-right">
           <md-card-header class="md-layout-item md-size-100">
@@ -39,7 +39,7 @@
             <span class="md-title">{{ username }}</span>
           </md-card-header>
 
-          <md-card-content class="md-layout-item md-size-95">
+          <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
             <md-field>
               <label>Scrivi qualcosa...</label>
               <md-textarea v-model="postContent" md-autogrow></md-textarea>
@@ -59,7 +59,7 @@
         <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
       </md-snackbar>
 
-      <div class="md-layout-item md-large-size-66">
+      <div class="md-layout-item md-large-size-66 md-small-size-100">
         <!--Card per i post-->
         <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
         <div class="addMargin" v-for="post in postList">
@@ -73,7 +73,7 @@
             </md-card-header>
 
             <!--qui ci va il contenuto del post-->
-            <md-card-content class="md-layout-item md-size-95">
+            <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
               <span>{{ post }}</span>
             </md-card-content>
 
@@ -166,7 +166,7 @@ export default {
   border: none;
   width: 90%;
   height: 300px;
-  background-color: #fafafa;
+  background-color: #ffffff;
   box-shadow: none;
 }
 

@@ -4,15 +4,15 @@
 
     <div id="container" class="md-layout md-alignment-top-center">
       <!--Autocomplete-->
-      <div class="md-layout-item md-size-60">
+      <div class="md-layout-item md-large-size-60 md-small-size-90">
         <md-autocomplete class="searchBar" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
           <label>Seleziona un paese</label>
         </md-autocomplete>
       </div>
 
       <!--Card numeri contagi-->
-      <div class="md-layout-item md-size-60 md-layout md-alignment-top-center">
-        <md-card md-with-hover id="positivi" class="md-layout-item md-size-20">
+      <div class="md-layout-item md-medium-size-60 md-small-size-100 md-layout md-alignment-top-center">
+        <md-card md-with-hover id="positivi" class="md-layout-item md-medium-size-20 md-small-size-95">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ positivi }}</div>
@@ -21,7 +21,7 @@
           </md-ripple>
         </md-card>
 
-        <md-card md-with-hover id="guariti" class="md-layout-item md-size-20">
+        <md-card md-with-hover id="guariti" class="md-layout-item md-medium-size-20 md-small-size-95">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ guariti }}</div>
@@ -30,7 +30,7 @@
           </md-ripple>
         </md-card>
 
-        <md-card md-with-hover id="morti" class="md-layout-item md-size-20">
+        <md-card md-with-hover id="morti" class="md-layout-item md-medium-size-20 md-small-size-95">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ morti }}</div>
@@ -45,10 +45,10 @@
       </span>
 
       <!--Google Area Charts-->
-      <div class="md-layout-item md-size-60">
-        <GChart type="AreaChart" :data="chartDataConfirmed" :options="chartOptionsConfirmed" />
-        <GChart type="AreaChart" :data="chartDataRecovered" :options="chartOptionsRecovered" />
-        <GChart type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
+      <div class="md-layout-item md-large-size-60 md-small-size-100 md-layout md-alignment-top-center">
+        <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataConfirmed" :options="chartOptionsConfirmed" />
+        <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataRecovered" :options="chartOptionsRecovered" />
+        <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
       </div>
     </div>
   </div>

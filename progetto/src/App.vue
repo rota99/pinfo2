@@ -3,9 +3,7 @@
     <md-app>
       <md-app-toolbar class="md-primary md-small-hide" md-theme="default">
         <div class="md-toolbar-section-start">
-          <md-title>
-            <span class="md-title">LockedIn</span>
-          </md-title>
+          <span class="md-title">LockedIn</span>
         </div>
 
         <div class="md-toolbar-section-end">
