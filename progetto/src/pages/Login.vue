@@ -1,5 +1,5 @@
 <template>
-  <div class="md-layout md-alignment-center-center">
+  <div class="md-layout md-alignment-top-center">
     <md-card class="md-layout-item md-size-30 md-medium-size-50 md-xsmall-size-100">
       <md-card-header>
         <span class="md-title">Login</span>
@@ -42,14 +42,18 @@ export default {
   },
   methods: {
     checkUser: function() {
-      /*if(DataService.isSignedIn(this.username, this.paese))
-        DataService.login(this.username, this.paese);
-      else {
-        DataService.login(this.username, this.paese);
-        DataService.signin(this.paese, this.img);
-      }*/
-      DataService.login(this.username, this.paese);
-      DataService.signin(this.paese, this.img);
+      /*DataService.login(this.username, this.paese);
+      DataService.signin(this.paese, this.img);*/
+
+      DataService.isSignedIn(this.username, this.paese).then(data => {
+        if(data) {
+          DataService.login(this.username, this.paese);
+        }
+        else {
+          DataService.login(this.username, this.paese);
+          DataService.signin(this.paese, this.img);
+        }
+      });
 
       this.$router.push({path: '/'});
     },

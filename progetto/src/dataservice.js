@@ -14,6 +14,20 @@ export default {
   isAuthenticated() {
     return !!localStorage.getItem('username');
   },
+  isSignedIn(username, slug) {
+    return db.collection('user').where('username', '==', username).where('country', '==', slug).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        //doc.data() is never undefined for query doc snapshots
+        console.log('esiste');
+        return 1;
+      });
+      console.log('non esiste');
+      return 0;
+    })
+    .catch(function(error) {
+      console.log("Error getting documents: ", error);
+    });
+  },
   login(username,slug) {
     localStorage.setItem('username', username);
     localStorage.setItem('country', slug);
