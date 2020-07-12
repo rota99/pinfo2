@@ -1,6 +1,6 @@
 <template>
   <div class="md-layout md-alignment-top-center">
-    <div class="md-layout-item md-large-size-66 addMargin">
+    <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin">
 
       <!--Card per "Scrivi un post"-->
       <md-card class="md-layout md-alignment-top-right">
@@ -11,7 +11,7 @@
           <span class="md-title">{{ username }}</span>
         </md-card-header>
 
-        <md-card-content class="md-layout-item md-size-95">
+        <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
           <md-field>
             <label>Scrivi qualcosa...</label>
             <md-textarea v-model="postContent" md-autogrow></md-textarea>
@@ -31,7 +31,7 @@
       <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
     </md-snackbar>
 
-    <div class="md-layout-item md-large-size-66 addMargin">
+    <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin">
       <!--Card per i post-->
       <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
       <div v-for="post in postList">
@@ -45,7 +45,7 @@
           </md-card-header>
 
           <!--qui ci va il contenuto del post-->
-          <md-card-content class="md-layout-item md-size-95">
+          <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
             <span>{{ post.content }}</span>
           </md-card-content>
 
@@ -60,7 +60,7 @@
     </div>
 
       <!--Messaggio che viene visualizzato quando non ci sono nuovi post-->
-    <div class="md-layout-item md-large-size-66 addMargin">
+    <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin">
       <md-empty-state
         md-icon="no_sim"
         md-label="Nessuna novità per ora!"
@@ -103,62 +103,48 @@ export default {
       this.showSnackbar = true;
     },
     getPost: function() {
-      var arrPost = [];
-      var arrImg = [];
+      var userImg = [];
+      var userPost = [];
+      var tmp = [];
 
-      DataService.getPost().then((data) => {
-        data.forEach((doc) => {
-          let un = doc.data().username;
-          let c = doc.data().postContent;
-          var obj = {
-            username: un,
-            content: c
-          };
-          arrPost.push(obj);
+      DataService.getUsers().then(data => {
+        data.forEach(function(doc) {
+          userImg.push({
+            username: doc.data().username,
+            img: doc.data().proPic
+          });
         });
       });
 
-      DataService.getUsers().then((data) => {
-        data.forEach((doc) => {
-          let un = doc.data().username;
-          let i = doc.data().proPic;
-          var obj = {
-            username: un,
-            img: i
-          };
-          arrImg.push(obj);
+      DataService.getPosts().then(data => {
+        data.forEach(function(doc) {
+          userPost.push({
+            username: doc.data().username,
+            post: doc.data().postContent
+          });
         });
-        console.log("Dentro ->" + arrImg);
       });
 
-      console.log("Fuori ->" + arrImg);
+      console.log(userImg);
+      console.log('userImg.length: ' + userImg.length);
+      console.log(userPost);
+      console.log('userPost.length: ' + userPost.length);
 
-      for(var i = 0; i < arrImg.length; i++)
-      {
-        console.log(i + "->" + arrImg[i]);
-        console.log("qui");
-      }
-
-      for(var i = 0; i < arrImg.length; i++) {
-        for(var j = 0; j < arrPost.length; j++) {
-          if(arrImg[i].username == arrPost[j].username) {
-            var u = arrPost[j].username;
-            var c = arrPost[j].content;
-            var i = arrImg[i].img;
-            var obj = {
-              username: u,
-              img: i,
-              content: c
-            };
-            this.postList.push(obj);
+      for(var i = 0; i < userImg.length; i++) {
+        for(var j = 0; j < userPost.length; j++) {
+          console.log(userImg[i].username + " >>>>> " + userPost[j].username)
+          if(userImg[i].username == userPost[j].username) {
+            /*this.postList.push({
+              username: userImg[i].username,
+              propic: userImg[i].img,
+              postContent: userPost[j].post
+            });*/
+            console.log('uguali');
           }
         }
       }
 
-      /*console.log(arrPost);
-      console.log(arrImg);
-
-      console.log(this.postList);*/
+      console.log('Fuori dal for: ' + this.postList);
     }
   }
 }

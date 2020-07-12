@@ -55,6 +55,9 @@ export default {
         }
       });
 
+      DataService.login(this.username, this.paese);
+      DataService.signin(this.paese, this.img);
+
       this.$router.push({path: '/'});
     },
     load: function() {

@@ -6,8 +6,8 @@ import VueMaterial from 'vue-material'
 import router from './router'
 import VueGoogleCharts from 'vue-google-charts'
 
-import 'vue-material/dist/vue-material.min.css';
-import 'vue-material/dist/theme/default.css';
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
 //import "./Viewport.scss";
 
 import DataService from './dataservice';

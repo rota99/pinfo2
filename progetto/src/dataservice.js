@@ -50,11 +50,28 @@ export default {
     return db.collection('user').where('username','==',username).get();
   },
   getUsers() {
-    return db.collection('user').get();
+    return db.collection('user').get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        //doc.data() is never undefined for query doc snapshots
+        return doc.data();
+      });
+      return querySnapshot;
+    })
+    .catch(function(error) {
+      console.log("Error getting documents: ", error);
+    });
   },
-  getPost() {
-    return db.collection('post').get();
-    //return db.collection("post").doc().collection("user").get();
+  getPosts() {
+    return db.collection('post').get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        //doc.data() is never undefined for query doc snapshots
+        return doc.data();
+      });
+      return querySnapshot;
+    })
+    .catch(function(error) {
+      console.log("Error getting documents: ", error);
+    });
   },
   getUserPost(username) {
     var postList = [];
