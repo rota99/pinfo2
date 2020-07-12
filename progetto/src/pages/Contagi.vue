@@ -84,7 +84,7 @@ export default {
         legend: {
           position: 'none'
         },
-        colors: ['#FEB548']
+        colors: ['#f75c03']
       },
       chartDataRecovered: [],
       chartOptionsRecovered: {
@@ -249,7 +249,7 @@ export default {
 }
 
 #positivi {
-  color: rgba(254, 181, 72, 1);
+  color: rgba(247, 92, 3, 1);
 }
 
 #guariti {

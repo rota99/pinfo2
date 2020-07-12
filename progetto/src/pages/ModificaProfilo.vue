@@ -1,24 +1,37 @@
 <template>
   <div class="md-layout md-alignment-top-center">
-    <!--Dialog-->
+    <!--Dialog ProPic-->
     <md-dialog :md-active.sync="showDialog">
-    <md-dialog-title>Impostazioni</md-dialog-title>
-
-    <md-tabs md-dynamic-height>
-      <md-tab md-label="Modifica immagine profilo"></md-tab>
-      <md-tab md-label="Modifica immagine copertina"></md-tab>
-      <md-tab md-label="Bio">
-        <md-field>
-          <label>Textarea</label>
-          <md-textarea v-model="textarea"></md-textarea>
-        </md-field>
-      </md-tab>
-    </md-tabs>
-
-      <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
-        <md-button class="md-primary" @click="showDialog = false">Salva</md-button>
+    <md-dialog-title>Modfica immagine profilo</md-dialog-title>
+    <md-field>
+      <label>Inserisci il nuovo link</label>
+      <md-textarea v-model="newProPic"></md-textarea>
+    </md-field>
+    <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
+    <md-button class="md-primary" @click="editProPic()">Salva</md-button>
     </md-dialog>
-    <md-button class="md-primary md-raised" @click="showDialog = true">Modifica</md-button>
+
+    <!--Dialog CoverPic
+    <md-dialog :md-active.sync="showDialog">
+    <md-dialog-title>Modfica immagine di copertina</md-dialog-title>
+    <md-field>
+      <label>Inserisci il nuovo link</label>
+      <md-textarea v-model="newCoverPic"></md-textarea>
+    </md-field>
+    <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
+    <md-button class="md-primary" @click="editCoverPic()">Salva</md-button>
+    </md-dialog>
+
+    <!--Dialog Bio
+    <md-dialog :md-active.sync="showDialog">
+    <md-dialog-title>Modfica la tua Bio</md-dialog-title>
+    <md-field>
+      <label>Textarea</label>
+      <md-textarea v-model="newBio"></md-textarea>
+    </md-field>
+    <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
+    <md-button class="md-primary" @click="editBio()">Salva</md-button>
+  </md-dialog>-->
 
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
@@ -45,7 +58,7 @@
               </md-button>
 
               <md-menu-content>
-                <md-menu-item>
+                <md-menu-item @click="showDialog = true">
                   <span>Modifica l'immagine<br />di profilo</span>
                   <md-icon>insert_photo</md-icon>
                 </md-menu-item>
@@ -90,7 +103,9 @@ export default {
       bio: null,
       postList: [],
       showDialog: false,
-      textarea: null
+      newProPic: null,
+      newCoverPic: null,
+      newBio: null
     }
   },
   created:function() {
@@ -118,6 +133,24 @@ export default {
     },
     getPost: function() {
       DataService.getUserPost(this.username);
+    },
+    editProPic: function() {
+      DataService.setProPic(this.username, this.newProPic);
+      this.showDialog = false;
+
+      this.load();
+    },
+    editCoverPic: function() {
+      DataService.setCoverPic(this.username, this.newCoverPic);
+      this.showDialog = false;
+
+      this.load();
+    },
+    editBio: function() {
+      DataService.setBio(this.username, this.newBio);
+      this.showDialog = false;
+
+      this.load();
     }
   }
 }
