@@ -20,7 +20,7 @@
     </md-field>
     <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
     <md-button class="md-primary" @click="editCoverPic()">Salva</md-button>
-    </md-dialog>
+  </md-dialog>-->
 
     <!--Dialog Bio
     <md-dialog :md-active.sync="showDialog">
