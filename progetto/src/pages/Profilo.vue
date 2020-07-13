@@ -1,5 +1,6 @@
 <template>
   <div class="md-layout md-alignment-top-center">
+    <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
     <md-card id="copertina" class="md-small-size-100">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
@@ -105,7 +106,8 @@ export default {
       showSnackbar: false,
       position: 'center',
       duration: 4000,
-      isInfinity: false
+      isInfinity: false,
+      showProgress: false
     }
   },
   created:function() {
@@ -113,10 +115,14 @@ export default {
   },
   methods: {
     load: function() {
+      this.showProgress = true;
+
       this.getPropic();
       this.getCoverPic();
       this.getBio();
       this.getPost();
+      this.showProgress = false;
+
     },
     getPropic: function() {
       DataService.getUserInfo(this.username).then((data)=>{
@@ -148,6 +154,7 @@ export default {
     sendPost: function() {
       DataService.sendPost(this.postContent);
       this.showSnackbar = true;
+      this.load();
     }
   }
 }
@@ -158,6 +165,12 @@ export default {
   margin-top: 0px;
   padding-top: 0px;
   border: none;
+}
+
+.progressBar {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
 }
 
 .md-card-media {

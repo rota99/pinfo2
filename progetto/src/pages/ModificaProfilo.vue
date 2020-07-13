@@ -1,37 +1,50 @@
 <template>
   <div class="md-layout md-alignment-top-center">
+    <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
     <!--Dialog ProPic-->
-    <md-dialog :md-active.sync="showDialog">
-    <md-dialog-title>Modfica immagine profilo</md-dialog-title>
-    <md-field>
-      <label>Inserisci il nuovo link</label>
-      <md-input v-model="newProPic"></md-input>
-    </md-field>
-    <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
-    <md-button class="md-primary" @click="editProPic()">Salva</md-button>
+    <md-dialog :md-active.sync="showDialogProPic">
+      <md-dialog-title>Modfica immagine profilo</md-dialog-title>
+      <md-dialog-content class="size">
+        <md-field>
+          <label>Inserisci il nuovo link</label>
+          <md-input v-model="newProPic"></md-input>
+        </md-field>
+      </md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showDialogProPic = false">Chiudi</md-button>
+        <md-button class="md-primary" @click="editProPic()">Salva</md-button>
+      </md-dialog-actions>
     </md-dialog>
 
-    <!--Dialog CoverPic
-    <md-dialog :md-active.sync="showDialog">
-    <md-dialog-title>Modfica immagine di copertina</md-dialog-title>
-    <md-field>
-      <label>Inserisci il nuovo link</label>
-      <md-textarea v-model="newCoverPic"></md-textarea>
-    </md-field>
-    <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
-    <md-button class="md-primary" @click="editCoverPic()">Salva</md-button>
-  </md-dialog>-->
+    <!--Dialog CoverPic-->
+    <md-dialog :md-active.sync="showDialogCoverPic">
+      <md-dialog-title>Modfica immagine di copertina</md-dialog-title>
+      <md-dialog-content class="size">
+        <md-field>
+          <label>Inserisci il nuovo link</label>
+          <md-input v-model="newCoverPic"></md-input>
+        </md-field>
+      </md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showDialogCoverPic = false">Chiudi</md-button>
+        <md-button class="md-primary" @click="editCoverPic()">Salva</md-button>
+      </md-dialog-actions>
+    </md-dialog>
 
-    <!--Dialog Bio
-    <md-dialog :md-active.sync="showDialog">
-    <md-dialog-title>Modfica la tua Bio</md-dialog-title>
-    <md-field>
-      <label>Textarea</label>
-      <md-textarea v-model="newBio"></md-textarea>
-    </md-field>
-    <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
-    <md-button class="md-primary" @click="editBio()">Salva</md-button>
-  </md-dialog>-->
+    <!--Dialog Bio-->
+    <md-dialog :md-active.sync="showDialogBio">
+      <md-dialog-title>Modifica la bio</md-dialog-title>
+      <md-dialog-content class="size">
+        <md-field>
+          <label>Inserisci la nuova bio</label>
+          <md-textarea v-model="newBio" md-autogrow maxlength="125"></md-textarea>
+        </md-field>
+      </md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showDialogBio = false">Chiudi</md-button>
+        <md-button class="md-primary" @click="editBio()">Salva</md-button>
+      </md-dialog-actions>
+    </md-dialog>
 
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
@@ -59,17 +72,17 @@
               </md-button>
 
               <md-menu-content>
-                <md-menu-item @click="showDialog = true">
+                <md-menu-item @click="showDialogProPic = true">
                   <span>Modifica l'immagine<br />di profilo</span>
                   <md-icon>insert_photo</md-icon>
                 </md-menu-item>
 
-                <md-menu-item>
+                <md-menu-item @click="showDialogCoverPic = true">
                   <span>Modifica l'immagine<br />di copertina</span>
                   <md-icon>wallpaper</md-icon>
                 </md-menu-item>
 
-                <md-menu-item>
+                <md-menu-item @click="showDialogBio = true">
                   <span>Modifica la bio</span>
                   <md-icon>edit</md-icon>
                 </md-menu-item>
@@ -103,10 +116,13 @@ export default {
       img: null,
       bio: null,
       postList: [],
-      showDialog: false,
+      showDialogProPic: false,
+      showDialogCoverPic: false,
+      showDialogBio: false,
       newProPic: null,
       newCoverPic: null,
-      newBio: null
+      newBio: null,
+      showProgress: true
     }
   },
   created:function() {
@@ -162,6 +178,16 @@ export default {
   margin-top: 0px;
   padding-top: 0px;
   border: none;
+}
+
+.progressBar {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+}
+
+.size {
+  width: 700px;
 }
 
 .md-card-media {
