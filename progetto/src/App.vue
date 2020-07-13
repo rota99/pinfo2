@@ -22,8 +22,7 @@
       <md-app-content>
         <router-view></router-view>
       </md-app-content>
-
-      <md-bottom-bar md-type="fixed" md-sync-route>
+      <md-bottom-bar class="md-primary" md-type="shift" md-sync-route>
         <md-bottom-bar-item :to="'/dashboard'" exact md-label="Dashboard" md-icon="dashboard"></md-bottom-bar-item>
         <md-bottom-bar-item :to="'/profilo/' + username" md-label="Profilo" md-icon="person"></md-bottom-bar-item>
         <md-bottom-bar-item :to="'/contagi/' + country" md-label="Contagi" md-icon="insert_chart"></md-bottom-bar-item>
