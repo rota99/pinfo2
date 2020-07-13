@@ -11,7 +11,7 @@
       </div>
 
       <!--Card numeri contagi-->
-      <div class="md-layout-item md-medium-size-60 md-small-size-100 md-layout md-alignment-top-center">
+      <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-100 md-layout md-alignment-top-center">
         <md-card md-with-hover id="positivi" class="md-layout-item md-medium-size-20 md-small-size-95">
           <md-ripple>
             <md-card-header class="header">

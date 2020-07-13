@@ -5,7 +5,7 @@
     <md-dialog-title>Modfica immagine profilo</md-dialog-title>
     <md-field>
       <label>Inserisci il nuovo link</label>
-      <md-textarea v-model="newProPic"></md-textarea>
+      <md-input v-model="newProPic"></md-input>
     </md-field>
     <md-button class="md-primary" @click="showDialog = false">Chiudi</md-button>
     <md-button class="md-primary" @click="editProPic()">Salva</md-button>
@@ -36,7 +36,8 @@
     <md-card id="copertina">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
-          <img :src="this.coverPic" />
+          <img v-if="this.coverPic === 'undefined'" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Flag_Admirals_of_the_Blue_Squadron_Royal_Navy.png" />
+          <img v-else :src="this.coverPic" />
         </md-card-media>
 
         <md-card-area>
@@ -157,50 +158,13 @@ export default {
 </script>
 
 <style>
-.md-dialog {
-    width: 900px;
-}
-
 .md-content {
   margin-top: 0px;
   padding-top: 0px;
   border: none;
 }
 
-#copertina {
-  margin: 0px;
-  padding: 0px;
-  border: none;
-  width: 90%;
-  height: 300px;
-  background-color: #fafafa;
-  box-shadow: none;
-}
-
-.containerImgName {
-  display: flex;
-  align-items: flex-start;
-  position: fixed;
-  margin-top: -25px;
-}
-
 .md-card-media {
-  height: 250px;
-}
-
-#avatarCopertina {
-  margin-left: 16px;
-  margin-right: 16px;
-  width: 128px;
-  height: 128px;
-  border-radius: 128px;
-  border: 5px solid white;
-}
-
-.copertina img {
-  margin: 0px;
-  padding: 0px;
-  border: none;
   height: 250px;
 }
 
@@ -216,5 +180,231 @@ export default {
 div .addMargin:first-child {
   margin-top: 16px;
   margin-bottom: 32px;
+}
+
+@media only screen and (max-device-width: 399px) {
+  .md-card-media-cover .md-card-header {
+    align-items: center;
+  }
+
+  .md-card-backdrop {
+    opacity: 0%;
+  }
+
+  #copertina {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    width: 100%;
+    height: 300px;
+    background-color: white;
+    box-shadow: none;
+  }
+
+  .containerImgName {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    margin-top: -75px;
+    flex-direction: column;
+    width: 100%;
+    margin-left: -16px;
+    text-align: center;
+    color: rgba(0,0,0,0.87);
+  }
+
+  .md-card-media-cover .md-card-header {
+    padding-top: 8px;
+  }
+
+  #avatarCopertina {
+    margin-left: 16px;
+    margin-right: 16px;
+    width: 64px;
+    height: 64px;
+    border-radius: 64px;
+    border: 3px solid white;
+  }
+
+  .md-title-pers {
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 28px;
+  }
+
+  #bio {
+    width: 75%;
+  }
+
+  .md-card-media.md-ratio-16-9 img {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 150px;
+    top: 30%;
+  }
+}
+
+@media only screen and (min-device-width: 400px) and (max-device-width: 699px) {
+  .md-card-media-cover .md-card-header {
+    align-items: center;
+  }
+
+  .md-card-backdrop {
+    opacity: 0%;
+  }
+
+  #copertina {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    width: 100%;
+    height: 275px;
+    background-color: white;
+    box-shadow: none;
+  }
+
+  .containerImgName {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    margin-top: -75px;
+    flex-direction: column;
+    width: 100%;
+    margin-left: -16px;
+    text-align: center;
+    color: rgba(0,0,0,0.87);
+  }
+
+  .md-card-media-cover .md-card-header {
+    padding-top: 8px;
+  }
+
+  #avatarCopertina {
+    margin-left: 16px;
+    margin-right: 16px;
+    width: 64px;
+    height: 64px;
+    border-radius: 64px;
+    border: 3px solid white;
+  }
+
+  .md-title-pers {
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 28px;
+  }
+
+  #bio {
+    width: 75%;
+  }
+
+  .md-card-media.md-ratio-16-9 img {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 150px;
+    top: 30%;
+  }
+}
+
+@media only screen and (min-device-width: 700px) and (max-device-width: 1060px) {
+  .md-card-media-cover .md-card-header {
+    align-items: center;
+  }
+
+  .md-card-backdrop {
+    opacity: 0%;
+  }
+
+  #copertina {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    width: 100%;
+    height: 350px;
+    background-color: white;
+    box-shadow: none;
+  }
+
+  .containerImgName {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    margin-top: -75px;
+    flex-direction: column;
+    width: 100%;
+    margin-left: -16px;
+    text-align: center;
+    color: rgba(0,0,0,0.87);
+  }
+
+  .md-card-media-cover .md-card-header {
+    padding-top: 8px;
+  }
+
+  #avatarCopertina {
+    margin-left: 16px;
+    margin-right: 16px;
+    width: 128px;
+    height: 128px;
+    border-radius: 128px;
+    border: 3px solid white;
+  }
+
+  .md-title-pers {
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 28px;
+  }
+
+  .md-card-media.md-ratio-16-9 img {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 250px;
+    top: 30%;
+  }
+}
+
+@media only screen and (min-device-width: 1061px) {
+  .containerImgName {
+    display: flex;
+    align-items: flex-start;
+    position: fixed;
+    margin-top: -25px;
+  }
+
+  #copertina {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    width: 100%;
+    height: 300px;
+    background-color: white;
+    box-shadow: none;
+  }
+
+  #avatarCopertina {
+    margin-left: 16px;
+    margin-right: 16px;
+    width: 128px;
+    height: 128px;
+    border-radius: 128px;
+    border: 5px solid white;
+  }
+
+  .md-title-pers {
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: 32px;
+  }
+
+  .copertina img {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 250px;
+  }
 }
 </style>
