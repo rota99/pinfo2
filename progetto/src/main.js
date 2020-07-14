@@ -8,10 +8,8 @@ import VueGoogleCharts from 'vue-google-charts'
 
 //importazione degli stili
 import 'vue-material/dist/vue-material.min.css'
-//tema di default
-import 'vue-material/dist/theme/default.css'
 //tema personalizzato
-//import "./Viewport.scss";
+import "./Viewport.scss";
 
 import DataService from './dataservice';
 

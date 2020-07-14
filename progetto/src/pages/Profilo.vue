@@ -128,8 +128,6 @@ export default {
       this.getCoverPic();
       this.getBio();
       this.getPost();
-
-      this.showProgress = false;
     },
     getPropic: function() {
       DataService.getUserInfo(this.username).then((data)=>{
@@ -158,7 +156,7 @@ export default {
       let me = this;
       DataService.getUserPost(this.username).then(data => {
         me.postList = data.slice();
-        console.log(me.postList);
+        this.showProgress = false;
       });
     },
     sendPost: function() {

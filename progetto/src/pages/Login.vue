@@ -42,9 +42,6 @@ export default {
   },
   methods: {
     checkUser: function() {
-      /*DataService.login(this.username, this.paese);
-      DataService.signin(this.paese, this.img);*/
-
       DataService.isSignedIn(this.username, this.paese).then(data => {
         if(data) {
           DataService.login(this.username, this.paese);
@@ -54,9 +51,6 @@ export default {
           DataService.signin(this.paese, this.img);
         }
       });
-
-      DataService.login(this.username, this.paese);
-      DataService.signin(this.paese, this.img);
 
       this.$router.push({path: '/'});
     },

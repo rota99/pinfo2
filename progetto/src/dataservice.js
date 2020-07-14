@@ -15,14 +15,16 @@ export default {
     return !!localStorage.getItem('username');
   },
   isSignedIn(username, slug) {
+    var control = 0;
     return db.collection('user').where('username', '==', username).where('country', '==', slug).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         //doc.data() is never undefined for query doc snapshots
-        console.log('esiste');
-        return 1;
+        control = 1;
       });
-      console.log('non esiste');
-      return 0;
+      if(control)
+        return 1;
+      else
+        return 0;
     })
     .catch(function(error) {
       console.log("Error getting documents: ", error);
@@ -96,50 +98,61 @@ export default {
     });
   },
   getId(username) {
+    var id = '';
     return db.collection("user").where("username", "==", username)
       .get()
       .then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-              // doc.data() is never undefined for query doc snapshots
-              return (doc.id);
-          });
+        querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            id = doc.id;
+        });
+        return id;
       })
       .catch(function(error) {
           console.log("Error getting documents: ", error);
       });
   },
   //funzioni per la modifica profilo
-  setProPic(username,propic) {
+  setProPic(username, propic) {
     var id = '';
-    db.collection("user").where("username", "==", username)
-      .get()
-      .then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-              // doc.data() is never undefined for query doc snapshots
-              id = doc.id;
-          });
+
+    this.getId(username).then(data => {
+      id = data;
+
+      return db.collection('user').doc(id).update({
+        proPic: propic
       })
-      .catch(function(error) {
-          console.log("Error getting documents: ", error);
+      .then(function() {
+          console.log("Document successfully updated!");
       });
-
-      console.log(id);
-
-    return db.collection('user').doc(id).update({
-      proPic: propic
-    })
-    .then(function() {
-        console.log("Document successfully updated!");
     });
   },
-  setCoverPic(username) {
-    return db.collection('user').doc(id).set({
-      coverPic: coverpic
+  setCoverPic(username, coverpic) {
+    var id = '';
+
+    this.getId(username).then(data => {
+      id = data;
+
+      return db.collection('user').doc(id).update({
+        coverPic: coverpic
+      })
+      .then(function() {
+          console.log("Document successfully updated!");
+      });
     });
   },
-  setBio(username) {
-    return db.collection('user').doc().set({
-      bio: bio
+  setBio(username, bio) {
+    var id = '';
+
+    this.getId(username).then(data => {
+      id = data;
+
+      return db.collection('user').doc(id).update({
+        bio: bio
+      })
+      .then(function() {
+          console.log("Document successfully updated!");
+      });
     });
   },
   //funzioni per Cards
