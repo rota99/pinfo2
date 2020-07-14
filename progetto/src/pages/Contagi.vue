@@ -134,19 +134,52 @@ export default {
     load: function () {
       this.showProgress = true;
       DataService.getDayOneTotalConfirmed(this.$route.params.slug). then((data) => {
-        var tmpObj = data.data.pop();
-        this.positivi = tmpObj.Cases;
-        var date = new Date(tmpObj.Date);
-        var anno = date.getFullYear();
-        var mese = date.getMonth() + 1;
-        var giorno = date.getDate();
-        this.data = giorno + "/" + mese + "/" + anno;
+        if(data.status == 200) {
+          var tmpObj = data.data.pop();
+          this.positivi = tmpObj.Cases;
+          var date = new Date(tmpObj.Date);
+          var anno = date.getFullYear();
+          var mese = date.getMonth() + 1;
+          var giorno = date.getDate();
+          this.data = giorno + "/" + mese + "/" + anno;
+        }
+        else {
+          if(this.$route.params.slug != "italy")
+            this.$router.push({path: 'contagi/italy'});
+          var json = require('../ConfirmedItaly.json');
+          var tmpObj = json.pop();
+          this.positivi = tmpObj.Cases;
+          var date = new Date(tmpObj.Date);
+          var anno = date.getFullYear();
+          var mese = date.getMonth() + 1;
+          var giorno = date.getDate();
+          this.data = giorno + "/" + mese + "/" + anno;
+        }
       });
       DataService.getDayOneTotalRecovered(this.$route.params.slug). then((data) => {
-        this.guariti = data.data.pop().Cases;
+        if(data.status == 200) {
+          this.guariti = data.data.pop().Cases;
+        }
+        else {
+          if(this.$route.params.slug != "italy")
+            this.$router.push({path: 'contagi/italy'});
+          var json = require('../RecoveredItaly.json');
+          var tmpObj = json.pop();
+          this.guariti = tmpObj.Cases;
+        }
       });
       DataService.getDayOneTotalDeaths(this.$route.params.slug). then((data) => {
-        this.morti = data.data.pop().Cases;
+        if(data.status == 200) {
+          this.morti = data.data.pop().Cases;
+        }
+        else {
+          if(this.$route.params.slug != "italy")
+            this.$router.push({path: 'contagi/italy'});
+
+          var json = require('../DeathsItaly.json');
+          var tmpObj = json.pop();
+          this.morti = tmpObj.Cases;
+        }
         this.showProgress = false;
       });
       this.confirmedChart();
@@ -168,6 +201,7 @@ export default {
         if(selectedSlug === this.$route.params.slug) return;
 
         this.$router.push({path: '/contagi/' + selectedSlug});
+        console.log(data.status);
       });
     },
     confirmedChart: function() {
@@ -175,13 +209,28 @@ export default {
         var tmpArr = ["Date", "Cases"];
         this.chartDataConfirmed.push(tmpArr);
 
-        for(var i = 0; i < data.data.length; i++) {
-          var date = new Date(data.data[i].Date);
-          var anno = date.getFullYear();
-          var mese = date.getMonth() + 1;
-          var giorno = date.getDate();
-          var tmpDate = giorno + "/" + mese + "/" + anno;
-          this.chartDataConfirmed.push([tmpDate, data.data[i].Cases]);
+        if(data.status == 200) {
+          for(var i = 0; i < data.data.length; i++) {
+            var date = new Date(data.data[i].Date);
+            var anno = date.getFullYear();
+            var mese = date.getMonth() + 1;
+            var giorno = date.getDate();
+            var tmpDate = giorno + "/" + mese + "/" + anno;
+            this.chartDataConfirmed.push([tmpDate, data.data[i].Cases]);
+          }
+        }
+        else {
+          if(this.$route.params.slug != "italy")
+            this.$router.push({path: 'contagi/italy'});
+          var json = require('../ConfirmedItaly.json');
+          for(var i = 0; i < json.length; i++) {
+            var date = new Date(json[i].Date);
+            var anno = date.getFullYear();
+            var mese = date.getMonth() + 1;
+            var giorno = date.getDate();
+            var tmpDate = giorno + "/" + mese + "/" + anno;
+            this.chartDataConfirmed.push([tmpDate, json[i].Cases]);
+          }
         }
       });
     },
@@ -190,14 +239,29 @@ export default {
         var tmpArr = ["Date", "Cases"];
         this.chartDataRecovered.push(tmpArr);
 
-        for(var i = 0; i < data.data.length; i++) {
-          var date = new Date(data.data[i].Date);
-          var anno = date.getFullYear();
-          var mese = date.getMonth() + 1;
-          var giorno = date.getDate();
-          var tmpDate = giorno + "/" + mese + "/" + anno;
-          this.chartDataRecovered.push([tmpDate, data.data[i].Cases]);
-        }
+          if(data.status == 200) {
+            for(var i = 0; i < data.data.length; i++) {
+              var date = new Date(data.data[i].Date);
+              var anno = date.getFullYear();
+              var mese = date.getMonth() + 1;
+              var giorno = date.getDate();
+              var tmpDate = giorno + "/" + mese + "/" + anno;
+              this.chartDataRecovered.push([tmpDate, data.data[i].Cases]);
+            }
+          }
+          else {
+            if(this.$route.params.slug != "italy")
+              this.$router.push({path: 'contagi/italy'});
+            var json = require('../RecoveredItaly.json');
+            for(var i = 0; i < json.length; i++) {
+              var date = new Date(json[i].Date);
+              var anno = date.getFullYear();
+              var mese = date.getMonth() + 1;
+              var giorno = date.getDate();
+              var tmpDate = giorno + "/" + mese + "/" + anno;
+              this.chartDataRecovered.push([tmpDate, json[i].Cases]);
+            }
+          }
       });
     },
     deathsChart: function() {
@@ -205,14 +269,29 @@ export default {
         var tmpArr = ["Date", "Cases"];
         this.chartDataDeaths.push(tmpArr);
 
-        for(var i = 0; i < data.data.length; i++) {
-          var date = new Date(data.data[i].Date);
-          var anno = date.getFullYear();
-          var mese = date.getMonth() + 1;
-          var giorno = date.getDate();
-          var tmpDate = giorno + "/" + mese + "/" + anno;
-          this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
-        }
+          if(data.status == 200) {
+            for(var i = 0; i < data.data.length; i++) {
+              var date = new Date(data.data[i].Date);
+              var anno = date.getFullYear();
+              var mese = date.getMonth() + 1;
+              var giorno = date.getDate();
+              var tmpDate = giorno + "/" + mese + "/" + anno;
+              this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
+            }
+          }
+          else {
+            if(this.$route.params.slug != "italy")
+              this.$router.push({path: 'contagi/italy'});
+            var json = require('../DeathsItaly.json');
+            for(var i = 0; i < json.length; i++) {
+              var date = new Date(json[i].Date);
+              var anno = date.getFullYear();
+              var mese = date.getMonth() + 1;
+              var giorno = date.getDate();
+              var tmpDate = giorno + "/" + mese + "/" + anno;
+              this.chartDataDeaths.push([tmpDate, json[i].Cases]);
+            }
+          }
       });
     }
   }
