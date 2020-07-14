@@ -1,7 +1,7 @@
 <template>
   <div class="md-layout md-alignment-top-center">
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
-    <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin">
+    <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin">
 
       <!--Card per "Scrivi un post"-->
       <md-card class="firstCard md-layout md-alignment-top-right">
@@ -32,15 +32,15 @@
       <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
     </md-snackbar>
 
-    <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin">
+    <div class="md-layout-item md-large-size-66 md-small-size-95">
       <!--Card per i post-->
       <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
       <div v-for="post in postList">
-        <md-card class="md-layout md-alignment-top-right">
+        <md-card class="md-layout md-alignment-top-right addMargin">
           <!--in questa prima parte ci vanno immagine del profilo e username-->
           <md-card-header class="md-layout-item md-size-100">
             <md-avatar>
-              <img :src="post.img"/>
+              <img :src="post.propic"/>
             </md-avatar>
             <span class="md-title"> {{ post.username }}</span>
           </md-card-header>
@@ -60,8 +60,8 @@
       </div>
     </div>
 
-      <!--Messaggio che viene visualizzato quando non ci sono nuovi post-->
-    <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin">
+    <!--Messaggio che viene visualizzato quando non ci sono nuovi post-->
+    <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin" v-if="!postList">
       <md-empty-state
         md-icon="no_sim"
         md-label="Nessuna novità per ora!"
@@ -94,7 +94,7 @@ export default {
   methods: {
     load: function() {
       this.showProgress = true;
-      
+
       DataService.getUserInfo(this.username).then((data) => {
         data.forEach(doc => {
           this.img = doc.data().proPic;
@@ -106,7 +106,7 @@ export default {
     sendPost: function() {
       DataService.sendPost(this.postContent);
       this.showSnackbar = true;
-      this.load();
+      this.getPost();
     },
     getPost: function() {
       var userImg = [];
@@ -138,23 +138,11 @@ export default {
                   propic: userImg[i].img,
                   postContent: userPost[j].post
                 });
-                console.log('uguali');
               }
             }
           }
         });
       });
-
-
-
-      console.log(userImg);
-      console.log('userImg.length: ' + userImg.length);
-      console.log(userPost);
-      console.log('userPost.length: ' + userPost.length);
-
-
-
-      console.log('Fuori dal for: ' + this.postList);
     }
   }
 }

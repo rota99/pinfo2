@@ -2,12 +2,12 @@
   <div id="app">
     <div class="page-container md-layout-column">
       <md-toolbar class="md-primary">
-        <md-button class="md-icon-button" @click="showNavigation = true">
+        <md-button id="hamburger-menu" class="md-icon-button" @click="showNavigation = true">
           <md-icon>menu</md-icon>
         </md-button>
         <span class="md-title">LockedIn</span>
 
-        <div class="md-toolbar-section-end">
+        <div id="tabs" class="md-toolbar-section-end">
           <md-tabs class="md-primary" md-sync-route>
             <md-tab id="tab-dashboard" md-label="Dashboard" :to="'/dashboard'"></md-tab>
             <md-tab id="tab-profilo" md-label="Profilo" :to="'/profilo/' + username"></md-tab>
@@ -39,6 +39,8 @@
             <h3 class="md-title">{{ username }}</h3>
           </div>
         </md-toolbar>
+
+        <md-divider></md-divider>
 
         <md-list md-sync-route>
           <md-list-item :to="'/dashboard'">
@@ -98,5 +100,25 @@ export default {
   width: 24px;
   height: 24px;
   z-index: 2;
+}
+
+@media only screen and (max-device-width: 959px) {
+  #hamburger-menu {
+    display: block;
+  }
+
+  #tabs {
+    display: none;
+  }
+}
+
+@media only screen and (min-device-width: 960px) {
+  #hamburger-menu {
+    display: none;
+  }
+
+  #tabs {
+    display: flex;
+  }
 }
 </style>
