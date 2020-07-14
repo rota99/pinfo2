@@ -1,9 +1,10 @@
 <template>
   <div class="md-layout md-alignment-top-center">
+    <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
     <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin">
 
       <!--Card per "Scrivi un post"-->
-      <md-card class="md-layout md-alignment-top-right">
+      <md-card class="firstCard md-layout md-alignment-top-right">
         <md-card-header class="md-layout-item md-size-100">
           <md-avatar>
             <img :src="this.img" />
@@ -83,7 +84,8 @@ export default {
       showSnackbar: false,
       position: 'center',
       duration: 4000,
-      isInfinity: false
+      isInfinity: false,
+      showProgress: false
     }
   },
   created: function() {
@@ -91,16 +93,20 @@ export default {
   },
   methods: {
     load: function() {
+      this.showProgress = true;
+      
       DataService.getUserInfo(this.username).then((data) => {
         data.forEach(doc => {
           this.img = doc.data().proPic;
         });
       });
       this.getPost();
+      this.showProgress = false;
     },
     sendPost: function() {
       DataService.sendPost(this.postContent);
       this.showSnackbar = true;
+      this.load();
     },
     getPost: function() {
       var userImg = [];
@@ -156,13 +162,25 @@ export default {
 </script>
 
 <style>
-.md-elevation-4 {
-  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+.md-content {
+  margin: 0px;
+  padding: 0px;
+  border: none;
 }
 
 .md-card-content {
   padding-bottom: 0px;
   padding-left: 30px;
+}
+
+.progressBar {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+}
+
+.firstCard {
+  margin-top: 20px;
 }
 
 .addMargin {
