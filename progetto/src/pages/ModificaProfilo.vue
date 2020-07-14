@@ -130,6 +130,8 @@ export default {
   },
   methods: {
     load: function() {
+      this.showProgress = true;
+
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
           this.img = doc.data().proPic;
@@ -147,6 +149,8 @@ export default {
       });
 
       this.getPost();
+      this.showProgress = false;
+
     },
     getPost: function() {
       DataService.getUserPost(this.username);
