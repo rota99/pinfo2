@@ -11,8 +11,8 @@
       </div>
 
       <!--Card numeri contagi-->
-      <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-100 md-layout md-alignment-top-center">
-        <md-card md-with-hover id="positivi" class="md-layout-item md-medium-size-20 md-small-size-95">
+      <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-90  md-layout md-alignment-top-center">
+        <md-card md-with-hover id="positivi" class="md-layout-item md-medium-size-20 md-small-size-100">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ positivi }}</div>
@@ -21,7 +21,7 @@
           </md-ripple>
         </md-card>
 
-        <md-card md-with-hover id="guariti" class="md-layout-item md-medium-size-20 md-small-size-95">
+        <md-card md-with-hover id="guariti" class="md-layout-item md-medium-size-20 md-small-size-100">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ guariti }}</div>
@@ -30,7 +30,7 @@
           </md-ripple>
         </md-card>
 
-        <md-card md-with-hover id="morti" class="md-layout-item md-medium-size-20 md-small-size-95">
+        <md-card md-with-hover id="morti" class="md-layout-item md-medium-size-20 md-small-size-100">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ morti }}</div>
@@ -343,7 +343,28 @@ export default {
   font-weight: bold;
 }
 
-/*.addMargin {
-  margin-top: 8px;
-}*/
+@media only screen and (max-device-width: 960px) {
+  #positivi, #guariti, #morti {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  #positivi, #guariti {
+    margin-bottom: 8px;
+  }
+}
+
+@media only screen and (min-device-width: 961px) {
+  #positivi, #guariti, #morti {
+    margin-right: 8px;
+  }
+
+  #guariti, #morti {
+    margin-left: 8px;
+  }
+
+  #positivi, #guariti {
+    margin-bottom: 0px;
+  }
+}
 </style>

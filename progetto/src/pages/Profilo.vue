@@ -36,7 +36,7 @@
     <div class="md-layout md-alignment-top-center">
       <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin">
         <!--Card per "Scrivi un post"-->
-        <md-card class="md-layout md-alignment-top-right">
+        <md-card class="firstCard md-layout md-alignment-top-right">
           <md-card-header class="md-layout-item md-size-100">
             <md-avatar>
               <img :src="img" />
@@ -192,13 +192,13 @@ export default {
   padding-left: 30px;
 }
 
-.addMargin {
-  margin-bottom: 16px;
+.firstCard {
+  margin-top: 20px;
+  margin-bottom: 32px;
 }
 
-div .addMargin:first-child {
-  margin-top: 16px;
-  margin-bottom: 32px;
+.addMargin {
+  margin-bottom: 16px;
 }
 
 @media only screen and (max-device-width: 399px) {

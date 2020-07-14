@@ -169,14 +169,10 @@ export default {
 
 .firstCard {
   margin-top: 20px;
+  margin-bottom: 32px;
 }
 
 .addMargin {
   margin-bottom: 16px;
-}
-
-div .addMargin:first-child {
-  margin-top: 16px;
-  margin-bottom: 32px;
 }
 </style>
