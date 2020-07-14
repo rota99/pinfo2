@@ -7,14 +7,15 @@
     <md-card id="copertina" class="md-small-size-100">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
-          <img v-if="this.coverPic === 'undefined'" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Flag_Admirals_of_the_Blue_Squadron_Royal_Navy.png" />
-          <img v-else :src="this.coverPic" />
+          <!--<img v-if="coverPic === 'undefined'" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Flag_Admirals_of_the_Blue_Squadron_Royal_Navy.png" />
+          <img v-else :src="coverPic" />-->
+          <img id="cover" :src="coverPic" />
         </md-card-media>
 
         <md-card-area>
           <div class="containerImgName">
             <md-avatar class="md-large" id="avatarCopertina">
-              <img :src="this.img" />
+              <img :src="img" />
             </md-avatar>
 
             <md-card-header>
@@ -33,12 +34,12 @@
     </md-card>
 
     <div class="md-layout md-alignment-top-center">
-      <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin">
+      <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin">
         <!--Card per "Scrivi un post"-->
         <md-card class="md-layout md-alignment-top-right">
           <md-card-header class="md-layout-item md-size-100">
             <md-avatar>
-              <img :src="this.img" />
+              <img :src="img" />
             </md-avatar>
             <span class="md-title">{{ username }}</span>
           </md-card-header>
@@ -58,14 +59,14 @@
         </md-card>
       </div>
 
-      <div class="md-layout-item md-large-size-66 md-small-size-100">
+      <div class="md-layout-item md-large-size-66 md-small-size-95">
         <!--Card per i post-->
-        <div class="addMargin" v-for="post in postList">
+        <div class="addMargin" v-for="post in postList" :key="post">
           <md-card class="md-layout md-alignment-top-right">
             <!--Immagine del profilo e username-->
             <md-card-header class="md-layout-item md-size-100">
               <md-avatar>
-                <img :src="this.img" />
+                <img :src="img" />
               </md-avatar>
               <span class="md-title">{{ username }}</span>
             </md-card-header>
@@ -127,7 +128,7 @@ export default {
       this.getCoverPic();
       this.getBio();
       this.getPost();
-      
+
       this.showProgress = false;
     },
     getPropic: function() {
@@ -219,16 +220,19 @@ div .addMargin:first-child {
     box-shadow: none;
   }
 
+  #cover {
+    object-fit: cover;
+  }
+
   .containerImgName {
     display: flex;
     align-items: center;
-    position: fixed;
     margin-top: -75px;
     flex-direction: column;
     width: 100%;
-    margin-left: -16px;
     text-align: center;
     color: rgba(0,0,0,0.87);
+    position: absolute;
   }
 
   .md-card-media-cover .md-card-header {
@@ -277,21 +281,24 @@ div .addMargin:first-child {
     padding: 0px;
     border: none;
     width: 100%;
-    height: 275px;
+    height: 315px;
     background-color: white;
     box-shadow: none;
+  }
+
+  #cover {
+    object-fit: cover;
   }
 
   .containerImgName {
     display: flex;
     align-items: center;
-    position: fixed;
-    margin-top: -75px;
+    margin-top: -30px;
     flex-direction: column;
     width: 100%;
-    margin-left: -16px;
     text-align: center;
     color: rgba(0,0,0,0.87);
+    position: absolute;
   }
 
   .md-card-media-cover .md-card-header {
@@ -321,7 +328,7 @@ div .addMargin:first-child {
     margin: 0px;
     padding: 0px;
     border: none;
-    height: 150px;
+    height: 250px;
     top: 30%;
   }
 }
@@ -345,16 +352,19 @@ div .addMargin:first-child {
     box-shadow: none;
   }
 
+  #cover {
+    object-fit: cover;
+  }
+
   .containerImgName {
     display: flex;
     align-items: center;
-    position: fixed;
     margin-top: -75px;
     flex-direction: column;
     width: 100%;
-    margin-left: -16px;
     text-align: center;
     color: rgba(0,0,0,0.87);
+    position: absolute;
   }
 
   .md-card-media-cover .md-card-header {
@@ -389,8 +399,8 @@ div .addMargin:first-child {
   .containerImgName {
     display: flex;
     align-items: flex-start;
-    position: fixed;
     margin-top: -25px;
+    position: absolute;
   }
 
   #copertina {
@@ -401,6 +411,10 @@ div .addMargin:first-child {
     height: 300px;
     background-color: white;
     box-shadow: none;
+  }
+
+  #cover {
+    object-fit: cover;
   }
 
   #avatarCopertina {
