@@ -1,6 +1,9 @@
 <template>
   <div class="md-layout md-alignment-top-center">
+    <!--Progress Bar-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
+
+    <!--Copertina-->
     <md-card id="copertina" class="md-small-size-100">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
@@ -54,18 +57,12 @@
           </md-card-actions>
         </md-card>
       </div>
-      <!--Snackbar-->
-      <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
-        <span>Il tuo post è stato pubblicato!</span>
-        <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
-      </md-snackbar>
 
       <div class="md-layout-item md-large-size-66 md-small-size-100">
         <!--Card per i post-->
-        <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
         <div class="addMargin" v-for="post in postList">
           <md-card class="md-layout md-alignment-top-right">
-            <!--in questa prima parte ci vanno immagine del profilo e username-->
+            <!--Immagine del profilo e username-->
             <md-card-header class="md-layout-item md-size-100">
               <md-avatar>
                 <img :src="this.img" />
@@ -73,12 +70,12 @@
               <span class="md-title">{{ username }}</span>
             </md-card-header>
 
-            <!--qui ci va il contenuto del post-->
+            <!--Contenuto del post-->
             <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
               <span>{{ post }}</span>
             </md-card-content>
 
-            <!--questo invece è il bottone per il like-->
+            <!--Pulsante like-->
             <md-card-actions class="md-layout-item md-size-100">
               <md-button class="md-icon-button">
                 <md-icon>favorite</md-icon>
@@ -87,6 +84,13 @@
           </md-card>
         </div>
       </div>
+
+      <!--Snackbar-->
+      <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+        <span>Il tuo post è stato pubblicato!</span>
+        <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
+      </md-snackbar>
+
     </div>
   </div>
 </template>
@@ -117,12 +121,14 @@ export default {
     load: function() {
       this.showProgress = true;
 
+      /*con queste funzioni vengono salvate in variabili locali
+      l'immagine di profilo e copertina, la bio e la lista dei post*/
       this.getPropic();
       this.getCoverPic();
       this.getBio();
       this.getPost();
+      
       this.showProgress = false;
-
     },
     getPropic: function() {
       DataService.getUserInfo(this.username).then((data)=>{
@@ -146,9 +152,12 @@ export default {
       });
     },
     getPost: function() {
+      /*l'array postList viene correttamente popolato, il problema è che non viene
+      stampato con il v-for*/
+      let me = this;
       DataService.getUserPost(this.username).then(data => {
-        this.postList = data.slice();
-        console.log(this.postList);
+        me.postList = data.slice();
+        console.log(me.postList);
       });
     },
     sendPost: function() {
