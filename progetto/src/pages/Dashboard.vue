@@ -39,14 +39,14 @@
           <!--in questa prima parte ci vanno immagine del profilo e username-->
           <md-card-header class="md-layout-item md-size-100">
             <md-avatar>
-              <img />
+              <img :src="post.img"/>
             </md-avatar>
             <span class="md-title"> {{ post.username }}</span>
           </md-card-header>
 
           <!--qui ci va il contenuto del post-->
           <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
-            <span>{{ post.content }}</span>
+            <span>{{ post.postContent }}</span>
           </md-card-content>
 
           <!--questo invece è il bottone per il like-->
@@ -114,35 +114,39 @@ export default {
             img: doc.data().proPic
           });
         });
-      });
 
-      DataService.getPosts().then(data => {
-        data.forEach(function(doc) {
-          userPost.push({
-            username: doc.data().username,
-            post: doc.data().postContent
+        DataService.getPosts().then(data => {
+          data.forEach(function(doc) {
+            userPost.push({
+              username: doc.data().username,
+              post: doc.data().postContent
+            });
           });
+
+          for(var i = 0; i < userImg.length; i++) {
+            for(var j = 0; j < userPost.length; j++) {
+              console.log(userImg[i].username + " >>>>> " + userPost[j].username)
+              if(userImg[i].username == userPost[j].username) {
+                this.postList.push({
+                  username: userImg[i].username,
+                  propic: userImg[i].img,
+                  postContent: userPost[j].post
+                });
+                console.log('uguali');
+              }
+            }
+          }
         });
       });
+
+
 
       console.log(userImg);
       console.log('userImg.length: ' + userImg.length);
       console.log(userPost);
       console.log('userPost.length: ' + userPost.length);
 
-      for(var i = 0; i < userImg.length; i++) {
-        for(var j = 0; j < userPost.length; j++) {
-          console.log(userImg[i].username + " >>>>> " + userPost[j].username)
-          if(userImg[i].username == userPost[j].username) {
-            /*this.postList.push({
-              username: userImg[i].username,
-              propic: userImg[i].img,
-              postContent: userPost[j].post
-            });*/
-            console.log('uguali');
-          }
-        }
-      }
+
 
       console.log('Fuori dal for: ' + this.postList);
     }
