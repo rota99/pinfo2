@@ -52,8 +52,8 @@
 
           <!--questo invece è il bottone per il like-->
           <md-card-actions class="md-layout-item md-size-100">
-            <md-button class="md-icon-button">
-              <md-icon>favorite</md-icon>
+            <md-button class="md-icon-button" @click="isClicked = !isClicked">
+              <md-icon :class="{'clicked': isClicked}">favorite</md-icon>
             </md-button>
           </md-card-actions>
         </md-card>
@@ -85,7 +85,8 @@ export default {
       position: 'center',
       duration: 4000,
       isInfinity: false,
-      showProgress: false
+      showProgress: false,
+      isClicked: false
     }
   },
   created: function() {
@@ -93,15 +94,12 @@ export default {
   },
   methods: {
     load: function() {
-      this.showProgress = true;
-
       DataService.getUserInfo(this.username).then((data) => {
         data.forEach(doc => {
           this.img = doc.data().proPic;
         });
       });
       this.getPost();
-      this.showProgress = false;
     },
     sendPost: function() {
       DataService.sendPost(this.postContent);
@@ -109,6 +107,7 @@ export default {
       this.getPost();
     },
     getPost: function() {
+      this.showProgress = true;
       var userImg = [];
       var userPost = [];
       var tmp = [];
@@ -131,7 +130,6 @@ export default {
 
           for(var i = 0; i < userImg.length; i++) {
             for(var j = 0; j < userPost.length; j++) {
-              console.log(userImg[i].username + " >>>>> " + userPost[j].username)
               if(userImg[i].username == userPost[j].username) {
                 this.postList.push({
                   username: userImg[i].username,
@@ -141,6 +139,7 @@ export default {
               }
             }
           }
+          this.showProgress = false;
         });
       });
     }
@@ -169,14 +168,15 @@ export default {
 
 .firstCard {
   margin-top: 20px;
+  margin-bottom: 32px;
 }
 
 .addMargin {
   margin-bottom: 16px;
 }
 
-div .addMargin:first-child {
-  margin-top: 16px;
-  margin-bottom: 32px;
+.clicked {
+  fill: var(--md-theme-default-primary, #69f0ae) !important;
+  color: var(--md-theme-default-primary, #69f0ae) !important;
 }
 </style>

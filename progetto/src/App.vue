@@ -5,6 +5,9 @@
         <md-button id="hamburger-menu" class="md-icon-button" @click="showNavigation = true">
           <md-icon>menu</md-icon>
         </md-button>
+        <!--<md-avatar class="md-avatar-icon">-->
+          <img id="logo" src="../images/coronavirus-logo.png" />
+        <!--</md-avatar>-->
         <span class="md-title">LockedIn</span>
 
         <div id="tabs" class="md-toolbar-section-end">
@@ -20,12 +23,16 @@
       </md-toolbar>
 
       <md-drawer :md-active.sync="showNavigation" md-swipeable>
-        <md-toolbar class="md-transparent md-large" md-elevation="0">
+        <md-toolbar class="md-transparent md-medium" md-elevation="0">
           <div class="md-toolbar-row">
             <div class="md-toolbar-section-start">
-              <md-avatar>
-                <img />
-              </md-avatar>
+              <md-list-item>
+                <md-avatar class="md-large">
+                  <img :src="img">
+                </md-avatar>
+
+                <span class="md-title">{{ username }}</span>
+              </md-list-item>
             </div>
 
             <div class="md-toolbar-section-end">
@@ -33,10 +40,6 @@
                 <md-icon>keyboard_arrow_left</md-icon>
               </md-button>
             </div>
-          </div>
-
-          <div class="md-toolbar-row md-toolbar-offset">
-            <h3 class="md-title">{{ username }}</h3>
           </div>
         </md-toolbar>
 
@@ -83,8 +86,16 @@ export default {
     return {
       username: localStorage.getItem('username'),
       country: localStorage.getItem('country'),
+      img: null,
       showNavigation: false
     }
+  },
+  created: function() {
+    DataService.getUserInfo(this.username).then((data) => {
+      data.forEach(doc => {
+        this.img = doc.data().proPic;
+      });
+    });
   },
   methods: {
     logout: function() {
@@ -97,10 +108,9 @@ export default {
 </script>
 
 <style>
-.icon {
-  width: 24px;
-  height: 24px;
-  z-index: 2;
+#logo {
+  width: 32px;
+  height: 32px;
 }
 
 @media only screen and (max-device-width: 959px) {
