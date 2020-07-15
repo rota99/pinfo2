@@ -62,7 +62,7 @@ export default {
     });
   },
   getPosts() {
-    return db.collection('post').get().then(function(querySnapshot) {
+    return db.collection("post").orderBy("username", "asc").get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         //doc.data() is never undefined for query doc snapshots
         return doc.data();

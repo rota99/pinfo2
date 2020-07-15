@@ -43,17 +43,17 @@
         <md-divider></md-divider>
 
         <md-list md-sync-route>
-          <md-list-item :to="'/dashboard'">
+          <md-list-item :to="'/dashboard'" @click="showNavigation = false">
             <md-icon>dashboard</md-icon>
             <span class="md-list-item-text">Dashboard</span>
           </md-list-item>
 
-          <md-list-item :to="'/profilo/' + username">
+          <md-list-item :to="'/profilo/' + username" @click="showNavigation = false">
             <md-icon>person</md-icon>
             <span class="md-list-item-text">Profilo</span>
           </md-list-item>
 
-          <md-list-item :to="'/contagi/' + country">
+          <md-list-item :to="'/contagi/' + country" @click="showNavigation = false">
             <md-icon>insert_chart</md-icon>
             <span class="md-list-item-text">Contagi</span>
           </md-list-item>
@@ -88,6 +88,7 @@ export default {
   },
   methods: {
     logout: function() {
+      this.showNavigation = false;
       DataService.logout();
       this.$router.push({path: '/login'});
     }
