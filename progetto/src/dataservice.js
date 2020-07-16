@@ -93,10 +93,11 @@ export default {
       return;
     });
   },
-  sendPost(postContent) {
-    return db.collection('post').doc().set({
+  sendPost(postContent, id) {
+    return db.collection('post').doc(id).set({
       postContent: postContent,
-      username: localStorage.getItem('username')
+      username: localStorage.getItem('username'),
+      postDate: new Date()
     });
   },
   getId(username) {

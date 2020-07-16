@@ -44,8 +44,8 @@
               <img :src="post.propic"/>
             </md-avatar>
             <md-card-header-text>
-              <div class="md-title">{{ post.username }}</div>
-              <div class="md-subhead">{{ post.date }}</div>
+              <div id="titlePers" class="md-title">{{ post.username }}</div>
+              <div id="subheadPers" class="md-subhead">{{ post.date }}</div>
             </md-card-header-text>
           </md-card-header>
 
@@ -106,7 +106,10 @@ export default {
       this.getPost();
     },
     sendPost: function() {
-      DataService.sendPost(this.postContent);
+      var d = new Date();
+      var month = d.getMonth() + 1;
+      var id = d.getFullYear() + "" + month + "" + d.getDate() + d.getMilliseconds() + this.username.toLowerCase();
+      DataService.sendPost(this.postContent, id);
       this.showSnackbar = true;
       this.getPost();
     },
@@ -128,9 +131,9 @@ export default {
         DataService.getPosts().then(data => {
           data.forEach(function(doc) {
             console.log(doc.data().postDate.seconds);
-            var d = new Date(doc.data().postDate.seconds);
+            var d = new Date(doc.data().postDate.seconds * 1000);
             var day = d.getDate();
-            var month = d.getMonth();
+            var month = d.getMonth() + 1;
             var year = d.getFullYear();
             var dateString = day + "/" + month + "/" + year;
             userPost.push({
@@ -191,5 +194,13 @@ export default {
 .clicked {
   fill: var(--md-theme-default-accent) !important;
   color: var(--md-theme-default-accent) !important;
+}
+
+#titlePers, #subheadPers {
+  font-size: 14px;
+}
+
+#titlePers {
+  font-weight: 500;
 }
 </style>
