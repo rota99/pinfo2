@@ -7,8 +7,6 @@
     <md-card id="copertina" class="md-small-size-100">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
-          <!--<img v-if="coverPic === 'undefined'" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Flag_Admirals_of_the_Blue_Squadron_Royal_Navy.png" />
-          <img v-else :src="coverPic" />-->
           <img id="cover" :src="coverPic" />
         </md-card-media>
 
@@ -25,9 +23,33 @@
           </div>
 
           <md-card-actions>
-            <md-button class="md-icon-button md-fab md-mini md-primary" md-menu-trigger :to="'/modifica_profilo/' + username" title="Modifica profilo">
-              <md-icon>edit</md-icon>
-            </md-button>
+            <md-menu md-size="big" md-direction="bottom-end">
+              <md-button class="md-icon-button" md-menu-trigger>
+                <md-icon>more_vert</md-icon>
+              </md-button>
+
+              <md-menu-content>
+                <md-menu-item @click="showDialogProPic = true">
+                  <span>Modifica l'immagine<br />di profilo</span>
+                  <md-icon>insert_photo</md-icon>
+                </md-menu-item>
+
+                <md-menu-item @click="showDialogCoverPic = true">
+                  <span>Modifica l'immagine<br />di copertina</span>
+                  <md-icon>wallpaper</md-icon>
+                </md-menu-item>
+
+                <md-menu-item @click="showDialogBio = true">
+                  <span>Modifica la bio</span>
+                  <md-icon>edit</md-icon>
+                </md-menu-item>
+
+                <!--<md-menu-item>
+                  <span>Modifica il tema</span>
+                  <md-icon>style</md-icon>
+                </md-menu-item>-->
+              </md-menu-content>
+            </md-menu>
           </md-card-actions>
         </md-card-area>
       </md-card-media-cover>
@@ -92,6 +114,50 @@
         <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
       </md-snackbar>
 
+      <!--Dialog ProPic-->
+      <md-dialog :md-active.sync="showDialogProPic">
+        <md-dialog-title>Modfica immagine profilo</md-dialog-title>
+        <md-dialog-content class="size">
+          <md-field>
+            <label>Inserisci il nuovo link</label>
+            <md-input v-model="newProPic"></md-input>
+          </md-field>
+        </md-dialog-content>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="showDialogProPic = false">Chiudi</md-button>
+          <md-button class="md-primary" @click="editProPic()">Salva</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+
+      <!--Dialog CoverPic-->
+      <md-dialog :md-active.sync="showDialogCoverPic">
+        <md-dialog-title>Modfica immagine di copertina</md-dialog-title>
+        <md-dialog-content class="size">
+          <md-field>
+            <label>Inserisci il nuovo link</label>
+            <md-input v-model="newCoverPic"></md-input>
+          </md-field>
+        </md-dialog-content>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="showDialogCoverPic = false">Chiudi</md-button>
+          <md-button class="md-primary" @click="editCoverPic()">Salva</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+
+      <!--Dialog Bio-->
+      <md-dialog :md-active.sync="showDialogBio">
+        <md-dialog-title>Modifica la bio</md-dialog-title>
+        <md-dialog-content class="size">
+          <md-field>
+            <label>Inserisci la nuova bio</label>
+            <md-textarea v-model="newBio" md-autogrow maxlength="125"></md-textarea>
+          </md-field>
+        </md-dialog-content>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="showDialogBio = false">Chiudi</md-button>
+          <md-button class="md-primary" @click="editBio()">Salva</md-button>
+        </md-dialog-actions>
+      </md-dialog>
     </div>
   </div>
 </template>
@@ -112,7 +178,13 @@ export default {
       position: 'center',
       duration: 4000,
       isInfinity: false,
-      showProgress: false
+      showProgress: false,
+      showDialogProPic: false,
+      showDialogCoverPic: false,
+      showDialogBio: false,
+      newProPic: null,
+      newCoverPic: null,
+      newBio: null
     }
   },
   created:function() {
@@ -162,6 +234,24 @@ export default {
     sendPost: function() {
       DataService.sendPost(this.postContent);
       this.showSnackbar = true;
+      this.load();
+    },
+    editProPic: function() {
+      DataService.setProPic(this.username, this.newProPic);
+      this.showDialog = false;
+
+      this.load();
+    },
+    editCoverPic: function() {
+      DataService.setCoverPic(this.username, this.newCoverPic);
+      this.showDialog = false;
+
+      this.load();
+    },
+    editBio: function() {
+      DataService.setBio(this.username, this.newBio);
+      this.showDialog = false;
+
       this.load();
     }
   }
@@ -405,10 +495,13 @@ export default {
     margin: 0px;
     padding: 0px;
     border: none;
-    width: 100%;
+    width: 90%;
+    margin-top: 16px;
     height: 300px;
     background-color: white;
     box-shadow: none;
+    border-radius: 20px 20px 0 0;
+    border: 1px solid transparent;
   }
 
   #cover {

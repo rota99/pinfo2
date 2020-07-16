@@ -6,7 +6,7 @@
           <md-icon>menu</md-icon>
         </md-button>
         <!--<md-avatar class="md-avatar-icon">-->
-          <img id="logo" src="../images/coronavirus-logo.png" />
+          <!--<img id="logo" src="../images/coronavirus-logo.png" />-->
         <!--</md-avatar>-->
         <span class="md-title">LockedIn</span>
 
