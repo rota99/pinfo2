@@ -106,9 +106,7 @@ export default {
       this.getPost();
     },
     sendPost: function() {
-      var d = new Date();
-      var month = d.getMonth() + 1;
-      var id = d.getFullYear() + "" + month + "" + d.getDate() + d.getMilliseconds() + this.username.toLowerCase();
+      var id = Date.now() + this.username.toLowerCase();
       DataService.sendPost(this.postContent, id);
       this.showSnackbar = true;
       this.getPost();
