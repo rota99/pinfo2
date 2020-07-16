@@ -43,7 +43,7 @@ export default {
       country: localStorage.getItem('country'),
       username: localStorage.getItem('username'),
       proPic: propic,
-      coverPic: '',
+      coverPic: '../images/patternvirus.png',
       bio: ''
     });
   },
