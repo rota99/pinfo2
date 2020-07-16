@@ -26,6 +26,7 @@
         </md-card-actions>
       </md-card>
     </div>
+
     <!--Snackbar-->
     <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
       <span>Il tuo post è stato pubblicato!</span>
@@ -42,7 +43,10 @@
             <md-avatar>
               <img :src="post.propic"/>
             </md-avatar>
-            <span class="md-title"> {{ post.username }}</span>
+            <md-card-header-text>
+              <div class="md-title">{{ post.username }}</div>
+              <div class="md-subhead">{{ post.date }}</div>
+            </md-card-header-text>
           </md-card-header>
 
           <!--qui ci va il contenuto del post-->
@@ -108,6 +112,7 @@ export default {
     },
     getPost: function() {
       this.showProgress = true;
+      this.postList.splice(0, this.postList.length);
       var userImg = [];
       var userPost = [];
       var tmp = [];
@@ -122,9 +127,16 @@ export default {
 
         DataService.getPosts().then(data => {
           data.forEach(function(doc) {
+            console.log(doc.data().postDate.seconds);
+            var d = new Date(doc.data().postDate.seconds);
+            var day = d.getDate();
+            var month = d.getMonth();
+            var year = d.getFullYear();
+            var dateString = day + "/" + month + "/" + year;
             userPost.push({
               username: doc.data().username,
-              post: doc.data().postContent
+              post: doc.data().postContent,
+              date: dateString
             });
           });
 
@@ -134,7 +146,8 @@ export default {
                 this.postList.push({
                   username: userImg[i].username,
                   propic: userImg[i].img,
-                  postContent: userPost[j].post
+                  postContent: userPost[j].post,
+                  date: userPost[j].date
                 });
               }
             }
@@ -176,7 +189,7 @@ export default {
 }
 
 .clicked {
-  fill: var(--md-theme-default-primary, #69f0ae) !important;
-  color: var(--md-theme-default-primary, #69f0ae) !important;
+  fill: var(--md-theme-default-accent) !important;
+  color: var(--md-theme-default-accent) !important;
 }
 </style>

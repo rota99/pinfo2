@@ -48,7 +48,7 @@ export default {
         }
         else {
           DataService.login(this.username, this.paese);
-          DataService.signin(this.paese, this.img);
+          DataService.signin(this.img);
         }
       });
 

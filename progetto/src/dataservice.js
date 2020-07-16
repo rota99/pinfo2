@@ -38,11 +38,13 @@ export default {
     localStorage.removeItem('username');
     localStorage.removeItem('country');
   },
-  signin(country,propic) {
+  signin(propic) {
     return db.collection('user').doc().set({
-      country: country,
+      country: localStorage.getItem('country'),
       username: localStorage.getItem('username'),
-      proPic: propic
+      proPic: propic,
+      coverPic: '',
+      bio: ''
     });
   },
   getCountries() {
@@ -64,7 +66,7 @@ export default {
     });
   },
   getPosts() {
-    return db.collection("post").orderBy("username", "asc").get().then(function(querySnapshot) {
+    return db.collection("post").get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         //doc.data() is never undefined for query doc snapshots
         return doc.data();

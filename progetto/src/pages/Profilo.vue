@@ -25,7 +25,7 @@
           <md-card-actions>
             <md-menu md-size="big" md-direction="bottom-end">
               <md-button class="md-icon-button" md-menu-trigger>
-                <md-icon>more_vert</md-icon>
+                <md-icon id="iconMoreVert">more_vert</md-icon>
               </md-button>
 
               <md-menu-content>
@@ -290,6 +290,11 @@ export default {
 }
 
 @media only screen and (max-device-width: 399px) {
+  #iconMoreVert {
+    color: rgba(0,0,0,0.54) !important;
+    fill: rgba(0,0,0,0.54);
+  }
+
   .md-card-media-cover .md-card-header {
     align-items: center;
   }
@@ -300,9 +305,10 @@ export default {
 
   #copertina {
     margin: 0px;
+    margin-top: 16px;
     padding: 0px;
     border: none;
-    width: 100%;
+    width: 90%;
     height: 300px;
     background-color: white;
     box-shadow: none;
@@ -310,6 +316,11 @@ export default {
 
   #cover {
     object-fit: cover;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 150px;
+    top: 30%;
   }
 
   .containerImgName {
@@ -345,17 +356,14 @@ export default {
   #bio {
     width: 75%;
   }
-
-  .md-card-media.md-ratio-16-9 img {
-    margin: 0px;
-    padding: 0px;
-    border: none;
-    height: 150px;
-    top: 30%;
-  }
 }
 
 @media only screen and (min-device-width: 400px) and (max-device-width: 699px) {
+  #iconMoreVert {
+    color: rgba(0,0,0,0.54) !important;
+    fill: rgba(0,0,0,0.54);
+  }
+
   .md-card-media-cover .md-card-header {
     align-items: center;
   }
@@ -366,9 +374,10 @@ export default {
 
   #copertina {
     margin: 0px;
+    margin-top: 16px;
     padding: 0px;
     border: none;
-    width: 100%;
+    width: 90%;
     height: 315px;
     background-color: white;
     box-shadow: none;
@@ -376,6 +385,11 @@ export default {
 
   #cover {
     object-fit: cover;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 250px;
+    top: 30%;
   }
 
   .containerImgName {
@@ -411,17 +425,14 @@ export default {
   #bio {
     width: 75%;
   }
-
-  .md-card-media.md-ratio-16-9 img {
-    margin: 0px;
-    padding: 0px;
-    border: none;
-    height: 250px;
-    top: 30%;
-  }
 }
 
 @media only screen and (min-device-width: 700px) and (max-device-width: 1060px) {
+  #iconMoreVert {
+    color: rgba(0,0,0,0.54) !important;
+    fill: rgba(0,0,0,0.54);
+  }
+
   .md-card-media-cover .md-card-header {
     align-items: center;
   }
@@ -432,9 +443,10 @@ export default {
 
   #copertina {
     margin: 0px;
+    margin-top: 16px;
     padding: 0px;
     border: none;
-    width: 100%;
+    width: 90%;
     height: 350px;
     background-color: white;
     box-shadow: none;
@@ -442,6 +454,11 @@ export default {
 
   #cover {
     object-fit: cover;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 250px;
+    top: 30%;
   }
 
   .containerImgName {
@@ -473,17 +490,14 @@ export default {
     letter-spacing: 0;
     line-height: 28px;
   }
-
-  .md-card-media.md-ratio-16-9 img {
-    margin: 0px;
-    padding: 0px;
-    border: none;
-    height: 250px;
-    top: 30%;
-  }
 }
 
 @media only screen and (min-device-width: 1061px) {
+  #iconMoreVert {
+    color: #fff;
+    fill: rgba(0,0,0,0.54);
+  }
+
   .containerImgName {
     display: flex;
     align-items: flex-start;
@@ -493,19 +507,23 @@ export default {
 
   #copertina {
     margin: 0px;
+    margin-top: 16px;
     padding: 0px;
     border: none;
     width: 90%;
-    margin-top: 16px;
     height: 300px;
     background-color: white;
     box-shadow: none;
-    border-radius: 20px 20px 0 0;
-    border: 1px solid transparent;
   }
 
   #cover {
     object-fit: cover;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 250px;
+    border-radius: 2px;
+    border: 0px solid transparent;
   }
 
   #avatarCopertina {
@@ -521,13 +539,6 @@ export default {
     font-size: 24px;
     letter-spacing: 0;
     line-height: 32px;
-  }
-
-  .copertina img {
-    margin: 0px;
-    padding: 0px;
-    border: none;
-    height: 250px;
   }
 }
 </style>

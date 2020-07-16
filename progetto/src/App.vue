@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="page-container md-layout-column">
-      <md-toolbar class="md-primary">
+      <md-toolbar id="fixed" class="md-primary">
         <md-button id="hamburger-menu" class="md-icon-button" @click="showNavigation = true">
           <md-icon>menu</md-icon>
         </md-button>
