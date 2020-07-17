@@ -38,13 +38,11 @@ export default {
     localStorage.removeItem('username');
     localStorage.removeItem('country');
   },
-  signin(propic) {
+  signin(country,propic) {
     return db.collection('user').doc().set({
-      country: localStorage.getItem('country'),
+      country: country,
       username: localStorage.getItem('username'),
-      proPic: propic,
-      coverPic: '../images/patternvirus.png',
-      bio: ''
+      proPic: propic
     });
   },
   getCountries() {
@@ -66,7 +64,7 @@ export default {
     });
   },
   getPosts() {
-    return db.collection("post").get().then(function(querySnapshot) {
+    return db.collection("post").orderBy("username", "asc").get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         //doc.data() is never undefined for query doc snapshots
         return doc.data();
@@ -93,11 +91,10 @@ export default {
       return;
     });
   },
-  sendPost(postContent, id) {
-    return db.collection('post').doc(id).set({
+  sendPost(postContent) {
+    return db.collection('post').doc().set({
       postContent: postContent,
-      username: localStorage.getItem('username'),
-      postDate: new Date()
+      username: localStorage.getItem('username')
     });
   },
   getId(username) {
