@@ -13,7 +13,7 @@
         </md-card-header>
         <!--Contenuto della card-->
         <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
-          <md-field :class="{'clicked': isClicked}">
+          <md-field>
             <label>Scrivi qualcosa...</label>
             <md-textarea v-model="postContent" md-autogrow></md-textarea>
           </md-field>
@@ -21,7 +21,7 @@
         <!--Icona per invio post-->
         <md-card-actions class="md-layout-item md-size-100">
           <md-button class="md-icon-button" @click="sendPost()">
-            <md-icon>send</md-icon>
+            <md-icon id="focus">send</md-icon>
           </md-button>
         </md-card-actions>
       </md-card>
@@ -30,7 +30,7 @@
     <!--Snackbar-->
     <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
       <span>Il tuo post è stato pubblicato!</span>
-      <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
+      <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
     </md-snackbar>
 
     <div class="md-layout-item md-large-size-66 md-small-size-95">
@@ -56,8 +56,8 @@
 
           <!--Icona per il link-->
           <md-card-actions class="md-layout-item md-size-100">
-            <md-button class="md-icon-button" @click="isClicked = !isClicked">
-              <md-icon :class="{'clicked': isClicked}">favorite</md-icon>
+            <md-button class="md-icon-button">
+              <md-icon>favorite</md-icon>
             </md-button>
           </md-card-actions>
         </md-card>
@@ -90,7 +90,6 @@ export default {
       duration: 4000,
       isInfinity: false,
       showProgress: false,
-      isClicked: false
     }
   },
   created: function() {
@@ -183,6 +182,12 @@ export default {
   border: none;
 }
 
+#focus:focus, #focus:active {
+  color: var(--md-theme-default-accent) !important;
+  fill: var(--md-theme-default-accent) !important;
+
+}
+
 .md-card-content {
   padding-bottom: 0px;
   padding-left: 30px;
@@ -203,10 +208,6 @@ export default {
   margin-bottom: 16px;
 }
 
-.clicked {
-  fill: var(--md-theme-default-accent) !important;
-  color: var(--md-theme-default-accent) !important;
-}
 
 #titlePers, #subheadPers {
   font-size: 14px;

@@ -22,7 +22,7 @@
         </div>
       </md-toolbar>
 
-      <md-drawer :md-active.sync="showNavigation" md-swipeable>
+      <md-drawer :md-active.sync="showNavigation" md-swipeable >
         <md-toolbar class="md-transparent md-medium" md-elevation="0">
           <div class="md-toolbar-row">
             <div class="md-toolbar-section-start">
@@ -108,6 +108,10 @@ export default {
 </script>
 
 <style>
+.md-list-item{
+  list-style-type: none;
+}
+
 #logo {
   width: 32px;
   height: 32px;
