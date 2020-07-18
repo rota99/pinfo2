@@ -11,14 +11,14 @@
           </md-avatar>
           <span class="md-title">{{ username }}</span>
         </md-card-header>
-
+        <!--Contenuto della card-->
         <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
           <md-field>
             <label>Scrivi qualcosa...</label>
             <md-textarea v-model="postContent" md-autogrow></md-textarea>
           </md-field>
         </md-card-content>
-
+        <!--Icona per invio post-->
         <md-card-actions class="md-layout-item md-size-100">
           <md-button class="md-icon-button" @click="sendPost()">
             <md-icon id="focus">send</md-icon>
@@ -49,12 +49,12 @@
             </md-card-header-text>
           </md-card-header>
 
-          <!--qui ci va il contenuto del post-->
+          <!--Contenuto del post-->
           <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
             <span>{{ post.postContent }}</span>
           </md-card-content>
 
-          <!--questo invece è il bottone per il like-->
+          <!--Icona per il link-->
           <md-card-actions class="md-layout-item md-size-100">
             <md-button class="md-icon-button">
               <md-icon>favorite</md-icon>
@@ -97,6 +97,8 @@ export default {
   },
   methods: {
     load: function() {
+      //funzione per salvare in una variabile locale l'immagine del profilo dell'utente
+      //e per richiedere al db tutti i post pubblicati
       DataService.getUserInfo(this.username).then((data) => {
         data.forEach(doc => {
           this.img = doc.data().proPic;
@@ -105,17 +107,27 @@ export default {
       this.getPost();
     },
     sendPost: function() {
+      //funzione per inviare e salvare un post sul database
       var id = Date.now() + this.username.toLowerCase();
       DataService.sendPost(this.postContent, id);
+
+      //dopo aver eseguito la query viene settata la variabile contentente il contenuto
+      //del post a null, e viene eseguita nuovamente la richiesta al db per visualizzare i post
+      this.postContent = null;
       this.showSnackbar = true;
       this.getPost();
     },
     getPost: function() {
+      //funzione per visualizzare tutti i post salvati nel database
       this.showProgress = true;
+
+      //inizialmente viene svuotato l'array contentente gli oggetti relativi ai post
+      //e successivamente vengono inizializzati tre array per eseguire un join
+      //il primo array contiene username e immagine del profilo;
+      //il secondo contiene username e contenuto del post
       this.postList.splice(0, this.postList.length);
       var userImg = [];
       var userPost = [];
-      var tmp = [];
 
       DataService.getUsers().then(data => {
         data.forEach(function(doc) {
@@ -140,6 +152,8 @@ export default {
             });
           });
 
+          //dopo aver eseguito le due richieste vengono eseguiti due for per
+          //controllare quando gli username combaciano per poter creare un oggetto unico
           for(var i = 0; i < userImg.length; i++) {
             for(var j = 0; j < userPost.length; j++) {
               if(userImg[i].username == userPost[j].username) {

@@ -1,27 +1,34 @@
 <template>
   <div class="md-layout md-alignment-top-center">
-    <md-card class="md-layout-item md-size-30 md-medium-size-50 md-xsmall-size-100">
-      <md-card-header>
-        <span class="md-title">Registrati</span>
-      </md-card-header>
-      <md-card-content>
+    <!--Descrizione-->
+    <img src="../images/immaginelogin.png" class="md-layout-item md-size-100" />
+
+    <!--Dialog-->
+    <md-dialog :md-active.sync="showDialog">
+      <md-dialog-title>Registrati</md-dialog-title>
+        <!--Contenuto della card-->
+      <md-dialog-content class="md-size-95">
         <md-field>
           <label>Username</label>
           <md-input v-model="username"></md-input>
         </md-field>
         <!--Autocomplete-->
-        <md-autocomplete class="md-layout-item md-size-100" v-model="selectedCountry" :md-options="countries" @md-changed="search" @md-selected="select">
+        <md-autocomplete v-model="selectedCountry" :md-options="countries" @md-changed="search" @md-selected="select">
           <label>Seleziona un paese</label>
         </md-autocomplete>
         <md-field>
           <label>Immagine del profilo (link)</label>
           <md-input v-model="img"></md-input>
         </md-field>
-      </md-card-content>
-      <md-card-actions>
-        <md-button class="md-primary md-raised" :disabled="(!username || !paese || !img)" @click="checkUser()">Accedi</md-button>
-      </md-card-actions>
-    </md-card>
+      </md-dialog-content>
+      <!--Bottone per registrarsi-->
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showDialog = false">Annulla</md-button>
+        <md-button class="md-primary" @click="checkUser()">Registrati</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
+    <md-button class="md-primary md-raised" @click="showDialog = true">Registrati</md-button>
   </div>
 </template>
 
@@ -34,7 +41,8 @@ export default {
       username: '',
       paese: '',
       img: '',
-      countries: []
+      countries: [],
+      showDialog: false
     }
   },
   created: function() {
@@ -56,7 +64,7 @@ export default {
     },
     load: function() {
       DataService.getCountries().then(data => {
-        for(var i=0; i<data.data.length; i++) {
+        for(var i = 0; i < data.data.length; i++) {
           this.countries[i] = {
             country: data.data[i].Country,
             slug: data.data[i].Slug
@@ -83,4 +91,11 @@ export default {
 </script>
 
 <style>
+.md-content {
+  padding: 32px 200px 32px;
+}
+
+.md-menu-content {
+  z-index: 11;
+}
 </style>

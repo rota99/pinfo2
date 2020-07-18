@@ -28,26 +28,24 @@
                 <md-icon id="iconMoreVert">more_vert</md-icon>
               </md-button>
 
+              <!--Dialog per Modifica immagine di profilo-->
               <md-menu-content>
                 <md-menu-item @click="showDialogProPic = true">
                   <span>Modifica l'immagine<br />di profilo</span>
                   <md-icon>insert_photo</md-icon>
                 </md-menu-item>
 
+                <!--Dialog per Modifica immagine di profilo-->
                 <md-menu-item @click="showDialogCoverPic = true">
                   <span>Modifica l'immagine<br />di copertina</span>
                   <md-icon>wallpaper</md-icon>
                 </md-menu-item>
 
+                <!--Dialog per Modifica immagine di profilo-->
                 <md-menu-item @click="showDialogBio = true">
                   <span>Modifica la bio</span>
                   <md-icon>edit</md-icon>
                 </md-menu-item>
-
-                <!--<md-menu-item>
-                  <span>Modifica il tema</span>
-                  <md-icon>style</md-icon>
-                </md-menu-item>-->
               </md-menu-content>
             </md-menu>
           </md-card-actions>
@@ -65,14 +63,14 @@
             </md-avatar>
             <span class="md-title">{{ username }}</span>
           </md-card-header>
-
+          <!--Contenuto della card "Scrivi un post"-->
           <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
             <md-field>
               <label>Scrivi qualcosa...</label>
               <md-textarea v-model="postContent" md-autogrow></md-textarea>
             </md-field>
           </md-card-content>
-
+          <!--Icona per l'invio dei post-->
           <md-card-actions class="md-layout-item md-size-100">
             <md-button class="md-icon-button" @click="sendPost()">
               <md-icon>send</md-icon>
@@ -83,19 +81,22 @@
 
       <div class="md-layout-item md-large-size-66 md-small-size-95">
         <!--Card per i post-->
-        <div class="addMargin" v-for="post in postList" :key="post">
+        <div class="addMargin" v-for="post in postList" :key="post.postContent">
           <md-card class="md-layout md-alignment-top-right">
             <!--Immagine del profilo e username-->
             <md-card-header class="md-layout-item md-size-100">
               <md-avatar>
                 <img :src="img" />
               </md-avatar>
-              <span class="md-title">{{ username }}</span>
+              <md-card-header-text>
+                <div id="titlePers" class="md-title">{{ username }}</div>
+                <div id="subheadPers" class="md-subhead">{{ post.postDate }}</div>
+              </md-card-header-text>
             </md-card-header>
 
             <!--Contenuto del post-->
             <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
-              <span>{{ post }}</span>
+              <span>{{ post.postContent }}</span>
             </md-card-content>
 
             <!--Pulsante like-->
@@ -117,7 +118,7 @@
       <!--Dialog ProPic-->
       <md-dialog :md-active.sync="showDialogProPic">
         <md-dialog-title>Modfica immagine profilo</md-dialog-title>
-        <md-dialog-content class="size">
+        <md-dialog-content>
           <md-field>
             <label>Inserisci il nuovo link</label>
             <md-input v-model="newProPic"></md-input>
@@ -132,7 +133,7 @@
       <!--Dialog CoverPic-->
       <md-dialog :md-active.sync="showDialogCoverPic">
         <md-dialog-title>Modfica immagine di copertina</md-dialog-title>
-        <md-dialog-content class="size">
+        <md-dialog-content>
           <md-field>
             <label>Inserisci il nuovo link</label>
             <md-input v-model="newCoverPic"></md-input>
@@ -147,7 +148,7 @@
       <!--Dialog Bio-->
       <md-dialog :md-active.sync="showDialogBio">
         <md-dialog-title>Modifica la bio</md-dialog-title>
-        <md-dialog-content class="size">
+        <md-dialog-content>
           <md-field>
             <label>Inserisci la nuova bio</label>
             <md-textarea v-model="newBio" md-autogrow maxlength="125"></md-textarea>
@@ -178,7 +179,9 @@ export default {
       position: 'center',
       duration: 4000,
       isInfinity: false,
+      //Progress Bar
       showProgress: false,
+      //Dialog
       showDialogProPic: false,
       showDialogCoverPic: false,
       showDialogBio: false,
@@ -201,6 +204,7 @@ export default {
       this.getBio();
       this.getPost();
     },
+    //funzione per salvare l'immagine di profilo
     getPropic: function() {
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
@@ -208,6 +212,7 @@ export default {
         });
       });
     },
+    //funzione per salvare l'immagine di copertina
     getCoverPic: function() {
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
@@ -215,6 +220,7 @@ export default {
         });
       });
     },
+    //funzione per salvare la bio dell'utente
     getBio: function() {
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
@@ -222,32 +228,37 @@ export default {
         });
       });
     },
+    //funzione per stampare tutti i post scritti dall'utente
     getPost: function() {
-      /*l'array postList viene correttamente popolato, il problema è che non viene
-      stampato con il v-for*/
-      let me = this;
+      this.postList.splice(0, this.postList.length);
       DataService.getUserPost(this.username).then(data => {
-        me.postList = data.slice();
+        this.postList = data.slice();
         this.showProgress = false;
       });
     },
+    //funzione per salvare il post nel database
     sendPost: function() {
-      DataService.sendPost(this.postContent);
+      var id = Date.now() + this.username.toLowerCase();
+      DataService.sendPost(this.postContent, id);
+      this.postContent = null;
       this.showSnackbar = true;
       this.load();
     },
+    //funzione per modificare l'immagine di profilo
     editProPic: function() {
       DataService.setProPic(this.username, this.newProPic);
       this.showDialog = false;
 
       this.load();
     },
+    //funzione per modificare l'immagine di copertina
     editCoverPic: function() {
       DataService.setCoverPic(this.username, this.newCoverPic);
       this.showDialog = false;
 
       this.load();
     },
+    //funzione per modificare la bio dell'utente
     editBio: function() {
       DataService.setBio(this.username, this.newBio);
       this.showDialog = false;

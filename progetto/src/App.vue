@@ -48,7 +48,7 @@
         <md-list md-sync-route>
           <md-list-item :to="'/dashboard'" @click="showNavigation = false">
             <md-icon>dashboard</md-icon>
-            <span class="md-list-item-text">Dashboard</span>
+            <span class="md-list-item-text">Bacheca</span>
           </md-list-item>
 
           <md-list-item :to="'/profilo/' + username" @click="showNavigation = false">

@@ -43,7 +43,7 @@ export default {
       country: localStorage.getItem('country'),
       username: localStorage.getItem('username'),
       proPic: propic,
-      coverPic: '../images/patternvirus.png',
+      coverPic: 'https://i.ibb.co/WVvcTyc/patternvirussfondogiallo.png',
       bio: ''
     });
   },
@@ -83,7 +83,17 @@ export default {
     return db.collection('post').where('username', '==', username).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         // doc.data() is never undefined for query doc snapshots
-        postList[i] = doc.data().postContent;
+        var d = new Date(doc.data().postDate.seconds * 1000);
+        var day = d.getDate();
+        var month = d.getMonth() + 1;
+        var year = d.getFullYear();
+        var dateString = day + "/" + month + "/" + year;
+
+        postList[i] = {
+          postContent: doc.data().postContent,
+          postDate: dateString
+        };
+
         i++;
       });
       return postList;
@@ -115,7 +125,7 @@ export default {
           console.log("Error getting documents: ", error);
       });
   },
-  //funzioni per la modifica profilo
+  //funzioni per la modifica immgine di profilo, immagine copertina e biografia
   setProPic(username, propic) {
     var id = '';
 
@@ -158,7 +168,7 @@ export default {
       });
     });
   },
-  //funzioni per Cards
+  //funzioni che richiamano l'api per la visualizzazione di cards e grafici
   getDayOneTotalConfirmed(slug) {
     return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/confirmed')
   },
