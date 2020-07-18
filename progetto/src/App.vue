@@ -12,7 +12,7 @@
 
         <div id="tabs" class="md-toolbar-section-end">
           <md-tabs class="md-primary" md-sync-route>
-            <md-tab id="tab-dashboard" md-label="Dashboard" :to="'/dashboard'"></md-tab>
+            <md-tab id="tab-dashboard" md-label="Bacheca" :to="'/dashboard'"></md-tab>
             <md-tab id="tab-profilo" md-label="Profilo" :to="'/profilo/' + username"></md-tab>
             <md-tab id="tab-contagi" md-label="Contagi" :to="'/contagi/' + country"></md-tab>
           </md-tabs>
@@ -48,7 +48,7 @@
         <md-list md-sync-route>
           <md-list-item :to="'/dashboard'" @click="showNavigation = false">
             <md-icon>dashboard</md-icon>
-            <span class="md-list-item-text">Dashboard</span>
+            <span class="md-list-item-text">Bacheca</span>
           </md-list-item>
 
           <md-list-item :to="'/profilo/' + username" @click="showNavigation = false">
