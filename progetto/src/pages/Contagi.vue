@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--Progress Bar-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
     <div id="container" class="md-layout md-alignment-top-center">
@@ -11,6 +12,7 @@
       </div>
 
       <!--Card numeri contagi-->
+      <!--Card Positivi-->
       <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-90  md-layout md-alignment-top-center">
         <md-card md-with-hover id="positivi" class="md-layout-item md-medium-size-20 md-small-size-100">
           <md-ripple>
@@ -20,7 +22,7 @@
             </md-card-header>
           </md-ripple>
         </md-card>
-
+        <!--Card Guariti-->
         <md-card md-with-hover id="guariti" class="md-layout-item md-medium-size-20 md-small-size-100">
           <md-ripple>
             <md-card-header class="header">
@@ -29,7 +31,7 @@
             </md-card-header>
           </md-ripple>
         </md-card>
-
+        <!--Card Morti-->
         <md-card md-with-hover id="morti" class="md-layout-item md-medium-size-20 md-small-size-100">
           <md-ripple>
             <md-card-header class="header">
@@ -39,12 +41,12 @@
           </md-ripple>
         </md-card>
       </div>
-
+      <!--Sottotitoli informativo sull'ultimo aggiornamento dei dati-->
       <span class="md-subhead md-layout-item md-size-100 md-layout md-alignment-top-center header">
         <p class="md-layout-item">Dati aggiornati al: {{ data }}</p>
       </span>
 
-      <!--Google Area Charts-->
+      <!--Google Area Charts per ogni card-->
       <div class="md-layout-item md-large-size-60 md-small-size-100 md-layout md-alignment-top-center">
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataConfirmed" :options="chartOptionsConfirmed" />
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataRecovered" :options="chartOptionsRecovered" />
@@ -66,8 +68,10 @@ export default {
       data: null,
       countries: [],
       selectedCountry: null,
+      //Barra di caricamento
       showProgress: false,
       //Google Charts
+      //Grafico dell'andamento dei Positivi
       chartDataConfirmed: [],
       chartOptionsConfirmed: {
         title: 'Positivi',
@@ -86,6 +90,7 @@ export default {
         },
         colors: ['#f75c03']
       },
+      //Grafico dell'andamento dei Guariti
       chartDataRecovered: [],
       chartOptionsRecovered: {
         title: 'Guariti',
@@ -103,6 +108,7 @@ export default {
         },
         colors: ['#19B290']
       },
+      //Grafico dell'andamento dei Morti
       chartDataDeaths: [],
       chartOptionsDeaths: {
         title: 'Morti',
@@ -133,6 +139,7 @@ export default {
   methods: {
     load: function () {
       this.showProgress = true;
+      //Funzione per grafico dei positivi
       DataService.getDayOneTotalConfirmed(this.$route.params.slug). then((data) => {
         if(data.status == 200) {
           var tmpObj = data.data.pop();
@@ -156,6 +163,7 @@ export default {
           this.data = giorno + "/" + mese + "/" + anno;
         }
       });
+      //Funzione per grafico andamento dei Guariti
       DataService.getDayOneTotalRecovered(this.$route.params.slug). then((data) => {
         if(data.status == 200) {
           this.guariti = data.data.pop().Cases;
@@ -168,6 +176,7 @@ export default {
           this.guariti = tmpObj.Cases;
         }
       });
+      //Funzione per grafico andamento dei Morti
       DataService.getDayOneTotalDeaths(this.$route.params.slug). then((data) => {
         if(data.status == 200) {
           this.morti = data.data.pop().Cases;
@@ -182,7 +191,6 @@ export default {
         }
         this.showProgress = false;
       });
-      this.load();
       this.confirmedChart();
       this.recoveredChart();
       this.deathsChart();
