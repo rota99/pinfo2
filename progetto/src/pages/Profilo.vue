@@ -118,7 +118,7 @@
       <!--Dialog ProPic-->
       <md-dialog :md-active.sync="showDialogProPic">
         <md-dialog-title>Modfica immagine profilo</md-dialog-title>
-        <md-dialog-content class="size">
+        <md-dialog-content>
           <md-field>
             <label>Inserisci il nuovo link</label>
             <md-input v-model="newProPic"></md-input>
@@ -133,7 +133,7 @@
       <!--Dialog CoverPic-->
       <md-dialog :md-active.sync="showDialogCoverPic">
         <md-dialog-title>Modfica immagine di copertina</md-dialog-title>
-        <md-dialog-content class="size">
+        <md-dialog-content>
           <md-field>
             <label>Inserisci il nuovo link</label>
             <md-input v-model="newCoverPic"></md-input>
@@ -148,7 +148,7 @@
       <!--Dialog Bio-->
       <md-dialog :md-active.sync="showDialogBio">
         <md-dialog-title>Modifica la bio</md-dialog-title>
-        <md-dialog-content class="size">
+        <md-dialog-content>
           <md-field>
             <label>Inserisci la nuova bio</label>
             <md-textarea v-model="newBio" md-autogrow maxlength="125"></md-textarea>
