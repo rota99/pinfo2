@@ -128,7 +128,6 @@ export default {
 
         DataService.getPosts().then(data => {
           data.forEach(function(doc) {
-            console.log(doc.data().postDate.seconds);
             var d = new Date(doc.data().postDate.seconds * 1000);
             var day = d.getDate();
             var month = d.getMonth() + 1;

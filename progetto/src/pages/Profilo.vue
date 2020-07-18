@@ -83,19 +83,22 @@
 
       <div class="md-layout-item md-large-size-66 md-small-size-95">
         <!--Card per i post-->
-        <div class="addMargin" v-for="post in postList" :key="post">
+        <div class="addMargin" v-for="post in postList" :key="post.postContent">
           <md-card class="md-layout md-alignment-top-right">
             <!--Immagine del profilo e username-->
             <md-card-header class="md-layout-item md-size-100">
               <md-avatar>
                 <img :src="img" />
               </md-avatar>
-              <span class="md-title">{{ username }}</span>
+              <md-card-header-text>
+                <div id="titlePers" class="md-title">{{ username }}</div>
+                <div id="subheadPers" class="md-subhead">{{ post.postDate }}</div>
+              </md-card-header-text>
             </md-card-header>
 
             <!--Contenuto del post-->
             <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
-              <span>{{ post }}</span>
+              <span>{{ post.postContent }}</span>
             </md-card-content>
 
             <!--Pulsante like-->
@@ -223,8 +226,6 @@ export default {
       });
     },
     getPost: function() {
-      /*l'array postList viene correttamente popolato, il problema è che non viene
-      stampato con il v-for*/
       let me = this;
       DataService.getUserPost(this.username).then(data => {
         me.postList = data.slice();
