@@ -204,6 +204,7 @@ export default {
       this.getBio();
       this.getPost();
     },
+    //funzione per salvare l'immagine di profilo
     getPropic: function() {
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
@@ -211,6 +212,7 @@ export default {
         });
       });
     },
+    //funzione per salvare l'immagine di copertina
     getCoverPic: function() {
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
@@ -218,6 +220,7 @@ export default {
         });
       });
     },
+    //funzione per salvare la bio dell'utente
     getBio: function() {
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
@@ -225,6 +228,7 @@ export default {
         });
       });
     },
+    //funzione per stampare tutti i post scritti dall'utente
     getPost: function() {
       this.postList.splice(0, this.postList.length);
       DataService.getUserPost(this.username).then(data => {
@@ -232,6 +236,7 @@ export default {
         this.showProgress = false;
       });
     },
+    //funzione per salvare il post nel database
     sendPost: function() {
       var id = Date.now() + this.username.toLowerCase();
       DataService.sendPost(this.postContent, id);
@@ -239,18 +244,21 @@ export default {
       this.showSnackbar = true;
       this.load();
     },
+    //funzione per modificare l'immagine di profilo
     editProPic: function() {
       DataService.setProPic(this.username, this.newProPic);
       this.showDialog = false;
 
       this.load();
     },
+    //funzione per modificare l'immagine di copertina
     editCoverPic: function() {
       DataService.setCoverPic(this.username, this.newCoverPic);
       this.showDialog = false;
 
       this.load();
     },
+    //funzione per modificare la bio dell'utente
     editBio: function() {
       DataService.setBio(this.username, this.newBio);
       this.showDialog = false;
