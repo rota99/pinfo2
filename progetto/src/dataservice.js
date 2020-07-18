@@ -46,7 +46,7 @@ export default {
       country: localStorage.getItem('country'),
       username: localStorage.getItem('username'),
       proPic: propic,
-      coverPic: '../images/patternvirus.png',
+      coverPic: 'https://i.ibb.co/WVvcTyc/patternvirussfondogiallo.png',
       bio: ''
     });
   },
