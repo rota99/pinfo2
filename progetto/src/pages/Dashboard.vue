@@ -49,12 +49,12 @@
             </md-card-header-text>
           </md-card-header>
 
-          <!--qui ci va il contenuto del post-->
+          <!--Contenuto del post-->
           <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
             <span>{{ post.postContent }}</span>
           </md-card-content>
 
-          <!--questo invece è il bottone per il like-->
+          <!--Icona per il link-->
           <md-card-actions class="md-layout-item md-size-100">
             <md-button class="md-icon-button" @click="isClicked = !isClicked">
               <md-icon :class="{'clicked': isClicked}">favorite</md-icon>

@@ -28,26 +28,25 @@
                 <md-icon id="iconMoreVert">more_vert</md-icon>
               </md-button>
 
+              <!--Dialog-->
+              <!--Dialog per Modifica immagine di profilo-->
               <md-menu-content>
                 <md-menu-item @click="showDialogProPic = true">
                   <span>Modifica l'immagine<br />di profilo</span>
                   <md-icon>insert_photo</md-icon>
                 </md-menu-item>
 
+                <!--Dialog per Modifica immagine di profilo-->
                 <md-menu-item @click="showDialogCoverPic = true">
                   <span>Modifica l'immagine<br />di copertina</span>
                   <md-icon>wallpaper</md-icon>
                 </md-menu-item>
 
+                <!--Dialog per Modifica immagine di profilo-->
                 <md-menu-item @click="showDialogBio = true">
                   <span>Modifica la bio</span>
                   <md-icon>edit</md-icon>
                 </md-menu-item>
-
-                <!--<md-menu-item>
-                  <span>Modifica il tema</span>
-                  <md-icon>style</md-icon>
-                </md-menu-item>-->
               </md-menu-content>
             </md-menu>
           </md-card-actions>
@@ -65,14 +64,14 @@
             </md-avatar>
             <span class="md-title">{{ username }}</span>
           </md-card-header>
-
+          <!--Contenuto della card "Scrivi un post"-->
           <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
             <md-field>
               <label>Scrivi qualcosa...</label>
               <md-textarea v-model="postContent" md-autogrow></md-textarea>
             </md-field>
           </md-card-content>
-
+          <!--Icona per l'invio dei post-->
           <md-card-actions class="md-layout-item md-size-100">
             <md-button class="md-icon-button" @click="sendPost()">
               <md-icon>send</md-icon>
