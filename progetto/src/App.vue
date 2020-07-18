@@ -5,9 +5,6 @@
         <md-button id="hamburger-menu" class="md-icon-button" @click="showNavigation = true">
           <md-icon>menu</md-icon>
         </md-button>
-        <!--<md-avatar class="md-avatar-icon">-->
-          <!--<img id="logo" src="../images/coronavirus-logo.png" />-->
-        <!--</md-avatar>-->
         <span class="md-title">LockedIn</span>
 
         <div id="tabs" class="md-toolbar-section-end">
