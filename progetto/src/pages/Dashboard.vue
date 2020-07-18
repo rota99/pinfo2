@@ -98,6 +98,8 @@ export default {
   },
   methods: {
     load: function() {
+      //funzione per salvare in una variabile locale l'immagine del profilo dell'utente
+      //e per richiedere al db tutti i post pubblicati
       DataService.getUserInfo(this.username).then((data) => {
         data.forEach(doc => {
           this.img = doc.data().proPic;
@@ -106,18 +108,27 @@ export default {
       this.getPost();
     },
     sendPost: function() {
+      //funzione per inviare e salvare un post sul database
       var id = Date.now() + this.username.toLowerCase();
       DataService.sendPost(this.postContent, id);
+
+      //dopo aver eseguito la query viene settata la variabile contentente il contenuto
+      //del post a null, e viene eseguita nuovamente la richiesta al db per visualizzare i post
       this.postContent = null;
       this.showSnackbar = true;
       this.getPost();
     },
     getPost: function() {
+      //funzione per visualizzare tutti i post salvati nel database
       this.showProgress = true;
+
+      //inizialmente viene svuotato l'array contentente gli oggetti relativi ai post
+      //e successivamente vengono inizializzati tre array per eseguire un join
+      //il primo array contiene username e immagine del profilo;
+      //il secondo contiene username e contenuto del post
       this.postList.splice(0, this.postList.length);
       var userImg = [];
       var userPost = [];
-      var tmp = [];
 
       DataService.getUsers().then(data => {
         data.forEach(function(doc) {
@@ -141,6 +152,8 @@ export default {
             });
           });
 
+          //dopo aver eseguito le due richieste vengono eseguiti due for per
+          //controllare quando gli username combaciano per poter creare un oggetto unico
           for(var i = 0; i < userImg.length; i++) {
             for(var j = 0; j < userPost.length; j++) {
               if(userImg[i].username == userPost[j].username) {

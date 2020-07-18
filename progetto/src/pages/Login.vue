@@ -91,6 +91,7 @@ export default {
 .md-content {
   padding: 32px 200px 32px;
 }
+
 #welcome {
   font-weight: 500;
   font-size: 40px;

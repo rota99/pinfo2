@@ -226,9 +226,9 @@ export default {
       });
     },
     getPost: function() {
-      let me = this;
+      this.postList.splice(0, this.postList.length);
       DataService.getUserPost(this.username).then(data => {
-        me.postList = data.slice();
+        this.postList = data.slice();
         this.showProgress = false;
       });
     },
