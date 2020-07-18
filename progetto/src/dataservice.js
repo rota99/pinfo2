@@ -30,14 +30,17 @@ export default {
       console.log("Error getting documents: ", error);
     });
   },
+  //funzione per accedere al sito
   login(username,slug) {
     localStorage.setItem('username', username);
     localStorage.setItem('country', slug);
   },
+  //funzione per uscire dal sito
   logout() {
     localStorage.removeItem('username');
     localStorage.removeItem('country');
   },
+  //funzione per registrasi
   signin(propic) {
     return db.collection('user').doc().set({
       country: localStorage.getItem('country'),
@@ -47,12 +50,15 @@ export default {
       bio: ''
     });
   },
+  //funzione che prende i Paesi dall'API
   getCountries() {
     return axios.get('https://api.covid19api.com/countries');
   },
+  //funzione che fa riferimento al database per le informazioni dell'utente
   getUserInfo(username) {
     return db.collection('user').where('username','==',username).get();
   },
+  //funzione che prende tutti gli utenti per ottenere le immagini di profilo nella bacheca
   getUsers() {
     return db.collection('user').get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
@@ -65,6 +71,7 @@ export default {
       console.log("Error getting documents: ", error);
     });
   },
+  //funzione che prende i post degli utenti per la pagina di profilo
   getPosts() {
     return db.collection("post").get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
@@ -77,6 +84,7 @@ export default {
       console.log("Error getting documents: ", error);
     });
   },
+  //funzione che prende i post dell'utente e li stampa nel profilo
   getUserPost(username) {
     var postList = [];
     var i = 0;
@@ -103,6 +111,7 @@ export default {
       return;
     });
   },
+  //funzione che invia i post scritti dagli utenti
   sendPost(postContent, id) {
     return db.collection('post').doc(id).set({
       postContent: postContent,
@@ -110,6 +119,7 @@ export default {
       postDate: new Date()
     });
   },
+  //funzione usata per l'aggiornamento dei dati
   getId(username) {
     var id = '';
     return db.collection("user").where("username", "==", username)
@@ -125,7 +135,7 @@ export default {
           console.log("Error getting documents: ", error);
       });
   },
-  //funzioni per la modifica immgine di profilo, immagine copertina e biografia
+  //funzioni per la modifica immgine di profilo
   setProPic(username, propic) {
     var id = '';
 
@@ -140,6 +150,7 @@ export default {
       });
     });
   },
+  //funzioni per la modifica l'immagine copertina
   setCoverPic(username, coverpic) {
     var id = '';
 
@@ -154,6 +165,7 @@ export default {
       });
     });
   },
+  //funzioni per la modifica la bio
   setBio(username, bio) {
     var id = '';
 
@@ -178,6 +190,7 @@ export default {
   getDayOneTotalDeaths(slug) {
     return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/deaths')
   },
+  //funzione di ricerca dei Paesi
   searchCountries(text) {
     if(!text || text.length < 2) {
       return new Promise(resolve => {
