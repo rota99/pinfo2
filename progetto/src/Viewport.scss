@@ -9,16 +9,16 @@
   accent: #0097A7
 ));*/
 
-//giallo e viola
+/*giallo e viola
 @include md-register-theme("default", (
   accent: #7C4DFF, // The primary color of your application
   primary: #FFD740 // The accent or secondary color
-));
+));*/
 
 //giallo e viola
-/*@include md-register-theme("default", (
+@include md-register-theme("default", (
   accent: #FFCA28, // The primary color of your application
   primary: #E0F2F1 // The accent or secondary color
-));*/
+));
 
 @import "~vue-material/dist/theme/all"; // Apply the theme
