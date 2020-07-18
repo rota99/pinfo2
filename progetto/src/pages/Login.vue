@@ -1,9 +1,13 @@
 <template>
-  <div class="md-layout md-alignment-top-center">
+  <div class="md-layout md-alignment-space-around">
+    <!--Descrizione-->
+    <span class="md-layout-item" id="welcome">Come il tuo diario,<br />solo un po' più in grande.</span>
     <md-card class="md-layout-item md-size-30 md-medium-size-50 md-xsmall-size-100">
+      <!--Titolo-->
       <md-card-header>
-        <span class="md-title">Login</span>
+        <span class="md-title">Registrati</span>
       </md-card-header>
+      <!--Contenuto della card-->
       <md-card-content>
         <md-field>
           <label>Username</label>
@@ -18,8 +22,9 @@
           <md-input v-model="img"></md-input>
         </md-field>
       </md-card-content>
+      <!--Bottone per registrarsi-->
       <md-card-actions>
-        <md-button class="md-primary md-raised" :disabled="(!username || !paese || !img)" @click="checkUser()">Sign in</md-button>
+        <md-button class="md-primary md-raised" :disabled="(!username || !paese || !img)" @click="checkUser()">Registrati</md-button>
       </md-card-actions>
     </md-card>
   </div>
@@ -83,4 +88,13 @@ export default {
 </script>
 
 <style>
+.md-content {
+  padding: 32px 200px 32px;
+}
+#welcome {
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 50px;
+  color: #ffca46;
+}
 </style>
