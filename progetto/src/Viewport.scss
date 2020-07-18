@@ -2,23 +2,9 @@
 
 @import "~vue-material/dist/theme/engine"; // Import the theme engine
 
-//viola e azzurro/verde
-/*@include md-register-theme("default", (
-  primary: #7B1FA2, // The primary color of your application
-  //accent: #2962FF // The accent or secondary color
-  accent: #0097A7
-));*/
-
-//giallo e viola
 @include md-register-theme("default", (
-  accent: #7C4DFF, // The primary color of your application
-  primary: #FFD740 // The accent or secondary color
+  primary: #0097a7, // The primary color of your application
+  accent: #ffca46,  // The accent or secondary color
 ));
-
-//giallo e viola
-/*@include md-register-theme("default", (
-  accent: #FFCA28, // The primary color of your application
-  primary: #E0F2F1 // The accent or secondary color
-));*/
 
 @import "~vue-material/dist/theme/all"; // Apply the theme
