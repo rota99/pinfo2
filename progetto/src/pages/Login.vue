@@ -1,19 +1,19 @@
 <template>
   <div class="md-layout md-alignment-top-center">
-    <!--Descrizione-->
+    <!--Welcome-->
     <img src="../images/immaginelogin.png" class="md-layout-item md-size-100" />
 
     <!--Dialog-->
     <md-dialog :md-active.sync="showDialog">
       <md-dialog-title>Registrati</md-dialog-title>
-        <!--Contenuto della card-->
+      <!--Contenuto del dialog-->
       <md-dialog-content class="md-size-95">
         <md-field>
           <label>Username</label>
           <md-input v-model="username"></md-input>
         </md-field>
         <!--Autocomplete-->
-        <md-autocomplete v-model="selectedCountry" :md-options="countries" @md-changed="search" @md-selected="select">
+        <md-autocomplete v-model="selectedCountry" :md-options="countries" :md-open-on-focus="false" @md-changed="search" @md-selected="select">
           <label>Seleziona un paese</label>
         </md-autocomplete>
         <md-field>
@@ -50,6 +50,7 @@ export default {
   },
   methods: {
     checkUser: function() {
+      //funzione per controllare se un utente ha già effettuato il sign in
       DataService.isSignedIn(this.username, this.paese).then(data => {
         if(data) {
           DataService.login(this.username, this.paese);
@@ -63,6 +64,7 @@ export default {
       this.$router.push({path: '/'});
     },
     load: function() {
+      //funzione per ottenere la lista di paesi associati al proprio slug
       DataService.getCountries().then(data => {
         for(var i = 0; i < data.data.length; i++) {
           this.countries[i] = {
