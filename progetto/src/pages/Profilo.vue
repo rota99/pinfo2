@@ -28,7 +28,6 @@
                 <md-icon id="iconMoreVert">more_vert</md-icon>
               </md-button>
 
-              <!--Dialog-->
               <!--Dialog per Modifica immagine di profilo-->
               <md-menu-content>
                 <md-menu-item @click="showDialogProPic = true">
@@ -177,7 +176,9 @@ export default {
       position: 'center',
       duration: 4000,
       isInfinity: false,
+      //Progress Bar
       showProgress: false,
+      //Dialog
       showDialogProPic: false,
       showDialogCoverPic: false,
       showDialogBio: false,
