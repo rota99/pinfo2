@@ -115,7 +115,7 @@ export default {
           console.log("Error getting documents: ", error);
       });
   },
-  //funzioni per la modifica profilo
+  //funzioni per la modifica immgine di profilo, immagine copertina e biografia
   setProPic(username, propic) {
     var id = '';
 
@@ -158,7 +158,7 @@ export default {
       });
     });
   },
-  //funzioni per Cards
+  //funzioni che richiamano l'api per la visualizzazione di cards e grafici
   getDayOneTotalConfirmed(slug) {
     return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/confirmed')
   },
