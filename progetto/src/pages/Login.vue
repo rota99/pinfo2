@@ -2,7 +2,7 @@
   <div class="md-layout md-alignment-top-center">
     <md-card class="md-layout-item md-size-30 md-medium-size-50 md-xsmall-size-100">
       <md-card-header>
-        <span class="md-title">Login</span>
+        <span class="md-title">Registrati</span>
       </md-card-header>
       <md-card-content>
         <md-field>
@@ -19,7 +19,7 @@
         </md-field>
       </md-card-content>
       <md-card-actions>
-        <md-button class="md-primary md-raised" :disabled="(!username || !paese || !img)" @click="checkUser()">Sign in</md-button>
+        <md-button class="md-primary md-raised" :disabled="(!username || !paese || !img)" @click="checkUser()">Accedi</md-button>
       </md-card-actions>
     </md-card>
   </div>
