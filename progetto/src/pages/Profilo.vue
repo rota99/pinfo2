@@ -226,14 +226,16 @@ export default {
       });
     },
     getPost: function() {
-      let me = this;
+      this.postList.splice(0, this.postList.length);
       DataService.getUserPost(this.username).then(data => {
-        me.postList = data.slice();
+        this.postList = data.slice();
         this.showProgress = false;
       });
     },
     sendPost: function() {
-      DataService.sendPost(this.postContent);
+      var id = Date.now() + this.username.toLowerCase();
+      DataService.sendPost(this.postContent, id);
+      this.postContent = null;
       this.showSnackbar = true;
       this.load();
     },
