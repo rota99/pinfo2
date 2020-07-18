@@ -13,7 +13,7 @@
         </md-card-header>
 
         <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
-          <md-field>
+          <md-field :class="{'clicked': isClicked}">
             <label>Scrivi qualcosa...</label>
             <md-textarea v-model="postContent" md-autogrow></md-textarea>
           </md-field>

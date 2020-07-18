@@ -182,6 +182,7 @@ export default {
         }
         this.showProgress = false;
       });
+      this.load();
       this.confirmedChart();
       this.recoveredChart();
       this.deathsChart();
