@@ -233,7 +233,9 @@ export default {
       });
     },
     sendPost: function() {
-      DataService.sendPost(this.postContent);
+      var id = Date.now() + this.username.toLowerCase();
+      DataService.sendPost(this.postContent, id);
+      this.postContent = null;
       this.showSnackbar = true;
       this.load();
     },
