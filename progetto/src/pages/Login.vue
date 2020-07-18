@@ -1,32 +1,40 @@
 <template>
   <div class="md-layout md-alignment-space-around">
     <!--Descrizione-->
-    <span class="md-layout-item" id="welcome">Come il tuo diario,<br />solo un po' più in grande.</span>
-    <md-card class="md-layout-item md-size-30 md-medium-size-50 md-xsmall-size-100">
-      <!--Titolo-->
-      <md-card-header>
-        <span class="md-title">Registrati</span>
-      </md-card-header>
-      <!--Contenuto della card-->
-      <md-card-content>
-        <md-field>
-          <label>Username</label>
-          <md-input v-model="username"></md-input>
-        </md-field>
-        <!--Autocomplete-->
-        <md-autocomplete class="md-layout-item md-size-100" v-model="selectedCountry" :md-options="countries" @md-changed="search" @md-selected="select">
-          <label>Seleziona un paese</label>
-        </md-autocomplete>
-        <md-field>
-          <label>Immagine del profilo (link)</label>
-          <md-input v-model="img"></md-input>
-        </md-field>
-      </md-card-content>
-      <!--Bottone per registrarsi-->
-      <md-card-actions>
-        <md-button class="md-primary md-raised" :disabled="(!username || !paese || !img)" @click="checkUser()">Registrati</md-button>
-      </md-card-actions>
-    </md-card>
+    <!--<span class="md-layout-item" id="welcome">Come il tuo diario,<br />solo un po' più in grande.</span>-->
+    <img src="../images/immaginelogin.png" class='md-layout-item md-size-50'/>
+
+
+    <!--Dialog-->
+    <md-dialog :md-active.sync="showDialog">
+      <md-dialog-title>Registrati</md-dialog-title>
+        <!--Contenuto della card-->
+        <md-card-content>
+          <md-field>
+            <label>Username</label>
+            <md-input v-model="username"></md-input>
+          </md-field>
+          <!--Autocomplete-->
+          <md-autocomplete class="md-layout-item md-size-100" v-model="selectedCountry" :md-options="countries" @md-changed="search" @md-selected="select">
+            <label>Seleziona un paese</label>
+          </md-autocomplete>
+          <md-field>
+            <label>Immagine del profilo (link)</label>
+            <md-input v-model="img"></md-input>
+          </md-field>
+        </md-card-content>
+        <!--Bottone per registrarsi-->
+        <md-card-actions>
+          <md-button class="md-primary md-raised" :disabled="(!username || !paese || !img)" @click="checkUser()">Registrati</md-button>
+        </md-card-actions>
+      </md-card>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+          <md-button class="md-primary" @click="showDialog = false">Save</md-button>
+        </md-dialog-actions>
+        </md-dialog>
+        <md-button class="md-primary md-raised" @click="showDialog = true">Registrati</md-button>
+
   </div>
 </template>
 
@@ -39,7 +47,8 @@ export default {
       username: '',
       paese: '',
       img: '',
-      countries: []
+      countries: [],
+      showDialog: false
     }
   },
   created: function() {
@@ -90,6 +99,9 @@ export default {
 <style>
 .md-content {
   padding: 32px 200px 32px;
+}
+.md-autocomplete {
+  z-index: 10;
 }
 #welcome {
   font-weight: 500;

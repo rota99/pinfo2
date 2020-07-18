@@ -11,14 +11,14 @@
           </md-avatar>
           <span class="md-title">{{ username }}</span>
         </md-card-header>
-
+        <!--Contenuto della card-->
         <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
           <md-field :class="{'clicked': isClicked}">
             <label>Scrivi qualcosa...</label>
             <md-textarea v-model="postContent" md-autogrow></md-textarea>
           </md-field>
         </md-card-content>
-
+        <!--Icona per invio post-->
         <md-card-actions class="md-layout-item md-size-100">
           <md-button class="md-icon-button" @click="sendPost()">
             <md-icon>send</md-icon>
@@ -128,6 +128,7 @@ export default {
 
         DataService.getPosts().then(data => {
           data.forEach(function(doc) {
+            console.log(doc.data().postDate.seconds);
             var d = new Date(doc.data().postDate.seconds * 1000);
             var day = d.getDate();
             var month = d.getMonth() + 1;
