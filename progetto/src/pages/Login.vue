@@ -95,13 +95,23 @@ export default {
 </script>
 
 <style>
-.md-content {
-  padding-top: 20px;
-  padding-right: 32px;
-  padding-left: 32px;
-}
-
 .md-menu-content {
   z-index: 11;
+}
+
+@media only screen and (max-device-width: 1000px) {
+  .md-content {
+    padding-top: 20px;
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+}
+
+@media only screen and (min-device-width: 1001px) {
+  .md-content {
+    padding-top: 20px;
+    padding-right: 200px;
+    padding-left: 200px;
+  }
 }
 </style>
