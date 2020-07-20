@@ -1,7 +1,9 @@
 <template>
   <div class="md-layout md-alignment-top-center">
     <!--Welcome-->
-    <img src="../images/immaginelogin.png" class="md-layout-item md-size-100" />
+    <div class="md-layout-item md-size-100">
+      <img src="../images/immaginelogin.png" />
+    </div>
 
     <!--Dialog-->
     <md-dialog :md-active.sync="showDialog">
@@ -94,7 +96,9 @@ export default {
 
 <style>
 .md-content {
-  padding: 32px 200px 32px;
+  padding-top: 20px;
+  padding-right: 32px;
+  padding-left: 32px;
 }
 
 .md-menu-content {
