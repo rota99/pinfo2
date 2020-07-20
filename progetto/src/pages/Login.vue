@@ -81,7 +81,7 @@ export default {
       var selectedSlug = '';
 
       DataService.getCountries().then(data => {
-        for(var i=0; i<data.data.length; i++) {
+        for(var i = 0; i < data.data.length; i++) {
           if(data.data[i].Country == selected)
             selectedSlug = data.data[i].Slug
         }

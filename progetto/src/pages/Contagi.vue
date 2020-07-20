@@ -210,7 +210,6 @@ export default {
         if(selectedSlug === this.$route.params.slug) return;
 
         this.$router.push({path: '/contagi/' + selectedSlug});
-        console.log(data.status);
       });
     },
     confirmedChart: function() {
