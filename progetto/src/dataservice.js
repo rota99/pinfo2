@@ -139,7 +139,7 @@ export default {
   setProPic(username, propic) {
     var id = '';
 
-    this.getId(username).then(data => {
+    return this.getId(username).then(data => {
       id = data;
 
       return db.collection('user').doc(id).update({
@@ -154,7 +154,7 @@ export default {
   setCoverPic(username, coverpic) {
     var id = '';
 
-    this.getId(username).then(data => {
+    return this.getId(username).then(data => {
       id = data;
 
       return db.collection('user').doc(id).update({
@@ -169,7 +169,7 @@ export default {
   setBio(username, bio) {
     var id = '';
 
-    this.getId(username).then(data => {
+    return this.getId(username).then(data => {
       id = data;
 
       return db.collection('user').doc(id).update({

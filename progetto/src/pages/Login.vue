@@ -26,7 +26,7 @@
       <!--Bottone per registrarsi-->
       <md-dialog-actions>
         <md-button class="md-primary" @click="showDialog = false">Annulla</md-button>
-        <md-button class="md-primary" @click="checkUser()">Registrati</md-button>
+        <md-button class="md-primary" :disabled="!username || !paese || !img" @click="checkUser()">Registrati</md-button>
       </md-dialog-actions>
     </md-dialog>
 
@@ -96,22 +96,22 @@ export default {
 
 <style>
 .md-menu-content {
-  z-index: 11;
+  z-index: 11 !important;
 }
 
 @media only screen and (max-device-width: 1000px) {
   .md-content {
-    padding-top: 20px;
-    padding-right: 32px;
-    padding-left: 32px;
+    padding-top: 20px !important;
+    padding-right: 32px !important;
+    padding-left: 32px !important;
   }
 }
 
 @media only screen and (min-device-width: 1001px) {
   .md-content {
-    padding-top: 20px;
-    padding-right: 200px;
-    padding-left: 200px;
+    padding-top: 20px !important;
+    padding-right: 200px !important;
+    padding-left: 200px !important;
   }
 }
 </style>

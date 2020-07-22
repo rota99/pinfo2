@@ -176,9 +176,9 @@ export default {
 
 <style>
 .md-content {
-  margin: 0px;
-  padding: 0px;
-  border: none;
+  margin: 0px !important;
+  padding: 0px !important;
+  border: none !important;
 }
 
 #focus:focus, #focus:active {

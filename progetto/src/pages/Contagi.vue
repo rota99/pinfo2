@@ -6,7 +6,7 @@
     <div id="container" class="md-layout md-alignment-top-center">
       <!--Autocomplete-->
       <div class="md-layout-item md-large-size-60 md-small-size-90">
-        <md-autocomplete class="searchBar" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
+        <md-autocomplete id="searchBar" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
           <label>Seleziona un paese</label>
         </md-autocomplete>
       </div>
@@ -308,9 +308,9 @@ export default {
 
 <style>
 .md-content {
-  margin: 0px;
-  padding: 0px;
-  border: none;
+  margin: 0px !important;
+  padding: 0px !important;
+  border: none !important;
 }
 
 .progressBar {
@@ -319,14 +319,7 @@ export default {
   width: 100%;
 }
 
-/*#container {
-  margin-top: 16px;
-  margin-right: 16px;
-  margin-left: 16px;
-  width: 100%;
-}*/
-
-.searchBar {
+#searchBar {
   margin-top: 20px;
   margin-bottom: 36px;
 }
@@ -363,7 +356,7 @@ export default {
 }
 
 @media only screen and (min-device-width: 961px) {
-  #positivi, #guariti, #morti {
+  #positivi, #guariti {
     margin-right: 8px;
   }
 

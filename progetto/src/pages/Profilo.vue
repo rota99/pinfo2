@@ -206,6 +206,8 @@ export default {
     },
     //funzione per salvare l'immagine di profilo
     getPropic: function() {
+      this.img = null;
+
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
           this.img = doc.data().proPic;
@@ -214,6 +216,8 @@ export default {
     },
     //funzione per salvare l'immagine di copertina
     getCoverPic: function() {
+      this.coverPic = null;
+
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
           this.coverPic = doc.data().coverPic;
@@ -222,6 +226,8 @@ export default {
     },
     //funzione per salvare la bio dell'utente
     getBio: function() {
+      this.bio = null;
+
       DataService.getUserInfo(this.username).then((data)=>{
         data.forEach(doc=>{
           this.bio = doc.data().bio;
@@ -231,6 +237,7 @@ export default {
     //funzione per stampare tutti i post scritti dall'utente
     getPost: function() {
       this.postList.splice(0, this.postList.length);
+
       DataService.getUserPost(this.username).then(data => {
         this.postList = data.slice();
         this.showProgress = false;
@@ -246,24 +253,27 @@ export default {
     },
     //funzione per modificare l'immagine di profilo
     editProPic: function() {
-      DataService.setProPic(this.username, this.newProPic);
-      this.showDialog = false;
+      DataService.setProPic(this.username, this.newProPic).then(() => {
+        this.showDialogProPic = false;
 
-      this.load();
+        this.load();
+      });
     },
     //funzione per modificare l'immagine di copertina
     editCoverPic: function() {
-      DataService.setCoverPic(this.username, this.newCoverPic);
-      this.showDialog = false;
+      DataService.setCoverPic(this.username, this.newCoverPic).then(() => {
+        this.showDialogCoverPic = false;
 
-      this.load();
+        this.load();
+      });
     },
     //funzione per modificare la bio dell'utente
     editBio: function() {
-      DataService.setBio(this.username, this.newBio);
-      this.showDialog = false;
+      DataService.setBio(this.username, this.newBio).then(() => {
+        this.showDialogBio = false;
 
-      this.load();
+        this.load();
+      });
     }
   }
 }
@@ -271,9 +281,9 @@ export default {
 
 <style>
 .md-content {
-  margin-top: 0px;
-  padding-top: 0px;
-  border: none;
+  margin-top: 0px !important;
+  padding-top: 0px !important;
+  border: none !important;
 }
 
 .progressBar {
