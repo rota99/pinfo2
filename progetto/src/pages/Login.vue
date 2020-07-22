@@ -1,5 +1,5 @@
 <template>
-  <div class="md-layout md-alignment-top-center">
+  <div id="container" class="md-layout md-alignment-top-center">
     <!--Welcome-->
     <div class="md-layout-item md-size-100">
       <img src="../images/immaginelogin.png" />
@@ -100,18 +100,18 @@ export default {
 }
 
 @media only screen and (max-device-width: 1000px) {
-  .md-content {
-    padding-top: 20px !important;
-    padding-right: 32px !important;
-    padding-left: 32px !important;
+  #container {
+    padding-top: 20px;
+    padding-right: 32px;
+    padding-left: 32px;
   }
 }
 
 @media only screen and (min-device-width: 1001px) {
-  .md-content {
-    padding-top: 20px !important;
-    padding-right: 200px !important;
-    padding-left: 200px !important;
+  #container {
+    padding-top: 20px;
+    padding-right: 200px;
+    padding-left: 200px;
   }
 }
 </style>

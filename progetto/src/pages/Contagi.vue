@@ -3,7 +3,7 @@
     <!--Progress Bar-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
-    <div id="container" class="md-layout md-alignment-top-center">
+    <div class="md-layout md-alignment-top-center">
       <!--Autocomplete-->
       <div class="md-layout-item md-large-size-60 md-small-size-90">
         <md-autocomplete id="searchBar" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
@@ -52,6 +52,10 @@
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataRecovered" :options="chartOptionsRecovered" />
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
       </div>
+
+      <md-button class="md-fab md-fab-bottom-right md-fixed">
+        <md-icon>track_changes</md-icon>
+      </md-button>
     </div>
   </div>
 </template>
