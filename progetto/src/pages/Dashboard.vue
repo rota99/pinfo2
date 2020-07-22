@@ -36,7 +36,7 @@
     <div class="md-layout-item md-large-size-66 md-small-size-95">
       <!--Card per i post-->
       <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
-      <div v-for="post in postList">
+      <div v-for="post in postList" :key="post">
         <md-card class="md-layout md-alignment-top-right addMargin">
           <!--in questa prima parte ci vanno immagine del profilo e username-->
           <md-card-header class="md-layout-item md-size-100">

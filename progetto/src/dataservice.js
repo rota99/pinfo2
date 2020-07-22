@@ -17,7 +17,7 @@ export default {
   isSignedIn(username, slug) {
     var control = 0;
     return db.collection('user').where('username', '==', username).where('country', '==', slug).get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+      querySnapshot.forEach(function() {
         //doc.data() is never undefined for query doc snapshots
         control = 1;
       });

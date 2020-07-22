@@ -141,25 +141,30 @@ export default {
       this.showProgress = true;
       //Funzione per grafico dei positivi
       DataService.getDayOneTotalConfirmed(this.$route.params.slug). then((data) => {
+        var tmpObj = {};
+        var date = '';
+        var anno = '';
+        var mese = '';
+        var giorno = '';
         if(data.status == 200) {
-          var tmpObj = data.data.pop();
+          tmpObj = data.data.pop();
           this.positivi = tmpObj.Cases;
-          var date = new Date(tmpObj.Date);
-          var anno = date.getFullYear();
-          var mese = date.getMonth() + 1;
-          var giorno = date.getDate();
+          date = new Date(tmpObj.Date);
+          anno = date.getFullYear();
+          mese = date.getMonth() + 1;
+          giorno = date.getDate();
           this.data = giorno + "/" + mese + "/" + anno;
         }
         else {
           if(this.$route.params.slug != "italy")
             this.$router.push({path: 'contagi/italy'});
-          var json = require('../ConfirmedItaly.json');
-          var tmpObj = json.pop();
+          var json = require('../reserves/ConfirmedItaly.json');
+          tmpObj = json.pop();
           this.positivi = tmpObj.Cases;
-          var date = new Date(tmpObj.Date);
-          var anno = date.getFullYear();
-          var mese = date.getMonth() + 1;
-          var giorno = date.getDate();
+          date = new Date(tmpObj.Date);
+          anno = date.getFullYear();
+          mese = date.getMonth() + 1;
+          giorno = date.getDate();
           this.data = giorno + "/" + mese + "/" + anno;
         }
       });
@@ -171,7 +176,7 @@ export default {
         else {
           if(this.$route.params.slug != "italy")
             this.$router.push({path: 'contagi/italy'});
-          var json = require('../RecoveredItaly.json');
+          var json = require('../reserves/RecoveredItaly.json');
           var tmpObj = json.pop();
           this.guariti = tmpObj.Cases;
         }
@@ -185,7 +190,7 @@ export default {
           if(this.$route.params.slug != "italy")
             this.$router.push({path: 'contagi/italy'});
 
-          var json = require('../DeathsItaly.json');
+          var json = require('../reserves/DeathsItaly.json');
           var tmpObj = json.pop();
           this.morti = tmpObj.Cases;
         }
@@ -214,29 +219,35 @@ export default {
     },
     confirmedChart: function() {
       DataService.getDayOneTotalConfirmed(this.$route.params.slug).then(data => {
+        var i = 0;
+        var date = '';
+        var anno = '';
+        var mese = '';
+        var giorno = '';
+        var tmpDate = '';
         var tmpArr = ["Date", "Cases"];
         this.chartDataConfirmed.push(tmpArr);
 
         if(data.status == 200) {
-          for(var i = 0; i < data.data.length; i++) {
-            var date = new Date(data.data[i].Date);
-            var anno = date.getFullYear();
-            var mese = date.getMonth() + 1;
-            var giorno = date.getDate();
-            var tmpDate = giorno + "/" + mese + "/" + anno;
+          for(i = 0; i < data.data.length; i++) {
+            date = new Date(data.data[i].Date);
+            anno = date.getFullYear();
+            mese = date.getMonth() + 1;
+            giorno = date.getDate();
+            tmpDate = giorno + "/" + mese + "/" + anno;
             this.chartDataConfirmed.push([tmpDate, data.data[i].Cases]);
           }
         }
         else {
           if(this.$route.params.slug != "italy")
             this.$router.push({path: 'contagi/italy'});
-          var json = require('../ConfirmedItaly.json');
-          for(var i = 0; i < json.length; i++) {
-            var date = new Date(json[i].Date);
-            var anno = date.getFullYear();
-            var mese = date.getMonth() + 1;
-            var giorno = date.getDate();
-            var tmpDate = giorno + "/" + mese + "/" + anno;
+          var json = require('../reserves/ConfirmedItaly.json');
+          for(i = 0; i < json.length; i++) {
+            date = new Date(json[i].Date);
+            anno = date.getFullYear();
+            mese = date.getMonth() + 1;
+            giorno = date.getDate();
+            tmpDate = giorno + "/" + mese + "/" + anno;
             this.chartDataConfirmed.push([tmpDate, json[i].Cases]);
           }
         }
@@ -244,29 +255,35 @@ export default {
     },
     recoveredChart: function() {
       DataService.getDayOneTotalRecovered(this.$route.params.slug).then(data => {
+        var i = 0;
+        var date = '';
+        var anno = '';
+        var mese = '';
+        var giorno = '';
+        var tmpDate = '';
         var tmpArr = ["Date", "Cases"];
         this.chartDataRecovered.push(tmpArr);
 
           if(data.status == 200) {
-            for(var i = 0; i < data.data.length; i++) {
-              var date = new Date(data.data[i].Date);
-              var anno = date.getFullYear();
-              var mese = date.getMonth() + 1;
-              var giorno = date.getDate();
-              var tmpDate = giorno + "/" + mese + "/" + anno;
+            for(i = 0; i < data.data.length; i++) {
+              date = new Date(data.data[i].Date);
+              anno = date.getFullYear();
+              mese = date.getMonth() + 1;
+              giorno = date.getDate();
+              tmpDate = giorno + "/" + mese + "/" + anno;
               this.chartDataRecovered.push([tmpDate, data.data[i].Cases]);
             }
           }
           else {
             if(this.$route.params.slug != "italy")
               this.$router.push({path: 'contagi/italy'});
-            var json = require('../RecoveredItaly.json');
-            for(var i = 0; i < json.length; i++) {
-              var date = new Date(json[i].Date);
-              var anno = date.getFullYear();
-              var mese = date.getMonth() + 1;
-              var giorno = date.getDate();
-              var tmpDate = giorno + "/" + mese + "/" + anno;
+            var json = require('../reserves/RecoveredItaly.json');
+            for(i = 0; i < json.length; i++) {
+              date = new Date(json[i].Date);
+              anno = date.getFullYear();
+              mese = date.getMonth() + 1;
+              giorno = date.getDate();
+              tmpDate = giorno + "/" + mese + "/" + anno;
               this.chartDataRecovered.push([tmpDate, json[i].Cases]);
             }
           }
@@ -274,29 +291,35 @@ export default {
     },
     deathsChart: function() {
       DataService.getDayOneTotalDeaths(this.$route.params.slug).then(data => {
+        var i = 0;
+        var date = '';
+        var anno = '';
+        var mese = '';
+        var giorno = '';
+        var tmpDate = '';
         var tmpArr = ["Date", "Cases"];
         this.chartDataDeaths.push(tmpArr);
 
           if(data.status == 200) {
-            for(var i = 0; i < data.data.length; i++) {
-              var date = new Date(data.data[i].Date);
-              var anno = date.getFullYear();
-              var mese = date.getMonth() + 1;
-              var giorno = date.getDate();
-              var tmpDate = giorno + "/" + mese + "/" + anno;
+            for(i = 0; i < data.data.length; i++) {
+              date = new Date(data.data[i].Date);
+              anno = date.getFullYear();
+              mese = date.getMonth() + 1;
+              giorno = date.getDate();
+              tmpDate = giorno + "/" + mese + "/" + anno;
               this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
             }
           }
           else {
             if(this.$route.params.slug != "italy")
               this.$router.push({path: 'contagi/italy'});
-            var json = require('../DeathsItaly.json');
-            for(var i = 0; i < json.length; i++) {
-              var date = new Date(json[i].Date);
-              var anno = date.getFullYear();
-              var mese = date.getMonth() + 1;
-              var giorno = date.getDate();
-              var tmpDate = giorno + "/" + mese + "/" + anno;
+            var json = require('../reserves/DeathsItaly.json');
+            for(i = 0; i < json.length; i++) {
+              date = new Date(json[i].Date);
+              anno = date.getFullYear();
+              mese = date.getMonth() + 1;
+              giorno = date.getDate();
+              tmpDate = giorno + "/" + mese + "/" + anno;
               this.chartDataDeaths.push([tmpDate, json[i].Cases]);
             }
           }
