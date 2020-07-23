@@ -5,6 +5,7 @@ import Login from '../pages/Login'
 import Dashboard from '../pages/Dashboard'
 import Profilo from '../pages/Profilo'
 import Contagi from'../pages/Contagi'
+import Osservati from'../pages/Osservati'
 
 Vue.use(Router)
 
@@ -15,6 +16,7 @@ export default new Router({
     {name: 'Dashboard', path: '/dashboard', component: Dashboard},
     {name: 'Profilo', path: '/profilo/:username', component: Profilo},
     {name: 'Contagi', path: '/contagi/:slug', component: Contagi},
+    {name: 'Osservati', path: '/osservati', component: Osservati},
     {name: 'default', path: '/', redirect: '/dashboard'}
   ]
 })

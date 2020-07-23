@@ -180,6 +180,37 @@ export default {
       });
     });
   },
+  getObserved() {
+    //funzione per ottenere quali sono i paesi osservati dall'utente
+    var observedList = [];
+    return db.collection('observed').where("username", "==", localStorage.getItem('username')).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        observedList.push(doc.data().country);
+      });
+      return observedList;
+    })
+    .catch(function(error) {
+      console.log("Error getting documents: ", error);
+    });
+  },
+  setObserved(country) {
+    var id = country + localStorage.getItem('username').toLowerCase();
+
+    return db.collection('observed').doc(id).set({
+      country: country,
+      username: localStorage.getItem('username')
+    });
+  },
+  removeObserved(country) {
+    var id = country + localStorage.getItem('username').toLowerCase();
+
+    return db.collection('observed').doc(id).delete().then(function() {
+      console.log("Document successfully deleted!");
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
+  },
   //funzioni che richiamano l'api per la visualizzazione di cards e grafici
   getDayOneTotalConfirmed(slug) {
     return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/confirmed')

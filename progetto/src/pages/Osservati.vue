@@ -1,8 +1,88 @@
 <template>
+  <div>
+    <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
+
+    <div id="containerCard" class="md-layout md-alignment-top-left">
+      <md-card id="card" md-with-hover class="md-layout-item md-size-25" v-for="country in observedList" :key="country">
+        <md-ripple>
+          <md-card-header>
+            <div class="md-title">{{ country }}</div>
+          </md-card-header>
+
+          <md-card-actions>
+            <md-button class="md-icon-button" @click="removeCountry(country)">
+              <md-icon>visibility_off</md-icon>
+            </md-button>
+          </md-card-actions>
+        </md-ripple>
+      </md-card>
+    </div>
+
+    <!--Messaggio che viene visualizzato quando l'utente non ha selezionato alcun paese da osservare-->
+    <div class="md-alignment-top-center md-large-size-66 md-small-size-100" v-if="observedList.length == 0">
+      <md-empty-state
+        md-icon="no_sim"
+        md-label="Non hai aggiunto ancora alcun paese."
+        md-description="Cerca un paese da aggiungere alla lista.">
+        <md-button :to="'/contagi/' + country" class="md-primary md-raised">Cerca un paese</md-button>
+      </md-empty-state>
+    </div>
+  </div>
 </template>
 
 <script>
+import DataService from '../dataservice';
+
+export default {
+  data: function() {
+    return {
+      username: localStorage.getItem('username'),
+      country: localStorage.getItem('country'),
+      observedList: [],
+      showProgress: false
+    }
+  },
+  created: function() {
+    this.load();
+  },
+  methods: {
+    load: function() {
+      this.showProgress = true;
+
+      this.getObserved();
+    },
+    getObserved: function() {
+      this.observedList.splice(0, this.observedList.length);
+
+      DataService.getObserved().then((data) => {
+        this.observedList = data.slice();
+
+        this.showProgress = false;
+      });
+    },
+    removeCountry: function(country) {
+      DataService.removeObserved(country).then(() => {
+        this.load();
+      });
+    }
+  }
+}
 </script>
 
 <style>
+.progressBar {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+}
+
+#containerCard #card:first-child {
+  margin: 20px 16px 20px 32px;
+  padding: 0px;
+}
+
+#card {
+  margin: 20px 16px;
+  padding: 0px;
+}
 </style>

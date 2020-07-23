@@ -12,6 +12,7 @@
             <md-tab id="tab-dashboard" md-label="Bacheca" :to="'/dashboard'"></md-tab>
             <md-tab id="tab-profilo" md-label="Profilo" :to="'/profilo/' + username"></md-tab>
             <md-tab id="tab-contagi" md-label="Contagi" :to="'/contagi/' + country"></md-tab>
+            <md-tab id="tab-osservati" md-label="Osservati" :to="'/osservati'"></md-tab>
           </md-tabs>
           <md-button class="md-icon-button" title="Logout" @click="logout()">
             <md-icon>exit_to_app</md-icon>

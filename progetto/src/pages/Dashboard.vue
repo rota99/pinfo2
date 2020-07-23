@@ -65,7 +65,7 @@
     </div>
 
     <!--Messaggio che viene visualizzato quando non ci sono nuovi post-->
-    <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin" v-if="!postList">
+    <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin" v-if="postList.length == 0">
       <md-empty-state
         md-icon="no_sim"
         md-label="Nessuna novità per ora!"

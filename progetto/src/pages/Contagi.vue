@@ -14,7 +14,7 @@
       <!--Card numeri contagi-->
       <!--Card Positivi-->
       <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-90  md-layout md-alignment-top-center">
-        <md-card md-with-hover id="positivi" class="md-layout-item md-medium-size-20 md-small-size-100">
+        <md-card id="positivi" class="md-layout-item md-medium-size-20 md-small-size-100">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ positivi }}</div>
@@ -23,7 +23,7 @@
           </md-ripple>
         </md-card>
         <!--Card Guariti-->
-        <md-card md-with-hover id="guariti" class="md-layout-item md-medium-size-20 md-small-size-100">
+        <md-card id="guariti" class="md-layout-item md-medium-size-20 md-small-size-100">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ guariti }}</div>
@@ -32,7 +32,7 @@
           </md-ripple>
         </md-card>
         <!--Card Morti-->
-        <md-card md-with-hover id="morti" class="md-layout-item md-medium-size-20 md-small-size-100">
+        <md-card id="morti" class="md-layout-item md-medium-size-20 md-small-size-100">
           <md-ripple>
             <md-card-header class="header">
               <div class="md-title">{{ morti }}</div>
@@ -53,10 +53,16 @@
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
       </div>
 
-      <md-button class="md-fab md-fab-bottom-right md-fixed">
-        <md-icon>track_changes</md-icon>
+      <md-button class="md-fab md-fab-bottom-right md-fixed" @click="addObserved()">
+        <md-icon>visibility</md-icon>
       </md-button>
     </div>
+
+    <!--Snackbar-->
+    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>Paese aggiunto alla lista osservati!</span>
+      <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
+    </md-snackbar>
   </div>
 </template>
 
@@ -74,6 +80,8 @@ export default {
       selectedCountry: null,
       //Barra di caricamento
       showProgress: false,
+      //Snackbar
+      showSnackbar: false,
       //Google Charts
       //Grafico dell'andamento dei Positivi
       chartDataConfirmed: [],
@@ -287,6 +295,11 @@ export default {
             this.morti = json[i].Cases;
           }
         }
+      });
+    },
+    addObserved: function() {
+      DataService.setObserved(this.$route.params.slug).then(() => {
+        this.showSnackbar = true;
       });
     },
     search: function(term) {
