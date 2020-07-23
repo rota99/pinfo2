@@ -35,19 +35,20 @@
 
     <div class="md-layout-item md-large-size-66 md-small-size-95">
       <!--Card per i post-->
-      <!--questo div dovrebbe essere un for. per ogni post nel database, viene stampata una card-->
       <div v-for="post in postList" :key="post">
         <md-card class="md-layout md-alignment-top-right addMargin">
           <!--in questa prima parte ci vanno immagine del profilo e username-->
-          <md-card-header class="md-layout-item md-size-100">
-            <md-avatar>
-              <img :src="post.propic"/>
-            </md-avatar>
-            <md-card-header-text>
-              <div id="titlePers" class="md-title">{{ post.username }}</div>
-              <div id="subheadPers" class="md-subhead">{{ post.date }}</div>
-            </md-card-header-text>
-          </md-card-header>
+          <div @click="goto(post.username)" style="cursor: pointer; width: 100%;">
+            <md-card-header class="md-layout-item md-size-100">
+              <md-avatar>
+                <img :src="post.propic"/>
+              </md-avatar>
+              <md-card-header-text>
+                <div id="titlePers" class="md-title">{{ post.username }}</div>
+                <div id="subheadPers" class="md-subhead">{{ post.date }}</div>
+              </md-card-header-text>
+            </md-card-header>
+          </div>
 
           <!--Contenuto del post-->
           <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
@@ -168,6 +169,10 @@ export default {
           this.showProgress = false;
         });
       });
+    },
+    goto: function(username) {
+      console.log(username)
+      this.$router.push({path: '/profilo/' + username});
     }
   }
 }

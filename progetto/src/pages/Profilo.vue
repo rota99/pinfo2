@@ -54,7 +54,7 @@
     </md-card>
 
     <div class="md-layout md-alignment-top-center">
-      <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin">
+      <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin" v-if="username == realUser">
         <!--Card per "Scrivi un post"-->
         <md-card class="firstCard md-layout md-alignment-top-right">
           <md-card-header class="md-layout-item md-size-100">
@@ -170,7 +170,8 @@ export default {
   data: function() {
     return {
       coverPic: null,
-      username: localStorage.getItem('username'),
+      username: this.$route.params.username,
+      realUser: localStorage.getItem('username'),
       img: null,
       bio: null,
       postContent: null,
@@ -188,6 +189,11 @@ export default {
       newProPic: null,
       newCoverPic: null,
       newBio: null
+    }
+  },
+  watch: {
+    $route: function() {
+      this.load();
     }
   },
   created:function() {
