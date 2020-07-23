@@ -13,6 +13,9 @@
             <md-button class="md-icon-button" @click="removeCountry(country)">
               <md-icon>visibility_off</md-icon>
             </md-button>
+            <md-button class="md-icon-button" @click="goto(country)">
+              <md-icon>open_in_new</md-icon>
+            </md-button>
           </md-card-actions>
         </md-ripple>
       </md-card>
@@ -64,6 +67,9 @@ export default {
       DataService.removeObserved(country).then(() => {
         this.load();
       });
+    },
+    goto: function(country) {
+      this.$router.push({path: '/contagi/' + country});
     }
   }
 }
