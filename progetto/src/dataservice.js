@@ -98,6 +98,7 @@ export default {
         var dateString = day + "/" + month + "/" + year;
 
         postList[i] = {
+          id: doc.data().postDate.seconds,
           postContent: doc.data().postContent,
           postDate: dateString
         };

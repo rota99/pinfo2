@@ -35,7 +35,7 @@
 
     <div class="md-layout-item md-large-size-66 md-small-size-95">
       <!--Card per i post-->
-      <div v-for="post in postList" :key="post">
+      <div v-for="post in postList" :key="post.id">
         <md-card class="md-layout md-alignment-top-right addMargin">
           <!--in questa prima parte ci vanno immagine del profilo e username-->
           <div @click="goto(post.username)" style="cursor: pointer; width: 100%;">
@@ -146,6 +146,7 @@ export default {
             var year = d.getFullYear();
             var dateString = day + "/" + month + "/" + year;
             userPost.push({
+              id: doc.data().postDate.seconds,
               username: doc.data().username,
               post: doc.data().postContent,
               date: dateString
@@ -158,6 +159,7 @@ export default {
             for(var j = 0; j < userPost.length; j++) {
               if(userImg[i].username == userPost[j].username) {
                 this.postList.push({
+                  id: userPost[j].id,
                   username: userImg[i].username,
                   propic: userImg[i].img,
                   postContent: userPost[j].post,
@@ -166,9 +168,34 @@ export default {
               }
             }
           }
+
+          this.orderPost();
           this.showProgress = false;
         });
       });
+    },
+    orderPost: function() {
+      //bubble sort per ordinare i post in ordine decrescente per data di pubblicazione
+      
+      var n = this.postList.length - 1;
+      var ultimoScambiato = n;
+      var i = 0;
+
+      while(ultimoScambiato > 0) {
+        ultimoScambiato = 0;
+
+        for(i = 0; i < n; i++) {
+          if(this.postList[i].id < this.postList[i+1].id) {
+            var tmp = this.postList[i];
+            this.postList[i] = this.postList[i+1];
+            this.postList[i+1] = tmp;
+
+            ultimoScambiato = i;
+          }
+        }
+
+        n = ultimoScambiato;
+      }
     },
     goto: function(username) {
       console.log(username)

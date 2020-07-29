@@ -246,8 +246,32 @@ export default {
 
       DataService.getUserPost(this.username).then(data => {
         this.postList = data.slice();
+        this.orderPost();
         this.showProgress = false;
       });
+    },
+    orderPost: function() {
+      //bubble sort per ordinare i post in ordine decrescente per data di pubblicazione
+
+      var n = this.postList.length - 1;
+      var ultimoScambiato = n;
+      var i = 0;
+
+      while(ultimoScambiato > 0) {
+        ultimoScambiato = 0;
+
+        for(i = 0; i < n; i++) {
+          if(this.postList[i].id < this.postList[i+1].id) {
+            var tmp = this.postList[i];
+            this.postList[i] = this.postList[i+1];
+            this.postList[i+1] = tmp;
+
+            ultimoScambiato = i;
+          }
+        }
+
+        n = ultimoScambiato;
+      }
     },
     //funzione per salvare il post nel database
     sendPost: function() {

@@ -3,7 +3,7 @@
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
     <div id="containerCard" class="md-layout md-alignment-top-left">
-      <md-card id="card" md-with-hover class="md-layout-item md-size-25" v-for="country in observedList" :key="country">
+      <md-card id="card" md-with-hover class="md-layout-item md-size-20 md-small-size-100" v-for="country in observedList" :key="country">
         <md-ripple>
           <md-card-header>
             <div class="md-title">{{ country }}</div>
@@ -82,13 +82,15 @@ export default {
   width: 100%;
 }
 
-#containerCard #card:first-child {
-  margin: 20px 16px 20px 32px;
-  padding: 0px;
+#containerCard {
+  width: 90%;
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-top: 10px;
 }
 
 #card {
-  margin: 20px 16px;
+  margin: 10px;
   padding: 0px;
 }
 </style>

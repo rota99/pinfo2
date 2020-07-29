@@ -59,6 +59,11 @@
             <span class="md-list-item-text">Contagi</span>
           </md-list-item>
 
+          <md-list-item :to="'/osservati'" @click="showNavigation = false">
+            <md-icon>visibility</md-icon>
+            <span class="md-list-item-text">Osservati</span>
+          </md-list-item>
+
           <md-divider></md-divider>
 
           <md-list-item @click="logout()">
