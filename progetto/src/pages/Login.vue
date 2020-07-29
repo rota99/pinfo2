@@ -6,7 +6,7 @@
     </div>
 
     <!--Dialog-->
-    <md-dialog :md-active.sync="showDialog">
+    <md-dialog :md-active.sync="showDialog" id="popup">
       <md-dialog-title>Registrati</md-dialog-title>
       <!--Contenuto del dialog-->
       <md-dialog-content class="md-size-95">
@@ -15,7 +15,7 @@
           <md-input v-model="username"></md-input>
         </md-field>
         <!--Autocomplete-->
-        <md-autocomplete v-model="selectedCountry" :md-options="countries" :md-open-on-focus="false" @md-changed="search" @md-selected="select">
+        <md-autocomplete v-model="selectedCountry" :md-open-on-focus="false" :md-options="countries" @md-changed="search" @md-selected="select">
           <label>Seleziona un paese</label>
         </md-autocomplete>
         <md-field>

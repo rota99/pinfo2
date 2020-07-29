@@ -81,7 +81,7 @@
 
       <div class="md-layout-item md-large-size-66 md-small-size-95">
         <!--Card per i post-->
-        <div class="addMargin" v-for="post in postList" :key="post.postContent">
+        <div class="addMargin" v-for="post in postList" :key="post.id">
           <md-card class="md-layout md-alignment-top-right">
             <!--Immagine del profilo e username-->
             <md-card-header class="md-layout-item md-size-100">
@@ -101,6 +101,9 @@
 
             <!--Pulsante like-->
             <md-card-actions class="md-layout-item md-size-100">
+              <md-button class="md-icon-button" v-if="username == realUser" @click="deletePost(post.docID)">
+                <md-icon>delete</md-icon>
+              </md-button>
               <md-button class="md-icon-button">
                 <md-icon>favorite</md-icon>
               </md-button>
@@ -159,6 +162,16 @@
           <md-button class="md-primary" @click="editBio()">Salva</md-button>
         </md-dialog-actions>
       </md-dialog>
+
+      <!--Dialog Sei sicuro?-->
+      <!--<md-dialog-confirm
+        :md-active.sync="showDialogConfirm"
+        md-title="Sei sicuro di voler eliminare questo post?"
+        md-content="Questa azione non potrà essere annullata."
+        md-confirm-text="Elimina"
+        md-cancel-text="Annulla"
+        @md-cancel="onCancel"
+        @md-confirm="onConfirm" />-->
     </div>
   </div>
 </template>
@@ -280,6 +293,11 @@ export default {
       this.postContent = null;
       this.showSnackbar = true;
       this.load();
+    },
+    deletePost: function(docID) {
+      DataService.deletePost(docID).then(() => {
+        this.load();
+      });
     },
     //funzione per modificare l'immagine di profilo
     editProPic: function() {

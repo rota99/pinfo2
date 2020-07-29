@@ -98,6 +98,7 @@ export default {
         var dateString = day + "/" + month + "/" + year;
 
         postList[i] = {
+          docID: doc.id,
           id: doc.data().postDate.seconds,
           postContent: doc.data().postContent,
           postDate: dateString
@@ -118,6 +119,14 @@ export default {
       postContent: postContent,
       username: localStorage.getItem('username'),
       postDate: new Date()
+    });
+  },
+  //funzione per eliminare un post
+  deletePost(id) {
+    return db.collection('post').doc(id).delete().then(function() {
+      console.log("Document successfully deleted!");
+    }).catch(function(error) {
+      console.error("Error removing document: ", error);
     });
   },
   //funzione usata per l'aggiornamento dei dati
