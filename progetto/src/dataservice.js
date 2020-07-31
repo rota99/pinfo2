@@ -59,13 +59,17 @@ export default {
     return db.collection('user').where('username','==',username).get();
   },
   //funzione che prende tutti gli utenti per ottenere le immagini di profilo nella bacheca
-  getUsers() {
-    return db.collection('user').get().then(function(querySnapshot) {
+  getUsers(users) {
+    var userList = [];
+
+    return db.collection('user').where('username', 'in', users).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         //doc.data() is never undefined for query doc snapshots
-        return doc.data();
+        userList.push({
+          data: doc.data()
+        });
       });
-      return querySnapshot;
+      return userList;
     })
     .catch(function(error) {
       console.log("Error getting documents: ", error);
@@ -73,12 +77,17 @@ export default {
   },
   //funzione che prende i post degli utenti per la pagina di profilo
   getPosts() {
-    return db.collection("post").get().then(function(querySnapshot) {
+    var postList = [];
+
+    return db.collection('post').get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         //doc.data() is never undefined for query doc snapshots
-        return doc.data();
+        postList.push({
+          docID: doc.id,
+          data: doc.data()
+        });
       });
-      return querySnapshot;
+      return postList;
     })
     .catch(function(error) {
       console.log("Error getting documents: ", error);
@@ -124,6 +133,33 @@ export default {
   //funzione per eliminare un post
   deletePost(id) {
     return db.collection('post').doc(id).delete().then(function() {
+      console.log("Document successfully deleted!");
+    }).catch(function(error) {
+      console.error("Error removing document: ", error);
+    });
+  },
+  getLiked() {
+    var likedList = [];
+    return db.collection('liked').where("username", "==", localStorage.getItem('username')).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        likedList.push(doc.data().postID);
+      });
+      return likedList;
+    })
+    .catch(function(error) {
+      console.log("Error getting documents: ", error);
+    });
+
+  },
+  addLike(postID) {
+    return db.collection('liked').doc(localStorage.getItem('username').toLowerCase() + postID).set({
+      postID: postID,
+      username: localStorage.getItem('username')
+    });
+  },
+  removeLike(postID) {
+    return db.collection('liked').doc(localStorage.getItem('username').toLowerCase() + postID).delete().then(function() {
       console.log("Document successfully deleted!");
     }).catch(function(error) {
       console.error("Error removing document: ", error);

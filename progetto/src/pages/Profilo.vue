@@ -104,8 +104,12 @@
               <md-button class="md-icon-button" v-if="username == realUser" @click="deletePost(post.docID)">
                 <md-icon>delete</md-icon>
               </md-button>
-              <md-button class="md-icon-button">
+              <md-button class="md-icon-button" @click="addLike(post.docID)" v-if="!likedList.includes(post.docID)">
                 <md-icon>favorite</md-icon>
+              </md-button>
+
+              <md-button class="md-icon-button" @click="removeLike(post.docID)" v-if="likedList.includes(post.docID)">
+                <md-icon style="color: var(--md-theme-default-accent); fill: var(--md-theme-default-accent)">favorite</md-icon>
               </md-button>
             </md-card-actions>
           </md-card>
@@ -189,6 +193,7 @@ export default {
       bio: null,
       postContent: null,
       postList: [],
+      likedList: [],
       showSnackbar: false,
       position: 'center',
       duration: 4000,
@@ -222,6 +227,7 @@ export default {
       this.getCoverPic();
       this.getBio();
       this.getPost();
+      this.getLikes();
     },
     //funzione per salvare l'immagine di profilo
     getPropic: function() {
@@ -322,6 +328,19 @@ export default {
 
         this.load();
       });
+    },
+    getLikes() {
+      DataService.getLiked().then(data => {
+        this.likedList = data.slice();
+      });
+    },
+    addLike(postID) {
+      DataService.addLike(postID);
+      this.load();
+    },
+    removeLike(postID) {
+      DataService.removeLike(postID);
+      this.load();
     }
   }
 }

@@ -35,7 +35,7 @@
 
     <div class="md-layout-item md-large-size-66 md-small-size-95">
       <!--Card per i post-->
-      <div v-for="post in postList" :key="post.id">
+      <div v-for="post in postList" :key="post.postID">
         <md-card class="md-layout md-alignment-top-right addMargin">
           <!--in questa prima parte ci vanno immagine del profilo e username-->
           <div @click="goto(post.username)" style="cursor: pointer; width: 100%;">
@@ -57,8 +57,12 @@
 
           <!--Icona per il link-->
           <md-card-actions class="md-layout-item md-size-100">
-            <md-button class="md-icon-button">
+            <md-button class="md-icon-button" @click="addLike(post.postID)" v-if="!likedList.includes(post.postID)">
               <md-icon>favorite</md-icon>
+            </md-button>
+
+            <md-button class="md-icon-button" @click="removeLike(post.postID)" v-if="likedList.includes(post.postID)">
+              <md-icon style="color: var(--md-theme-default-accent); fill: var(--md-theme-default-accent)">favorite</md-icon>
             </md-button>
           </md-card-actions>
         </md-card>
@@ -86,6 +90,7 @@ export default {
       postContent: null,
       img: null,
       postList: [],
+      likedList: [],
       showSnackbar: false,
       position: 'center',
       duration: 4000,
@@ -106,6 +111,7 @@ export default {
         });
       });
       this.getPost();
+      this.getLikes();
     },
     sendPost: function() {
       //funzione per inviare e salvare un post sul database
@@ -129,27 +135,32 @@ export default {
       this.postList.splice(0, this.postList.length);
       var userImg = [];
       var userPost = [];
+      var users = [];
 
-      DataService.getUsers().then(data => {
+      DataService.getPosts().then(data => {
         data.forEach(function(doc) {
-          userImg.push({
-            username: doc.data().username,
-            img: doc.data().proPic
+          var d = new Date(doc.data.postDate.seconds * 1000);
+          var day = d.getDate();
+          var month = d.getMonth() + 1;
+          var year = d.getFullYear();
+          var dateString = day + "/" + month + "/" + year;
+          userPost.push({
+            postID: doc.docID,
+            ordinamento: doc.data.postDate.seconds,
+            username: doc.data.username,
+            post: doc.data.postContent,
+            date: dateString
           });
+
+          if(!users.includes(doc.data.username))
+            users.push(doc.data.username);
         });
 
-        DataService.getPosts().then(data => {
+        DataService.getUsers(users).then(data => {
           data.forEach(function(doc) {
-            var d = new Date(doc.data().postDate.seconds * 1000);
-            var day = d.getDate();
-            var month = d.getMonth() + 1;
-            var year = d.getFullYear();
-            var dateString = day + "/" + month + "/" + year;
-            userPost.push({
-              id: doc.data().postDate.seconds,
-              username: doc.data().username,
-              post: doc.data().postContent,
-              date: dateString
+            userImg.push({
+              username: doc.data.username,
+              img: doc.data.proPic
             });
           });
 
@@ -159,7 +170,8 @@ export default {
             for(var j = 0; j < userPost.length; j++) {
               if(userImg[i].username == userPost[j].username) {
                 this.postList.push({
-                  id: userPost[j].id,
+                  ordinamento: userPost[j].ordinamento,
+                  postID: userPost[j].postID,
                   username: userImg[i].username,
                   propic: userImg[i].img,
                   postContent: userPost[j].post,
@@ -185,7 +197,7 @@ export default {
         ultimoScambiato = 0;
 
         for(i = 0; i < n; i++) {
-          if(this.postList[i].id < this.postList[i+1].id) {
+          if(this.postList[i].ordinamento < this.postList[i+1].ordinamento) {
             var tmp = this.postList[i];
             this.postList[i] = this.postList[i+1];
             this.postList[i+1] = tmp;
@@ -196,6 +208,19 @@ export default {
 
         n = ultimoScambiato;
       }
+    },
+    getLikes() {
+      DataService.getLiked().then(data => {
+        this.likedList = data.slice();
+      });
+    },
+    addLike(postID) {
+      DataService.addLike(postID);
+      this.load();
+    },
+    removeLike(postID) {
+      DataService.removeLike(postID);
+      this.load();
     },
     goto: function(username) {
       console.log(username)
