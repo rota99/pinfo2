@@ -72,8 +72,8 @@
           </md-card-content>
           <!--Icona per l'invio dei post-->
           <md-card-actions class="md-layout-item md-size-100">
-            <md-button class="md-icon-button" @click="sendPost()">
-              <md-icon>send</md-icon>
+            <md-button class="md-icon-button" @click="sendPost()" :disabled="!postContent">
+              <md-icon id="focus">send</md-icon>
             </md-button>
           </md-card-actions>
         </md-card>
@@ -115,7 +115,7 @@
       <!--Snackbar-->
       <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
         <span>Il tuo post è stato pubblicato!</span>
-        <md-button class="md-primary" @click="showSnackbar = false">OK</md-button>
+        <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
       </md-snackbar>
 
       <!--Dialog ProPic-->
@@ -356,6 +356,11 @@ export default {
 
 .addMargin {
   margin-bottom: 16px;
+}
+
+#focus:focus, #focus:active {
+  color: var(--md-theme-default-accent) !important;
+  fill: var(--md-theme-default-accent) !important;
 }
 
 @media only screen and (max-device-width: 399px) {

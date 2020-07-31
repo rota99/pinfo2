@@ -20,7 +20,7 @@
         </md-card-content>
         <!--Icona per invio post-->
         <md-card-actions class="md-layout-item md-size-100">
-          <md-button class="md-icon-button" @click="sendPost()">
+          <md-button class="md-icon-button" @click="sendPost()" :disabled="!postContent">
             <md-icon id="focus">send</md-icon>
           </md-button>
         </md-card-actions>
@@ -176,7 +176,7 @@ export default {
     },
     orderPost: function() {
       //bubble sort per ordinare i post in ordine decrescente per data di pubblicazione
-      
+
       var n = this.postList.length - 1;
       var ultimoScambiato = n;
       var i = 0;
@@ -216,7 +216,6 @@ export default {
 #focus:focus, #focus:active {
   color: var(--md-theme-default-accent) !important;
   fill: var(--md-theme-default-accent) !important;
-
 }
 
 .md-card-content {
