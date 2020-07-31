@@ -10,7 +10,7 @@
           </md-card-header>
 
           <md-card-actions>
-            <md-button class="md-icon-button" @click="removeCountry(country)">
+            <md-button class="md-icon-button" @click="removeObserved(country)">
               <md-icon>visibility_off</md-icon>
             </md-button>
             <md-button class="md-icon-button" @click="goto(country)">
@@ -63,7 +63,7 @@ export default {
         this.showProgress = false;
       });
     },
-    removeCountry: function(country) {
+    removeObserved: function(country) {
       DataService.removeObserved(country).then(() => {
         this.load();
       });

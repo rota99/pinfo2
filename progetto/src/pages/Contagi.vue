@@ -53,16 +53,26 @@
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
       </div>
 
-      <md-button class="md-fab md-fab-bottom-right md-fixed" @click="addObserved()">
+      <md-button class="md-fab md-fab-bottom-right md-fixed" @click="addObserved()" v-if="!observedList.includes(this.$route.params.slug)">
         <md-icon>visibility</md-icon>
+      </md-button>
+
+      <md-button class="md-fab md-fab-bottom-right md-fixed" @click="removeObserved()" v-if="observedList.includes(this.$route.params.slug)">
+        <md-icon>visibility_off</md-icon>
       </md-button>
     </div>
 
     <!--Snackbar-->
-    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbarAdd" md-persistent>
       <span>Paese aggiunto alla lista osservati!</span>
-      <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
+      <md-button class="md-accent" @click="showSnackbarAdd = false">OK</md-button>
     </md-snackbar>
+
+    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbarRemove" md-persistent>
+      <span>Paese rimosso dalla lista osservati.</span>
+      <md-button class="md-accent" @click="showSnackbarRemove = false">OK</md-button>
+    </md-snackbar>
+
   </div>
 </template>
 
@@ -77,11 +87,16 @@ export default {
       morti: null,
       data: null,
       countries: [],
+      observedList: [],
       selectedCountry: null,
       //Barra di caricamento
       showProgress: false,
       //Snackbar
-      showSnackbar: false,
+      showSnackbarAdd: false,
+      showSnackbarRemove: false,
+      position: 'center',
+      duration: 4000,
+      isInfinity: false,
       //Google Charts
       //Grafico dell'andamento dei Positivi
       chartDataConfirmed: [],
@@ -155,6 +170,7 @@ export default {
       this.getConfirmed();
       this.getRecovered();
       this.getDeaths();
+      this.getObserved();
 
       this.showProgress = false;
     },
@@ -297,9 +313,25 @@ export default {
         }
       });
     },
+    getObserved: function() {
+      this.observedList.splice(0, this.observedList.length);
+
+      DataService.getObserved().then((data) => {
+        this.observedList = data.slice();
+
+        this.showProgress = false;
+      });
+    },
     addObserved: function() {
       DataService.setObserved(this.$route.params.slug).then(() => {
-        this.showSnackbar = true;
+        this.load();
+        this.showSnackbarAdd = true;
+      });
+    },
+    removeObserved: function() {
+      DataService.removeObserved(this.$route.params.slug).then(() => {
+        this.load();
+        this.showSnackbarRemove = true;
       });
     },
     search: function(term) {
