@@ -298,11 +298,11 @@ export default {
       DataService.sendPost(this.postContent, id);
       this.postContent = null;
       this.showSnackbar = true;
-      this.load();
+      this.getPost();
     },
     deletePost: function(docID) {
       DataService.deletePost(docID).then(() => {
-        this.load();
+        this.getPost();
       });
     },
     //funzione per modificare l'immagine di profilo
@@ -310,7 +310,7 @@ export default {
       DataService.setProPic(this.username, this.newProPic).then(() => {
         this.showDialogProPic = false;
 
-        this.load();
+        this.getPropic();
       });
     },
     //funzione per modificare l'immagine di copertina
@@ -318,7 +318,7 @@ export default {
       DataService.setCoverPic(this.username, this.newCoverPic).then(() => {
         this.showDialogCoverPic = false;
 
-        this.load();
+        this.getCoverPic();
       });
     },
     //funzione per modificare la bio dell'utente
@@ -326,7 +326,7 @@ export default {
       DataService.setBio(this.username, this.newBio).then(() => {
         this.showDialogBio = false;
 
-        this.load();
+        this.getBio();
       });
     },
     getLikes() {
@@ -336,11 +336,13 @@ export default {
     },
     addLike(postID) {
       DataService.addLike(postID);
-      this.load();
+      this.getLikes();
+      this.getPost();
     },
     removeLike(postID) {
       DataService.removeLike(postID);
-      this.load();
+      this.getLikes();
+      this.getPost();
     }
   }
 }

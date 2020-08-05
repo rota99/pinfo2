@@ -38,7 +38,7 @@
       <div v-for="post in postList" :key="post.postID">
         <md-card class="md-layout md-alignment-top-right addMargin">
           <!--in questa prima parte ci vanno immagine del profilo e username-->
-          <div @click="goto(post.username)" style="cursor: pointer; width: 100%;">
+          <router-link :to="'/profilo/' + post.username" style="cursor: pointer; width: 100%; text-decoration: none; color: rgba(0,0,0,0.87);">
             <md-card-header class="md-layout-item md-size-100">
               <md-avatar>
                 <img :src="post.propic"/>
@@ -48,7 +48,7 @@
                 <div id="subheadPers" class="md-subhead">{{ post.date }}</div>
               </md-card-header-text>
             </md-card-header>
-          </div>
+          </router-link>
 
           <!--Contenuto del post-->
           <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
@@ -105,13 +105,16 @@ export default {
     load: function() {
       //funzione per salvare in una variabile locale l'immagine del profilo dell'utente
       //e per richiedere al db tutti i post pubblicati
+      this.getProPic();
+      this.getPost();
+      this.getLikes();
+    },
+    getProPic: function() {
       DataService.getUserInfo(this.username).then((data) => {
         data.forEach(doc => {
           this.img = doc.data().proPic;
         });
       });
-      this.getPost();
-      this.getLikes();
     },
     sendPost: function() {
       //funzione per inviare e salvare un post sul database
@@ -216,15 +219,13 @@ export default {
     },
     addLike(postID) {
       DataService.addLike(postID);
-      this.load();
+      this.getLikes();
+      this.getPost();
     },
     removeLike(postID) {
       DataService.removeLike(postID);
-      this.load();
-    },
-    goto: function(username) {
-      console.log(username)
-      this.$router.push({path: '/profilo/' + username});
+      this.getLikes();
+      this.getPost();
     }
   }
 }
