@@ -21,6 +21,8 @@
       </md-card>
     </div>
 
+    <prova></prova>
+
     <!--Messaggio che viene visualizzato quando l'utente non ha selezionato alcun paese da osservare-->
     <div class="md-alignment-top-center md-large-size-66 md-small-size-100" v-if="observedList.length == 0">
       <md-empty-state

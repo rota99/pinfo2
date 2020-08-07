@@ -81,38 +81,15 @@
 
       <div class="md-layout-item md-large-size-66 md-small-size-95">
         <!--Card per i post-->
-        <div class="addMargin" v-for="post in postList" :key="post.id">
-          <md-card class="md-layout md-alignment-top-right">
-            <!--Immagine del profilo e username-->
-            <md-card-header class="md-layout-item md-size-100">
-              <md-avatar>
-                <img :src="img" />
-              </md-avatar>
-              <md-card-header-text>
-                <div id="titlePers" class="md-title">{{ username }}</div>
-                <div id="subheadPers" class="md-subhead">{{ post.postDate }}</div>
-              </md-card-header-text>
-            </md-card-header>
-
-            <!--Contenuto del post-->
-            <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
-              <span>{{ post.postContent }}</span>
-            </md-card-content>
-
-            <!--Pulsante like-->
-            <md-card-actions class="md-layout-item md-size-100">
-              <md-button class="md-icon-button" v-if="username == realUser" @click="deletePost(post.docID)">
-                <md-icon>delete</md-icon>
-              </md-button>
-              <md-button class="md-icon-button" @click="addLike(post.docID)" v-if="!likedList.includes(post.docID)">
-                <md-icon>favorite</md-icon>
-              </md-button>
-
-              <md-button class="md-icon-button" @click="removeLike(post.docID)" v-if="likedList.includes(post.docID)">
-                <md-icon style="color: var(--md-theme-default-accent); fill: var(--md-theme-default-accent)">favorite</md-icon>
-              </md-button>
-            </md-card-actions>
-          </md-card>
+        <div class="addMargin" v-for="post in postList" :key="post.docID">
+          <post
+            :username="username"
+            :date="post.postDate"
+            :propic="img"
+            :content="post.postContent"
+            :postID="post.docID"
+            @postDeleted="getPost()">
+          </post>
         </div>
       </div>
 
@@ -227,7 +204,6 @@ export default {
       this.getCoverPic();
       this.getBio();
       this.getPost();
-      this.getLikes();
     },
     //funzione per salvare l'immagine di profilo
     getPropic: function() {
@@ -300,11 +276,6 @@ export default {
       this.showSnackbar = true;
       this.getPost();
     },
-    deletePost: function(docID) {
-      DataService.deletePost(docID).then(() => {
-        this.getPost();
-      });
-    },
     //funzione per modificare l'immagine di profilo
     editProPic: function() {
       DataService.setProPic(this.username, this.newProPic).then(() => {
@@ -328,21 +299,6 @@ export default {
 
         this.getBio();
       });
-    },
-    getLikes() {
-      DataService.getLiked().then(data => {
-        this.likedList = data.slice();
-      });
-    },
-    addLike(postID) {
-      DataService.addLike(postID);
-      this.getLikes();
-      this.getPost();
-    },
-    removeLike(postID) {
-      DataService.removeLike(postID);
-      this.getLikes();
-      this.getPost();
     }
   }
 }

@@ -13,6 +13,10 @@ import "./Viewport.scss";
 
 import DataService from './dataservice';
 
+import post from './components/Post';
+
+Vue.component('post', post);
+
 Vue.use(VueMaterial);
 Vue.use(VueGoogleCharts);
 

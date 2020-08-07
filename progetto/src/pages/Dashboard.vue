@@ -36,36 +36,13 @@
     <div class="md-layout-item md-large-size-66 md-small-size-95">
       <!--Card per i post-->
       <div v-for="post in postList" :key="post.postID">
-        <md-card class="md-layout md-alignment-top-right addMargin">
-          <!--in questa prima parte ci vanno immagine del profilo e username-->
-          <router-link :to="'/profilo/' + post.username" style="cursor: pointer; width: 100%; text-decoration: none; color: rgba(0,0,0,0.87);">
-            <md-card-header class="md-layout-item md-size-100">
-              <md-avatar>
-                <img :src="post.propic"/>
-              </md-avatar>
-              <md-card-header-text>
-                <div id="titlePers" class="md-title">{{ post.username }}</div>
-                <div id="subheadPers" class="md-subhead">{{ post.date }}</div>
-              </md-card-header-text>
-            </md-card-header>
-          </router-link>
-
-          <!--Contenuto del post-->
-          <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
-            <span>{{ post.postContent }}</span>
-          </md-card-content>
-
-          <!--Icona per il link-->
-          <md-card-actions class="md-layout-item md-size-100">
-            <md-button class="md-icon-button" @click="addLike(post.postID)" v-if="!likedList.includes(post.postID)">
-              <md-icon>favorite</md-icon>
-            </md-button>
-
-            <md-button class="md-icon-button" @click="removeLike(post.postID)" v-if="likedList.includes(post.postID)">
-              <md-icon style="color: var(--md-theme-default-accent); fill: var(--md-theme-default-accent)">favorite</md-icon>
-            </md-button>
-          </md-card-actions>
-        </md-card>
+        <post
+          :username="post.username"
+          :date="post.date"
+          :content="post.postContent"
+          :propic="post.propic"
+          :postID="post.postID">
+        </post>
       </div>
     </div>
 
@@ -90,7 +67,6 @@ export default {
       postContent: null,
       img: null,
       postList: [],
-      likedList: [],
       showSnackbar: false,
       position: 'center',
       duration: 4000,
@@ -107,7 +83,6 @@ export default {
       //e per richiedere al db tutti i post pubblicati
       this.getProPic();
       this.getPost();
-      this.getLikes();
     },
     getProPic: function() {
       DataService.getUserInfo(this.username).then((data) => {
@@ -211,25 +186,9 @@ export default {
 
         n = ultimoScambiato;
       }
-    },
-    getLikes() {
-      DataService.getLiked().then(data => {
-        this.likedList = data.slice();
-      });
-    },
-    addLike(postID) {
-      DataService.addLike(postID);
-      this.getLikes();
-      this.getPost();
-    },
-    removeLike(postID) {
-      DataService.removeLike(postID);
-      this.getLikes();
-      this.getPost();
     }
   }
 }
-
 </script>
 
 <style>
@@ -262,14 +221,5 @@ export default {
 
 .addMargin {
   margin-bottom: 16px;
-}
-
-
-#titlePers, #subheadPers {
-  font-size: 14px;
-}
-
-#titlePers {
-  font-weight: 500;
 }
 </style>
