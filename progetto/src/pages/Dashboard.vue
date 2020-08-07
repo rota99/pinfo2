@@ -7,12 +7,6 @@
       <scrivi-post @newPost="newPost();"></scrivi-post>
     </div>
 
-    <!--Snackbar-->
-    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
-      <span>Il tuo post è stato pubblicato!</span>
-      <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
-    </md-snackbar>
-
     <div class="md-layout-item md-large-size-66 md-small-size-95">
       <!--Card per i post-->
       <div v-for="post in postList" :key="post.postID">
@@ -25,6 +19,12 @@
         </post>
       </div>
     </div>
+
+    <!--Snackbar-->
+    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>Il tuo post è stato pubblicato!</span>
+      <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
+    </md-snackbar>
 
     <!--Messaggio che viene visualizzato quando non ci sono nuovi post-->
     <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin" v-if="postList.length == 0">
@@ -45,10 +45,10 @@ export default {
     return {
       postList: [],
       showSnackbar: false,
+      showProgress: false,
       position: 'center',
       duration: 4000,
-      isInfinity: false,
-      showProgress: false,
+      isInfinity: false
     }
   },
   created: function() {

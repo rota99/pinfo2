@@ -12,35 +12,27 @@
       </div>
 
       <!--Card numeri contagi-->
-      <!--Card Positivi-->
       <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-90  md-layout md-alignment-top-center">
-        <md-card id="positivi" class="md-layout-item md-medium-size-20 md-small-size-100">
-          <md-ripple>
-            <md-card-header class="header">
-              <div class="md-title">{{ positivi }}</div>
-              <div class="md-subhead">Positivi</div>
-            </md-card-header>
-          </md-ripple>
-        </md-card>
+      <!--Card Positivi-->
+        <card-numeri
+          title="Positivi"
+          :count="positivi"
+          cardId="positivi" >
+        </card-numeri>
         <!--Card Guariti-->
-        <md-card id="guariti" class="md-layout-item md-medium-size-20 md-small-size-100">
-          <md-ripple>
-            <md-card-header class="header">
-              <div class="md-title">{{ guariti }}</div>
-              <div class="md-subhead">Guariti</div>
-            </md-card-header>
-          </md-ripple>
-        </md-card>
+        <card-numeri
+          title="Guariti"
+          :count="guariti"
+          cardId="guariti" >
+        </card-numeri>
         <!--Card Morti-->
-        <md-card id="morti" class="md-layout-item md-medium-size-20 md-small-size-100">
-          <md-ripple>
-            <md-card-header class="header">
-              <div class="md-title">{{ morti }}</div>
-              <div class="md-subhead">Morti</div>
-            </md-card-header>
-          </md-ripple>
-        </md-card>
+        <card-numeri
+          title="Morti"
+          :count="morti"
+          cardId="morti" >
+        </card-numeri>
       </div>
+
       <!--Sottotitoli informativo sull'ultimo aggiornamento dei dati-->
       <span class="md-subhead md-layout-item md-size-100 md-layout md-alignment-top-center header">
         <p class="md-layout-item">Dati aggiornati al: {{ data }}</p>
@@ -53,13 +45,10 @@
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
       </div>
 
-      <md-button class="md-fab md-fab-bottom-right md-fixed" @click="addObserved()" v-if="!observedList.includes(this.$route.params.slug)">
-        <md-icon>visibility</md-icon>
-      </md-button>
-
-      <md-button class="md-fab md-fab-bottom-right md-fixed" @click="removeObserved()" v-if="observedList.includes(this.$route.params.slug)">
-        <md-icon>visibility_off</md-icon>
-      </md-button>
+      <fab
+        @newObserved="showSnackbarAdd = true"
+        @observedRemoved="showSnackbarRemove = true" >
+      </fab>
     </div>
 
     <!--Snackbar-->
@@ -72,7 +61,6 @@
       <span>Paese rimosso dalla lista osservati.</span>
       <md-button class="md-accent" @click="showSnackbarRemove = false">OK</md-button>
     </md-snackbar>
-
   </div>
 </template>
 
@@ -87,7 +75,6 @@ export default {
       morti: null,
       data: null,
       countries: [],
-      observedList: [],
       selectedCountry: null,
       //Barra di caricamento
       showProgress: false,
@@ -170,7 +157,6 @@ export default {
       this.getConfirmed();
       this.getRecovered();
       this.getDeaths();
-      this.getObserved();
 
       this.showProgress = false;
     },
@@ -313,27 +299,6 @@ export default {
         }
       });
     },
-    getObserved: function() {
-      this.observedList.splice(0, this.observedList.length);
-
-      DataService.getObserved().then((data) => {
-        this.observedList = data.slice();
-
-        this.showProgress = false;
-      });
-    },
-    addObserved: function() {
-      DataService.setObserved(this.$route.params.slug).then(() => {
-        this.load();
-        this.showSnackbarAdd = true;
-      });
-    },
-    removeObserved: function() {
-      DataService.removeObserved(this.$route.params.slug).then(() => {
-        this.load();
-        this.showSnackbarRemove = true;
-      });
-    },
     search: function(term) {
       this.countries = DataService.searchCountries(term);
     },
@@ -375,46 +340,5 @@ export default {
 
 .header {
   text-align: center;
-}
-
-#positivi {
-  color: rgba(247, 92, 3, 1);
-}
-
-#guariti {
-  color: rgba(25, 178, 144, 1);
-}
-
-#morti {
-  color: rgba(19, 21, 21, 1);
-}
-
-#positivi .md-subhead, #guariti .md-subhead, #morti .md-subhead {
-  font-weight: bold;
-}
-
-@media only screen and (max-device-width: 960px) {
-  #positivi, #guariti, #morti {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-
-  #positivi, #guariti {
-    margin-bottom: 8px;
-  }
-}
-
-@media only screen and (min-device-width: 961px) {
-  #positivi, #guariti {
-    margin-right: 8px;
-  }
-
-  #guariti, #morti {
-    margin-left: 8px;
-  }
-
-  #positivi, #guariti {
-    margin-bottom: 0px;
-  }
 }
 </style>
