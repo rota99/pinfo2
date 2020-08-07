@@ -4,27 +4,7 @@
     <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin">
 
       <!--Card per "Scrivi un post"-->
-      <md-card class="firstCard md-layout md-alignment-top-right">
-        <md-card-header class="md-layout-item md-size-100">
-          <md-avatar>
-            <img :src="this.img" />
-          </md-avatar>
-          <span class="md-title">{{ username }}</span>
-        </md-card-header>
-        <!--Contenuto della card-->
-        <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
-          <md-field>
-            <label>Scrivi qualcosa...</label>
-            <md-textarea v-model="postContent" md-autogrow></md-textarea>
-          </md-field>
-        </md-card-content>
-        <!--Icona per invio post-->
-        <md-card-actions class="md-layout-item md-size-100">
-          <md-button class="md-icon-button" @click="sendPost()" :disabled="!postContent">
-            <md-icon id="focus">send</md-icon>
-          </md-button>
-        </md-card-actions>
-      </md-card>
+      <scrivi-post @newPost="newPost();"></scrivi-post>
     </div>
 
     <!--Snackbar-->
@@ -63,9 +43,6 @@ import DataService from '../dataservice';
 export default {
   data: function() {
     return {
-      username: localStorage.getItem('username'),
-      postContent: null,
-      img: null,
       postList: [],
       showSnackbar: false,
       position: 'center',
@@ -81,25 +58,6 @@ export default {
     load: function() {
       //funzione per salvare in una variabile locale l'immagine del profilo dell'utente
       //e per richiedere al db tutti i post pubblicati
-      this.getProPic();
-      this.getPost();
-    },
-    getProPic: function() {
-      DataService.getUserInfo(this.username).then((data) => {
-        data.forEach(doc => {
-          this.img = doc.data().proPic;
-        });
-      });
-    },
-    sendPost: function() {
-      //funzione per inviare e salvare un post sul database
-      var id = Date.now() + this.username.toLowerCase();
-      DataService.sendPost(this.postContent, id);
-
-      //dopo aver eseguito la query viene settata la variabile contentente il contenuto
-      //del post a null, e viene eseguita nuovamente la richiesta al db per visualizzare i post
-      this.postContent = null;
-      this.showSnackbar = true;
       this.getPost();
     },
     getPost: function() {
@@ -186,6 +144,10 @@ export default {
 
         n = ultimoScambiato;
       }
+    },
+    newPost: function() {
+      this.showSnackbar = true;
+      this.getPost();
     }
   }
 }
@@ -196,11 +158,6 @@ export default {
   margin: 0px !important;
   padding: 0px !important;
   border: none !important;
-}
-
-#focus:focus, #focus:active {
-  color: var(--md-theme-default-accent) !important;
-  fill: var(--md-theme-default-accent) !important;
 }
 
 .md-card-content {

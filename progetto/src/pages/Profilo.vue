@@ -4,79 +4,17 @@
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
     <!--Copertina-->
-    <md-card id="copertina" class="md-small-size-100">
-      <md-card-media-cover md-text-scrim>
-        <md-card-media md-ratio="16:9">
-          <img id="cover" :src="coverPic" />
-        </md-card-media>
-
-        <md-card-area>
-          <div class="containerImgName">
-            <md-avatar class="md-large" id="avatarCopertina">
-              <img :src="img" />
-            </md-avatar>
-
-            <md-card-header>
-              <span class="md-title-pers">{{ username }}</span>
-              <span id='bio' class="md-subhead">{{ bio }}</span>
-            </md-card-header>
-          </div>
-
-          <md-card-actions>
-            <md-menu md-size="big" md-direction="bottom-end">
-              <md-button class="md-icon-button" md-menu-trigger>
-                <md-icon id="iconMoreVert">more_vert</md-icon>
-              </md-button>
-
-              <!--Dialog per Modifica immagine di profilo-->
-              <md-menu-content>
-                <md-menu-item @click="showDialogProPic = true">
-                  <span>Modifica l'immagine<br />di profilo</span>
-                  <md-icon>insert_photo</md-icon>
-                </md-menu-item>
-
-                <!--Dialog per Modifica immagine di profilo-->
-                <md-menu-item @click="showDialogCoverPic = true">
-                  <span>Modifica l'immagine<br />di copertina</span>
-                  <md-icon>wallpaper</md-icon>
-                </md-menu-item>
-
-                <!--Dialog per Modifica immagine di profilo-->
-                <md-menu-item @click="showDialogBio = true">
-                  <span>Modifica la bio</span>
-                  <md-icon>edit</md-icon>
-                </md-menu-item>
-              </md-menu-content>
-            </md-menu>
-          </md-card-actions>
-        </md-card-area>
-      </md-card-media-cover>
-    </md-card>
+    <copertina
+      :propic="img"
+      @showDialogProPic="showDialogProPic = true;"
+      @showDialogCoverPic="showDialogCoverPic = true;"
+      @showDialogBio="showDialogBio = true;" >
+    </copertina>
 
     <div class="md-layout md-alignment-top-center">
       <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin" v-if="username == realUser">
         <!--Card per "Scrivi un post"-->
-        <md-card class="firstCard md-layout md-alignment-top-right">
-          <md-card-header class="md-layout-item md-size-100">
-            <md-avatar>
-              <img :src="img" />
-            </md-avatar>
-            <span class="md-title">{{ username }}</span>
-          </md-card-header>
-          <!--Contenuto della card "Scrivi un post"-->
-          <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
-            <md-field>
-              <label>Scrivi qualcosa...</label>
-              <md-textarea v-model="postContent" md-autogrow></md-textarea>
-            </md-field>
-          </md-card-content>
-          <!--Icona per l'invio dei post-->
-          <md-card-actions class="md-layout-item md-size-100">
-            <md-button class="md-icon-button" @click="sendPost()" :disabled="!postContent">
-              <md-icon id="focus">send</md-icon>
-            </md-button>
-          </md-card-actions>
-        </md-card>
+        <scrivi-post @newPost="newPost();"></scrivi-post>
       </div>
 
       <div class="md-layout-item md-large-size-66 md-small-size-95">
@@ -88,7 +26,7 @@
             :propic="img"
             :content="post.postContent"
             :postID="post.docID"
-            @postDeleted="getPost()">
+            @postDeleted="postDeleted();" >
           </post>
         </div>
       </div>
@@ -97,6 +35,11 @@
       <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
         <span>Il tuo post è stato pubblicato!</span>
         <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
+      </md-snackbar>
+
+      <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbarDelete" md-persistent>
+        <span>Post eliminato correttamente.</span>
+        <md-button class="md-accent" @click="showSnackbarDelete = false">OK</md-button>
       </md-snackbar>
 
       <!--Dialog ProPic-->
@@ -143,16 +86,6 @@
           <md-button class="md-primary" @click="editBio()">Salva</md-button>
         </md-dialog-actions>
       </md-dialog>
-
-      <!--Dialog Sei sicuro?-->
-      <!--<md-dialog-confirm
-        :md-active.sync="showDialogConfirm"
-        md-title="Sei sicuro di voler eliminare questo post?"
-        md-content="Questa azione non potrà essere annullata."
-        md-confirm-text="Elimina"
-        md-cancel-text="Annulla"
-        @md-cancel="onCancel"
-        @md-confirm="onConfirm" />-->
     </div>
   </div>
 </template>
@@ -163,15 +96,12 @@ import DataService from '../dataservice';
 export default {
   data: function() {
     return {
-      coverPic: null,
       username: this.$route.params.username,
       realUser: localStorage.getItem('username'),
       img: null,
-      bio: null,
-      postContent: null,
       postList: [],
-      likedList: [],
       showSnackbar: false,
+      showSnackbarDeleted: false,
       position: 'center',
       duration: 4000,
       isInfinity: false,
@@ -200,38 +130,13 @@ export default {
 
       /*con queste funzioni vengono salvate in variabili locali
       l'immagine di profilo e copertina, la bio e la lista dei post*/
-      this.getPropic();
-      this.getCoverPic();
-      this.getBio();
       this.getPost();
+      this.getProPic();
     },
-    //funzione per salvare l'immagine di profilo
-    getPropic: function() {
-      this.img = null;
-
-      DataService.getUserInfo(this.username).then((data)=>{
-        data.forEach(doc=>{
+    getProPic: function() {
+      DataService.getUserInfo(this.username).then((data) => {
+        data.forEach(doc => {
           this.img = doc.data().proPic;
-        });
-      });
-    },
-    //funzione per salvare l'immagine di copertina
-    getCoverPic: function() {
-      this.coverPic = null;
-
-      DataService.getUserInfo(this.username).then((data)=>{
-        data.forEach(doc=>{
-          this.coverPic = doc.data().coverPic;
-        });
-      });
-    },
-    //funzione per salvare la bio dell'utente
-    getBio: function() {
-      this.bio = null;
-
-      DataService.getUserInfo(this.username).then((data)=>{
-        data.forEach(doc=>{
-          this.bio = doc.data().bio;
         });
       });
     },
@@ -268,14 +173,6 @@ export default {
         n = ultimoScambiato;
       }
     },
-    //funzione per salvare il post nel database
-    sendPost: function() {
-      var id = Date.now() + this.username.toLowerCase();
-      DataService.sendPost(this.postContent, id);
-      this.postContent = null;
-      this.showSnackbar = true;
-      this.getPost();
-    },
     //funzione per modificare l'immagine di profilo
     editProPic: function() {
       DataService.setProPic(this.username, this.newProPic).then(() => {
@@ -299,6 +196,14 @@ export default {
 
         this.getBio();
       });
+    },
+    newPost: function() {
+      this.showSnackbar = true;
+      this.getPost();
+    },
+    postDeleted: function() {
+      this.showSnackbarDeleted = true;
+      this.getPost();
     }
   }
 }

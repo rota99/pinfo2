@@ -13,9 +13,13 @@ import "./Viewport.scss";
 
 import DataService from './dataservice';
 
-import post from './components/Post';
+import Post from './components/Post';
+import ScriviPost from './components/ScriviPost';
+import Copertina from './components/Copertina';
 
-Vue.component('post', post);
+Vue.component('post', Post);
+Vue.component('scrivi-post', ScriviPost);
+Vue.component('copertina', Copertina);
 
 Vue.use(VueMaterial);
 Vue.use(VueGoogleCharts);
