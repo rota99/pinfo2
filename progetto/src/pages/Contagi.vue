@@ -337,8 +337,4 @@ export default {
   margin-top: 20px;
   margin-bottom: 36px;
 }
-
-.header {
-  text-align: center;
-}
 </style>

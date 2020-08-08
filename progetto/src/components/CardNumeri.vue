@@ -20,6 +20,10 @@ export default {
 </script>
 
 <style>
+.header {
+  text-align: center;
+}
+
 #positivi {
   color: rgba(247, 92, 3, 1);
 }

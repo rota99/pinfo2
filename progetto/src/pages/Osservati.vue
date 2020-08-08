@@ -4,20 +4,9 @@
 
     <div id="containerCard" class="md-layout md-alignment-top-left">
       <md-card id="card" md-with-hover class="md-layout-item md-size-20 md-small-size-100" v-for="country in observedList" :key="country">
-        <md-ripple>
-          <md-card-header>
-            <div class="md-title">{{ country }}</div>
-          </md-card-header>
-
-          <md-card-actions>
-            <md-button class="md-icon-button" @click="removeObserved(country)">
-              <md-icon>visibility_off</md-icon>
-            </md-button>
-            <md-button class="md-icon-button" @click="goto(country)">
-              <md-icon>open_in_new</md-icon>
-            </md-button>
-          </md-card-actions>
-        </md-ripple>
+        <card-osservati
+          :slug="country" >
+      </card-osservati>
       </md-card>
     </div>
 
@@ -62,14 +51,6 @@ export default {
 
         this.showProgress = false;
       });
-    },
-    removeObserved: function(country) {
-      DataService.removeObserved(country).then(() => {
-        this.load();
-      });
-    },
-    goto: function(country) {
-      this.$router.push({path: '/contagi/' + country});
     }
   }
 }
@@ -92,5 +73,6 @@ export default {
 #card {
   margin: 10px;
   padding: 0px;
+  height: 160px;
 }
 </style>
