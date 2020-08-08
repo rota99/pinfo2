@@ -1,9 +1,11 @@
 <template>
   <md-ripple>
+    <!--HEADER-->
     <md-card-header>
       <div id="header" class="md-title">{{ country }}</div>
     </md-card-header>
 
+    <!--ACTIONS-->
     <md-card-actions>
       <md-button class="md-icon-button" @click="removeObserved()">
         <md-icon>visibility_off</md-icon>
@@ -19,6 +21,7 @@
 import DataService from '../dataservice';
 
 export default {
+  //dati passati dall'elemento genitore
   props: [
     'slug'
   ],
@@ -31,16 +34,19 @@ export default {
     this.getCountryName();
   },
   methods: {
+    //funzione per salvare in una variabile locale il nome di un paese dato lo slug
     getCountryName: function() {
       DataService.searchCountries(this.slug).then((data) => {
         this.country = data[0];
       });
     },
+    //funzione per rimuovere un paese dalla lista osservati
     removeObserved: function() {
       DataService.removeObserved(this.slug).then(() => {
         this.load();
       });
     },
+    //funzione per reindirizzare l'utente al paese interessato
     goto: function() {
       this.$router.push({path: '/contagi/' + this.slug});
     }

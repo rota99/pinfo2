@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <div class="page-container md-layout-column">
+      
+      <!--TOOLBAR-->
       <toolbar slot="md-app-toolbar"></toolbar>
 
       <md-content>

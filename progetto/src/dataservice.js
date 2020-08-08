@@ -11,9 +11,12 @@ firebase.initializeApp({
 var db = firebase.firestore();
 
 export default {
+  //------------------------LOGIN e LOGOUT------------------------
+  //funzione per controllare se l'utente ha effettuato il login
   isAuthenticated() {
     return !!localStorage.getItem('username');
   },
+  //funzione per controllare se l'utente risulta già registrato
   isSignedIn(username, slug) {
     var control = 0;
     return db.collection('user').where('username', '==', username).where('country', '==', slug).get().then(function(querySnapshot) {
@@ -35,7 +38,7 @@ export default {
     localStorage.setItem('username', username);
     localStorage.setItem('country', slug);
   },
-  //funzione per uscire dal sito
+  //funzione per effettuare il logout
   logout() {
     localStorage.removeItem('username');
     localStorage.removeItem('country');
@@ -50,13 +53,10 @@ export default {
       bio: ''
     });
   },
-  //funzione che prende i Paesi dall'API
-  getCountries() {
-    return axios.get('https://api.covid19api.com/countries');
-  },
-  //funzione che fa riferimento al database per le informazioni dell'utente
+  //------------------------RICHIESTE AL DB------------------------
+  //------------------------informazioni su utenti e post------------------------
   getUserInfo(username) {
-    return db.collection('user').where('username','==',username).get();
+    return db.collection('user').where('username', '==', username).get();
   },
   //funzione che prende tutti gli utenti per ottenere le immagini di profilo nella bacheca
   getUsers(users) {
@@ -122,6 +122,7 @@ export default {
       return;
     });
   },
+  //------------------------set e delete post------------------------
   //funzione che invia i post scritti dagli utenti
   sendPost(postContent, id) {
     return db.collection('post').doc(id).set({
@@ -138,6 +139,70 @@ export default {
       console.error("Error removing document: ", error);
     });
   },
+  //------------------------update informazioni user------------------------
+  //funzione utilizzata per recuperare l'id di un utente dato il suo username
+  getId() {
+    var id = '';
+    return db.collection("user").where("username", "==", localStorage.getItem('username'))
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            id = doc.id;
+        });
+        return id;
+      })
+      .catch(function(error) {
+          console.log("Error getting documents: ", error);
+      });
+  },
+  //funzione per la modifica dell'immgine di profilo
+  setProPic(propic) {
+    var id = '';
+
+    return this.getId().then(data => {
+      id = data;
+
+      return db.collection('user').doc(id).update({
+        proPic: propic
+      })
+      .then(function() {
+          console.log("Document successfully updated!");
+      });
+    });
+  },
+  //funzione per la modifica dell'immagine copertina
+  setCoverPic(coverpic) {
+    var id = '';
+
+    return this.getId().then(data => {
+      id = data;
+
+      return db.collection('user').doc(id).update({
+        coverPic: coverpic
+      })
+      .then(function() {
+          console.log("Document successfully updated!");
+      });
+    });
+  },
+  //funzione per la modifica della bio
+  setBio(bio) {
+    var id = '';
+
+    return this.getId().then(data => {
+      id = data;
+
+      return db.collection('user').doc(id).update({
+        bio: bio
+      })
+      .then(function() {
+          console.log("Document successfully updated!");
+      });
+    });
+  },
+  //------------------------mi piace------------------------
+  //funzione che restituisce i mi piace messi da un utente
   getLiked() {
     var likedList = [];
     return db.collection('liked').where("username", "==", localStorage.getItem('username')).get().then(function(querySnapshot) {
@@ -152,12 +217,14 @@ export default {
     });
 
   },
+  //funzione per aggiungere mi piace a un post
   addLike(postID) {
     return db.collection('liked').doc(localStorage.getItem('username').toLowerCase() + postID).set({
       postID: postID,
       username: localStorage.getItem('username')
     });
   },
+  //funzione per rimuovere mi piace a un post
   removeLike(postID) {
     return db.collection('liked').doc(localStorage.getItem('username').toLowerCase() + postID).delete().then(function() {
       console.log("Document successfully deleted!");
@@ -165,69 +232,9 @@ export default {
       console.error("Error removing document: ", error);
     });
   },
-  //funzione usata per l'aggiornamento dei dati
-  getId(username) {
-    var id = '';
-    return db.collection("user").where("username", "==", username)
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            id = doc.id;
-        });
-        return id;
-      })
-      .catch(function(error) {
-          console.log("Error getting documents: ", error);
-      });
-  },
-  //funzioni per la modifica immgine di profilo
-  setProPic(username, propic) {
-    var id = '';
-
-    return this.getId(username).then(data => {
-      id = data;
-
-      return db.collection('user').doc(id).update({
-        proPic: propic
-      })
-      .then(function() {
-          console.log("Document successfully updated!");
-      });
-    });
-  },
-  //funzioni per la modifica l'immagine copertina
-  setCoverPic(username, coverpic) {
-    var id = '';
-
-    return this.getId(username).then(data => {
-      id = data;
-
-      return db.collection('user').doc(id).update({
-        coverPic: coverpic
-      })
-      .then(function() {
-          console.log("Document successfully updated!");
-      });
-    });
-  },
-  //funzioni per la modifica la bio
-  setBio(username, bio) {
-    var id = '';
-
-    return this.getId(username).then(data => {
-      id = data;
-
-      return db.collection('user').doc(id).update({
-        bio: bio
-      })
-      .then(function() {
-          console.log("Document successfully updated!");
-      });
-    });
-  },
+  //------------------------osservati------------------------
+  //funzione che restituisce i paesi osservati dall'utente
   getObserved() {
-    //funzione per ottenere quali sono i paesi osservati dall'utente
     var observedList = [];
     return db.collection('observed').where("username", "==", localStorage.getItem('username')).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
@@ -240,6 +247,7 @@ export default {
       console.log("Error getting documents: ", error);
     });
   },
+  //funzione per aggiungere un paese alla lista osservati
   setObserved(country) {
     var id = country + localStorage.getItem('username').toLowerCase();
 
@@ -248,6 +256,7 @@ export default {
       username: localStorage.getItem('username')
     });
   },
+  //funzione per rimuovere un paese dalla lista osservati
   removeObserved(country) {
     var id = country + localStorage.getItem('username').toLowerCase();
 
@@ -257,15 +266,10 @@ export default {
         console.error("Error removing document: ", error);
     });
   },
-  //funzioni che richiamano l'api per la visualizzazione di cards e grafici
-  getDayOneTotalConfirmed(slug) {
-    return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/confirmed')
-  },
-  getDayOneTotalRecovered(slug) {
-    return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/recovered')
-  },
-  getDayOneTotalDeaths(slug) {
-    return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/deaths')
+  //------------------------RICHIESTE ALL'API------------------------
+  //funzione che prende i Paesi dall'API
+  getCountries() {
+    return axios.get('https://api.covid19api.com/countries');
   },
   //funzione di ricerca dei Paesi
   searchCountries(text) {
@@ -277,5 +281,15 @@ export default {
     return axios.get('https://api.covid19api.com/countries').then(data => {
       return data.data.filter((element) => element.Country.toLowerCase().indexOf(text.toLowerCase()) >= 0).map(element => element.Country);
     });
+  },
+  //funzioni che richiamano l'api per la visualizzazione di cards e grafici
+  getDayOneTotalConfirmed(slug) {
+    return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/confirmed')
+  },
+  getDayOneTotalRecovered(slug) {
+    return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/recovered')
+  },
+  getDayOneTotalDeaths(slug) {
+    return axios.get('https://api.covid19api.com/total/dayone/country/'+ slug +'/status/deaths')
   }
 }

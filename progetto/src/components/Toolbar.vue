@@ -1,11 +1,13 @@
 <template>
   <div>
+    <!--TOOLBAR-->
     <md-toolbar id="fixed" class="md-primary">
       <md-button id="hamburger-menu" class="md-icon-button" @click="showNavigation = true">
         <md-icon>menu</md-icon>
       </md-button>
       <span class="md-title">LockedIn</span>
 
+      <!--TABS-->
       <div id="tabs" class="md-toolbar-section-end">
         <md-tabs class="md-primary" md-sync-route>
           <md-tab id="tab-dashboard" md-label="Bacheca" :to="'/dashboard'"></md-tab>
@@ -19,6 +21,7 @@
       </div>
     </md-toolbar>
 
+    <!--DRAWER-->
     <md-drawer :md-active.sync="showNavigation" md-swipeable >
       <md-toolbar class="md-transparent md-medium" md-elevation="0">
         <div class="md-toolbar-row">
@@ -42,6 +45,7 @@
 
       <md-divider></md-divider>
 
+      <!--LIST-->
       <md-list md-sync-route>
         <md-list-item :to="'/dashboard'" @click="showNavigation = false">
           <md-icon>dashboard</md-icon>
@@ -87,6 +91,7 @@ export default {
       showNavigation: false
     }
   },
+  //funzione utilizzata per salvare in una variabile locale l'indirizzo dell'immagine di profilo dell'utente
   created: function() {
     DataService.getUserInfo(this.username).then((data) => {
       data.forEach(doc => {
@@ -95,6 +100,7 @@ export default {
     });
   },
   methods: {
+    //funzione per effettuare il logout
     logout: function() {
       this.showNavigation = false;
       DataService.logout();

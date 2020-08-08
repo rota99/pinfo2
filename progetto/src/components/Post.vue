@@ -1,6 +1,6 @@
 <template>
   <md-card class="md-layout md-alignment-top-right addMargin">
-    <!--in questa prima parte ci vanno immagine del profilo e username-->
+    <!--HEADER-->
     <router-link :to="'/profilo/' + username" style="cursor: pointer; width: 100%; text-decoration: none; color: rgba(0,0,0,0.87);">
       <md-card-header class="md-layout-item md-size-100">
         <md-avatar>
@@ -13,12 +13,12 @@
       </md-card-header>
     </router-link>
 
-    <!--Contenuto del post-->
+    <!--CONTENT-->
     <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
       <span>{{ content }}</span>
     </md-card-content>
 
-    <!--Icona per il like-->
+    <!--ACTIONS-->
     <md-card-actions class="md-layout-item md-size-100">
       <md-button class="md-icon-button" v-if="this.$route.name == 'Profilo' && username == realUser" @click="deletePost(postID)">
         <md-icon>delete</md-icon>
@@ -39,6 +39,7 @@
 import DataService from '../dataservice';
 
 export default {
+  //dati passati dall'elemento genitore
   props: [
     'username',
     'date',
@@ -59,19 +60,23 @@ export default {
     load: function() {
       this.getLikes();
     },
+    //funzione per recuperare la lista dei mi piace messi dall'utente
     getLikes() {
       DataService.getLiked().then(data => {
         this.likedList = data.slice();
       });
     },
+    //funzione per aggiungere un like
     addLike(postID) {
       DataService.addLike(postID);
       this.getLikes();
     },
+    //funzione per rimuovere un like
     removeLike(postID) {
       DataService.removeLike(postID);
       this.getLikes();
     },
+    //funzione per eliminare un post
     deletePost: function(docID) {
       DataService.deletePost(docID).then(() => {
         this.$emit('postDeleted');

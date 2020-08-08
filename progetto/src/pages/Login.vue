@@ -1,29 +1,30 @@
 <template>
   <div id="container" class="md-layout md-alignment-top-center">
-    <!--Welcome-->
+    <!--WELCOME-->
     <div class="md-layout-item md-size-100">
       <img src="../images/immaginelogin.png" />
     </div>
 
-    <!--Dialog-->
+    <!--DIALOG LOGIN-->
     <md-dialog :md-active.sync="showDialog" id="popup">
       <md-dialog-title>Registrati</md-dialog-title>
-      <!--Contenuto del dialog-->
+
       <md-dialog-content class="md-size-95">
         <md-field>
           <label>Username</label>
           <md-input v-model="username"></md-input>
         </md-field>
-        <!--Autocomplete-->
+
         <md-autocomplete v-model="selectedCountry" :md-options="countries" @md-changed="search" @md-selected="select">
           <label>Seleziona un paese</label>
         </md-autocomplete>
         <md-field>
+
           <label>Immagine del profilo (link)</label>
           <md-input v-model="img"></md-input>
         </md-field>
       </md-dialog-content>
-      <!--Bottone per registrarsi-->
+
       <md-dialog-actions>
         <md-button class="md-primary" @click="showDialog = false">Annulla</md-button>
         <md-button class="md-primary" :disabled="!username || !paese || !img" @click="checkUser()">Registrati</md-button>
@@ -44,6 +45,7 @@ export default {
       paese: '',
       img: '',
       countries: [],
+      //Dialog
       showDialog: false
     }
   },
@@ -51,8 +53,19 @@ export default {
     this.load();
   },
   methods: {
+    //funzione per ottenere la lista di paesi associati al proprio slug
+    load: function() {
+      DataService.getCountries().then(data => {
+        for(var i = 0; i < data.data.length; i++) {
+          this.countries[i] = {
+            country: data.data[i].Country,
+            slug: data.data[i].Slug
+          };
+        }
+      });
+    },
+    //funzione per controllare se un utente ha già effettuato il sign in
     checkUser: function() {
-      //funzione per controllare se un utente ha già effettuato il sign in
       DataService.isSignedIn(this.username, this.paese).then(data => {
         if(data) {
           DataService.login(this.username, this.paese);
@@ -65,20 +78,11 @@ export default {
 
       this.$router.push({path: '/'});
     },
-    load: function() {
-      //funzione per ottenere la lista di paesi associati al proprio slug
-      DataService.getCountries().then(data => {
-        for(var i = 0; i < data.data.length; i++) {
-          this.countries[i] = {
-            country: data.data[i].Country,
-            slug: data.data[i].Slug
-          };
-        }
-      });
-    },
+    //funzione richiamata quando si inizia la ricerca sull'autocomplete
     search: function(term) {
       this.countries = DataService.searchCountries(term);
     },
+    //funzione richiamata quando viene selezionato un paese sull'autocomplete
     select: function(selected) {
       var selectedSlug = '';
 

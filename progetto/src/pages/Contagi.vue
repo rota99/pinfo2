@@ -1,31 +1,31 @@
 <template>
   <div>
-    <!--Progress Bar-->
+    <!--PROGRESS BAR-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
     <div class="md-layout md-alignment-top-center">
-      <!--Autocomplete-->
+      <!--AUTOCOMPLETE-->
       <div class="md-layout-item md-large-size-60 md-small-size-90">
         <md-autocomplete id="searchBar" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
           <label>Seleziona un paese</label>
         </md-autocomplete>
       </div>
 
-      <!--Card numeri contagi-->
+      <!--CARD NUMERI-->
       <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-90  md-layout md-alignment-top-center">
-      <!--Card Positivi-->
+      <!--POSITIVI-->
         <card-numeri
           title="Positivi"
           :count="positivi"
           cardId="positivi" >
         </card-numeri>
-        <!--Card Guariti-->
+        <!--GUARITI-->
         <card-numeri
           title="Guariti"
           :count="guariti"
           cardId="guariti" >
         </card-numeri>
-        <!--Card Morti-->
+        <!--MORTI-->
         <card-numeri
           title="Morti"
           :count="morti"
@@ -33,25 +33,29 @@
         </card-numeri>
       </div>
 
-      <!--Sottotitoli informativo sull'ultimo aggiornamento dei dati-->
+      <!--ULTIMO AGGIORNAMENTO-->
       <span class="md-subhead md-layout-item md-size-100 md-layout md-alignment-top-center header">
         <p class="md-layout-item">Dati aggiornati al: {{ data }}</p>
       </span>
 
-      <!--Google Area Charts per ogni card-->
+      <!--GOOGLE AREA CHARTS-->
       <div class="md-layout-item md-large-size-60 md-small-size-100 md-layout md-alignment-top-center">
+        <!--POSITIVI-->
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataConfirmed" :options="chartOptionsConfirmed" />
+        <!--GUARITI-->
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataRecovered" :options="chartOptionsRecovered" />
+        <!--MORTI-->
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
       </div>
 
+      <!--FLOATING ACTION BUTTON-->
       <fab
         @newObserved="showSnackbarAdd = true"
         @observedRemoved="showSnackbarRemove = true" >
       </fab>
     </div>
 
-    <!--Snackbar-->
+    <!--SNACKBAR-->
     <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbarAdd" md-persistent>
       <span>Paese aggiunto alla lista osservati!</span>
       <md-button class="md-accent" @click="showSnackbarAdd = false">OK</md-button>
@@ -76,7 +80,7 @@ export default {
       data: null,
       countries: [],
       selectedCountry: null,
-      //Barra di caricamento
+      //Progress bar
       showProgress: false,
       //Snackbar
       showSnackbarAdd: false,
@@ -144,6 +148,7 @@ export default {
   },
   watch: {
     $route: function() {
+      //se l'indirizzo cambia, allora viene chiamata la funzione load()
       this.load();
     }
   },
@@ -153,13 +158,12 @@ export default {
   methods: {
     load: function () {
       this.showProgress = true;
-
       this.getConfirmed();
       this.getRecovered();
       this.getDeaths();
-
       this.showProgress = false;
     },
+    //funzione utilizzata per salvare in variabili locali i numeri per popolare card numeri e grafico positivi
     getConfirmed: function() {
       this.chartDataConfirmed.splice(0, this.chartDataConfirmed.length);
 
@@ -209,6 +213,7 @@ export default {
         }
       });
     },
+    //funzione utilizzata per salvare in variabili locali i numeri per popolare card numeri e grafico guariti
     getRecovered: function() {
       this.chartDataRecovered.splice(0, this.chartDataRecovered.length);
 
@@ -254,6 +259,7 @@ export default {
         }
       });
     },
+    //funzione utilizzata per salvare in variabili locali i numeri per popolare card numeri e grafico morti
     getDeaths: function() {
       this.chartDataDeaths.splice(0, this.chartDataDeaths.length);
 
@@ -299,9 +305,11 @@ export default {
         }
       });
     },
+    //funzione richiamata quando si inizia la ricerca sull'autocomplete
     search: function(term) {
       this.countries = DataService.searchCountries(term);
     },
+    //funzione richiamata quando viene selezionato un paese sull'autocomplete
     select: function(selected) {
       var selectedSlug = '';
 

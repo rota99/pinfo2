@@ -1,14 +1,15 @@
 <template>
   <div class="md-layout md-alignment-top-center">
+    <!--PROGRESS BAR-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
-    <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin">
 
-      <!--Card per "Scrivi un post"-->
+    <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin">
+      <!--SCRIVI UN POST-->
       <scrivi-post @newPost="newPost();"></scrivi-post>
     </div>
 
     <div class="md-layout-item md-large-size-66 md-small-size-95">
-      <!--Card per i post-->
+      <!--LISTA POST-->
       <div v-for="post in postList" :key="post.postID">
         <post
           :username="post.username"
@@ -20,13 +21,13 @@
       </div>
     </div>
 
-    <!--Snackbar-->
+    <!--SNACKBAR-->
     <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
       <span>Il tuo post è stato pubblicato!</span>
       <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
     </md-snackbar>
 
-    <!--Messaggio che viene visualizzato quando non ci sono nuovi post-->
+    <!--EMPTY STATE-->
     <div class="md-layout-item md-large-size-66 md-small-size-100 addMargin" v-if="postList.length == 0">
       <md-empty-state
         md-icon="no_sim"
@@ -44,11 +45,13 @@ export default {
   data: function() {
     return {
       postList: [],
+      //Snackbar
       showSnackbar: false,
-      showProgress: false,
       position: 'center',
       duration: 4000,
       isInfinity: false
+      //Progress bar
+      showProgress: false,
     }
   },
   created: function() {
@@ -56,12 +59,10 @@ export default {
   },
   methods: {
     load: function() {
-      //funzione per salvare in una variabile locale l'immagine del profilo dell'utente
-      //e per richiedere al db tutti i post pubblicati
       this.getPost();
     },
+    //funzione per visualizzare tutti i post salvati nel database
     getPost: function() {
-      //funzione per visualizzare tutti i post salvati nel database
       this.showProgress = true;
 
       //inizialmente viene svuotato l'array contentente gli oggetti relativi ai post
@@ -73,6 +74,7 @@ export default {
       var userPost = [];
       var users = [];
 
+      //richiesta per ottenere i post
       DataService.getPosts().then(data => {
         data.forEach(function(doc) {
           var d = new Date(doc.data.postDate.seconds * 1000);
@@ -92,6 +94,7 @@ export default {
             users.push(doc.data.username);
         });
 
+        //richiesta per ottenere gli utenti
         DataService.getUsers(users).then(data => {
           data.forEach(function(doc) {
             userImg.push({
@@ -122,9 +125,8 @@ export default {
         });
       });
     },
+    //bubble sort per ordinare i post in ordine decrescente per data di pubblicazione
     orderPost: function() {
-      //bubble sort per ordinare i post in ordine decrescente per data di pubblicazione
-
       var n = this.postList.length - 1;
       var ultimoScambiato = n;
       var i = 0;
@@ -145,6 +147,7 @@ export default {
         n = ultimoScambiato;
       }
     },
+    //funzione che viene richiamata quando viene pubblicato un nuovo post
     newPost: function() {
       this.showSnackbar = true;
       this.getPost();

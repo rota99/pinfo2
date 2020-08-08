@@ -1,5 +1,4 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+//import dipendenze
 import Vue from 'vue'
 import App from './App'
 import VueMaterial from 'vue-material'
@@ -11,8 +10,10 @@ import 'vue-material/dist/vue-material.min.css'
 //tema personalizzato
 import "./Viewport.scss";
 
+//dataservice
 import DataService from './dataservice';
 
+//componenti
 import Post from './components/Post';
 import ScriviPost from './components/ScriviPost';
 import Copertina from './components/Copertina';
@@ -32,6 +33,7 @@ Vue.use(VueGoogleCharts);
 
 Vue.config.productionTip = false
 
+//se l'utente non ha mai effettuato l'accesso, allora viene reindirizzato alla pagina di login
 router.beforeEach((to, from, next) => {
   if(to.name !== 'Login' && !DataService.isAuthenticated()) {
     next({name: 'Login'});

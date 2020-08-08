@@ -1,6 +1,7 @@
 <template>
   <md-card :id="cardId" class="md-layout-item md-medium-size-20 md-small-size-100">
     <md-ripple>
+      <!--HEADER-->
       <md-card-header class="header">
         <div class="md-title">{{ count }}</div>
         <div class="md-subhead">{{ title }}</div>
@@ -11,6 +12,7 @@
 
 <script>
 export default {
+  //dati passati dall'elemento genitore
   props: [
     'title',
     'count',

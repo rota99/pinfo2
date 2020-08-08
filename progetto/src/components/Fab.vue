@@ -23,6 +23,7 @@ export default {
     this.getObserved();
   },
   methods: {
+    //funzione per ottenere la lista dei paesi osservati da un utente
     getObserved: function() {
       this.observedList.splice(0, this.observedList.length);
 
@@ -30,12 +31,14 @@ export default {
         this.observedList = data.slice();
       });
     },
+    //funzione per aggiungere un paese alla lista osservati
     addObserved: function() {
       DataService.setObserved(this.$route.params.slug).then(() => {
         this.getObserved();
         this.$emit('newObserved');
       });
     },
+    //funzione per rimuovere un paese dalla lista osservati
     removeObserved: function() {
       DataService.removeObserved(this.$route.params.slug).then(() => {
         this.getObserved();

@@ -1,9 +1,9 @@
 <template>
   <div class="md-layout md-alignment-top-center">
-    <!--Progress Bar-->
+    <!--PROGRESS BAR-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
-    <!--Copertina-->
+    <!--COPERTINA-->
     <copertina
       :propic="img"
       @showDialogProPic="showDialogProPic = true;"
@@ -13,12 +13,12 @@
 
     <div class="md-layout md-alignment-top-center">
       <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin" v-if="username == realUser">
-        <!--Card per "Scrivi un post"-->
+        <!--SCRIVI UN POST-->
         <scrivi-post @newPost="newPost();"></scrivi-post>
       </div>
 
       <div class="md-layout-item md-large-size-66 md-small-size-95">
-        <!--Card per i post-->
+        <!--LISTA POST-->
         <div class="addMargin" v-for="post in postList" :key="post.docID">
           <post
             :username="username"
@@ -31,7 +31,7 @@
         </div>
       </div>
 
-      <!--Snackbar-->
+      <!--SNACKBAR-->
       <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
         <span>Il tuo post è stato pubblicato!}</span>
         <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
@@ -42,7 +42,7 @@
         <md-button class="md-accent" @click="showSnackbarDelete = false">OK</md-button>
       </md-snackbar>
 
-      <!--Dialog ProPic-->
+      <!--DIALOG MODIFICA PROPIC-->
       <md-dialog :md-active.sync="showDialogProPic">
         <md-dialog-title>Modfica immagine profilo</md-dialog-title>
         <md-dialog-content>
@@ -57,7 +57,7 @@
         </md-dialog-actions>
       </md-dialog>
 
-      <!--Dialog CoverPic-->
+      <!--DIALOG MODIFICA COVERPIC-->
       <md-dialog :md-active.sync="showDialogCoverPic">
         <md-dialog-title>Modfica immagine di copertina</md-dialog-title>
         <md-dialog-content>
@@ -72,7 +72,7 @@
         </md-dialog-actions>
       </md-dialog>
 
-      <!--Dialog Bio-->
+      <!--DIALOG MODIFICA BIO-->
       <md-dialog :md-active.sync="showDialogBio">
         <md-dialog-title>Modifica la bio</md-dialog-title>
         <md-dialog-content>
@@ -100,6 +100,10 @@ export default {
       realUser: localStorage.getItem('username'),
       img: null,
       postList: [],
+      newProPic: null,
+      newCoverPic: null,
+      newBio: null,
+      //Snackbar
       showSnackbar: false,
       showSnackbarDeleted: false,
       position: 'center',
@@ -110,14 +114,12 @@ export default {
       //Dialog
       showDialogProPic: false,
       showDialogCoverPic: false,
-      showDialogBio: false,
-      newProPic: null,
-      newCoverPic: null,
-      newBio: null
+      showDialogBio: false
     }
   },
   watch: {
     $route: function() {
+      //se l'indirizzo cambia, allora viene chiamata la funzione load()
       this.load();
     }
   },
@@ -127,12 +129,10 @@ export default {
   methods: {
     load: function() {
       this.showProgress = true;
-
-      /*con queste funzioni vengono salvate in variabili locali
-      l'immagine di profilo e copertina, la bio e la lista dei post*/
       this.getPost();
       this.getProPic();
     },
+    //funzione utilizzata per salvare in una variabile locale l'indirizzo dell'immagine di profilo dell'utente
     getProPic: function() {
       DataService.getUserInfo(this.username).then((data) => {
         data.forEach(doc => {
@@ -150,9 +150,8 @@ export default {
         this.showProgress = false;
       });
     },
+    //bubble sort per ordinare i post in ordine decrescente per data di pubblicazione
     orderPost: function() {
-      //bubble sort per ordinare i post in ordine decrescente per data di pubblicazione
-
       var n = this.postList.length - 1;
       var ultimoScambiato = n;
       var i = 0;
@@ -175,7 +174,7 @@ export default {
     },
     //funzione per modificare l'immagine di profilo
     editProPic: function() {
-      DataService.setProPic(this.username, this.newProPic).then(() => {
+      DataService.setProPic(this.newProPic).then(() => {
         this.showDialogProPic = false;
 
         this.getPropic();
@@ -183,7 +182,7 @@ export default {
     },
     //funzione per modificare l'immagine di copertina
     editCoverPic: function() {
-      DataService.setCoverPic(this.username, this.newCoverPic).then(() => {
+      DataService.setCoverPic(this.newCoverPic).then(() => {
         this.showDialogCoverPic = false;
 
         this.getCoverPic();
@@ -191,16 +190,18 @@ export default {
     },
     //funzione per modificare la bio dell'utente
     editBio: function() {
-      DataService.setBio(this.username, this.newBio).then(() => {
+      DataService.setBio(this.newBio).then(() => {
         this.showDialogBio = false;
 
         this.getBio();
       });
     },
+    //funzione che viene richiamata quando viene pubblicato un nuovo post
     newPost: function() {
       this.showSnackbar = true;
       this.getPost();
     },
+    //funzione che viene richiamata quando viene eliminato un post
     postDeleted: function() {
       this.showSnackbarDeleted = true;
       this.getPost();

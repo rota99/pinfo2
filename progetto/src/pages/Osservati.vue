@@ -1,16 +1,18 @@
 <template>
   <div>
+    <!--PROGRESS BAR-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
     <div id="containerCard" class="md-layout md-alignment-top-left">
+      <!--LISTA OSSERVATI-->
       <md-card id="card" md-with-hover class="md-layout-item md-size-20 md-small-size-100" v-for="country in observedList" :key="country">
         <card-osservati
           :slug="country" >
-      </card-osservati>
+        </card-osservati>
       </md-card>
     </div>
 
-    <!--Messaggio che viene visualizzato quando l'utente non ha selezionato alcun paese da osservare-->
+    <!--EMPTY STATE-->
     <div class="md-alignment-top-center md-large-size-66 md-small-size-100" v-if="observedList.length == 0">
       <md-empty-state
         md-icon="no_sim"
@@ -31,6 +33,7 @@ export default {
       username: localStorage.getItem('username'),
       country: localStorage.getItem('country'),
       observedList: [],
+      //progress bar
       showProgress: false
     }
   },
@@ -40,9 +43,9 @@ export default {
   methods: {
     load: function() {
       this.showProgress = true;
-
       this.getObserved();
     },
+    //funzione che restituisce la lista dei paesi osservati da un utente
     getObserved: function() {
       this.observedList.splice(0, this.observedList.length);
 

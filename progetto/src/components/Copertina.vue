@@ -1,5 +1,6 @@
 <template>
   <md-card id="copertina" class="md-small-size-100">
+    <!--MEDIA-->
     <md-card-media-cover md-text-scrim>
       <md-card-media md-ratio="16:9">
         <img id="cover" :src="coverPic" />
@@ -11,32 +12,32 @@
             <img :src="propic" />
           </md-avatar>
 
+          <!--HEADER-->
           <md-card-header>
             <span class="md-title-pers">{{ username }}</span>
             <span id='bio' class="md-subhead">{{ bio }}</span>
           </md-card-header>
         </div>
 
+        <!--ACTIONS-->
         <md-card-actions>
           <md-menu md-size="big" md-direction="bottom-end">
             <md-button class="md-icon-button" md-menu-trigger :disabled="username != realUser">
               <md-icon id="iconMoreVert" v-if="username == realUser">more_vert</md-icon>
             </md-button>
 
-            <!--Dialog per Modifica immagine di profilo-->
+            <!--MENU-->
             <md-menu-content>
               <md-menu-item @click="$emit('showDialogProPic')">
                 <span>Modifica l'immagine<br />di profilo</span>
                 <md-icon>insert_photo</md-icon>
               </md-menu-item>
 
-              <!--Dialog per Modifica immagine di profilo-->
               <md-menu-item @click="$emit('showDialogCoverPic')">
                 <span>Modifica l'immagine<br />di copertina</span>
                 <md-icon>wallpaper</md-icon>
               </md-menu-item>
 
-              <!--Dialog per Modifica immagine di profilo-->
               <md-menu-item @click="$emit('showDialogBio')">
                 <span>Modifica la bio</span>
                 <md-icon>edit</md-icon>
@@ -53,6 +54,7 @@
 import DataService from '../dataservice';
 
 export default {
+  //dati passati dall'elemento genitore
   props: [
     'propic'
   ],
@@ -72,6 +74,7 @@ export default {
       this.getCoverPic();
       this.getBio();
     },
+    //funzione per salvare in una variabile locale l'indirizzo dell'immagine di copertina
     getCoverPic: function() {
       this.coverPic = null;
 
@@ -81,7 +84,7 @@ export default {
         });
       });
     },
-    //funzione per salvare la bio dell'utente
+    //funzione per salvare in una variabile locale la bio dell'utente
     getBio: function() {
       this.bio = null;
 

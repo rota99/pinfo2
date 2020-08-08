@@ -1,19 +1,22 @@
 <template>
   <md-card class="firstCard md-layout md-alignment-top-right">
+    <!--HEADER-->
     <md-card-header class="md-layout-item md-size-100">
       <md-avatar>
         <img :src="img" />
       </md-avatar>
       <span class="md-title">{{ username }}</span>
     </md-card-header>
-    <!--Contenuto della card-->
+
+    <!--CONTENT-->
     <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
       <md-field>
         <label>Scrivi qualcosa...</label>
         <md-textarea v-model="postContent" md-autogrow></md-textarea>
       </md-field>
     </md-card-content>
-    <!--Icona per invio post-->
+
+    <!--ACTIONS-->
     <md-card-actions class="md-layout-item md-size-100">
       <md-button class="md-icon-button" @click="sendPost()" :disabled="!postContent">
         <md-icon id="focus">send</md-icon>
@@ -40,6 +43,7 @@ export default {
     load: function() {
       this.getProPic();
     },
+    //funzione utilizzata per salvare in una variabile locale l'indirizzo dell'immagine di profilo dell'utente
     getProPic: function() {
       DataService.getUserInfo(this.username).then((data) => {
         data.forEach(doc => {
@@ -47,8 +51,8 @@ export default {
         });
       });
     },
+    //funzione per inviare e salvare un post sul database
     sendPost: function() {
-      //funzione per inviare e salvare un post sul database
       var id = Date.now() + this.username.toLowerCase();
       DataService.sendPost(this.postContent, id);
 

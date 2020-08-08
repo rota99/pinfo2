@@ -13,12 +13,40 @@ Vue.use(Router)
 export default new Router({
   mode: "history",
   routes: [
-    {name: 'Login', path: '/login', component: Login},
-    {name: 'Dashboard', path: '/dashboard', component: Dashboard},
-    {name: 'Profilo', path: '/profilo/:username', component: Profilo},
-    {name: 'Contagi', path: '/contagi/:slug', component: Contagi},
-    {name: 'Osservati', path: '/osservati', component: Osservati},
-    {name: 'default', path: '/', redirect: '/dashboard'},
-    {name: '404', path: '*', component: Notfound}
+    {
+      name: 'Login',
+      path: '/login',
+      component: Login
+    },
+    {
+      name: 'Dashboard',
+      path: '/dashboard',
+      component: Dashboard
+    },
+    {
+      name: 'Profilo',
+      path: '/profilo/:username',
+      component: Profilo
+    },
+    {
+      name: 'Contagi',
+      path: '/contagi/:slug',
+      component: Contagi
+    },
+    {
+      name: 'Osservati',
+      path: '/osservati',
+      component: Osservati
+    },
+    {
+      name: 'default',
+      path: '/',
+      redirect: '/dashboard'
+    },
+    {
+      name: '404',
+      path: '*',
+      component: Notfound
+    }
   ]
 })
