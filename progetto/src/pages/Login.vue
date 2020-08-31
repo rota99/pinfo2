@@ -96,7 +96,7 @@ export default {
 
 <style>
 .md-menu-content {
-  z-index: 11;
+  z-index: 12;
 }
 
 @media only screen and (max-device-width: 1000px) {
