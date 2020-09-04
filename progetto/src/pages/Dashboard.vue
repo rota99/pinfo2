@@ -49,7 +49,7 @@ export default {
       showSnackbar: false,
       position: 'center',
       duration: 4000,
-      isInfinity: false
+      isInfinity: false,
       //Progress bar
       showProgress: false,
     }
