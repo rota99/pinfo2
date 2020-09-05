@@ -7,7 +7,6 @@ import Profilo from '../pages/Profilo'
 import Contagi from'../pages/Contagi'
 import Osservati from'../pages/Osservati'
 import Notfound from '../pages/Notfound'
-import Prevenzione from '../pages/Prevenzione'
 
 Vue.use(Router)
 
@@ -49,10 +48,5 @@ export default new Router({
       path: '*',
       component: Notfound
     },
-    {
-      name: 'Prevenzione',
-      path: '/prevenzione',
-      component: Prevenzione
-    }
   ]
 })
