@@ -20,7 +20,7 @@ import Copertina from './components/Copertina';
 import CardNumeri from './components/CardNumeri';
 import Fab from './components/Fab';
 import CardOsservati from './components/CardOsservati';
-import CardIcone from './components/CardIcone'
+import CardPrevenzione from './components/CardPrevenzione'
 
 Vue.component('post', Post);
 Vue.component('scrivi-post', ScriviPost);
@@ -28,7 +28,7 @@ Vue.component('copertina', Copertina);
 Vue.component('card-numeri', CardNumeri);
 Vue.component('fab', Fab);
 Vue.component('card-osservati', CardOsservati);
-Vue.component('card-icone', CardIcone)
+Vue.component('card-prevenzione', CardPrevenzione)
 
 Vue.use(VueMaterial);
 Vue.use(VueGoogleCharts);
