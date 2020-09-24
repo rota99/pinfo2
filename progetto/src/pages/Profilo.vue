@@ -33,7 +33,7 @@
 
       <!--SNACKBAR-->
       <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
-        <span>Il tuo post è stato pubblicato!}</span>
+        <span>Il tuo post è stato pubblicato!</span>
         <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
       </md-snackbar>
 
