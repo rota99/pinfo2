@@ -41,7 +41,7 @@ export default {
   color: rgba(19, 21, 21, 1);
 }
 
-#app {
+#telefono {
   color: rgba(19, 21, 21, 1)
 }
 
@@ -50,7 +50,7 @@ export default {
 }
 
 @media only screen and (max-device-width: 960px) {
-  #distanza, #mascherina, #donuts, #igiene,#app {
+  #distanza, #mascherina, #donuts, #igiene, #telefono {
     margin-left: 8px;
     margin-right: 8px;
   }
@@ -80,7 +80,7 @@ export default {
     margin-bottom: 0px;
   }
 
-  #igiene, #app {
+  #igiene, #telefono {
     margin-left: 8px;
   }
 }

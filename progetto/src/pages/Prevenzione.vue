@@ -28,11 +28,11 @@
           title="Lava e igienizza spesso le mani"
           cardId="igiene" >
         </card-prevenzione>
-        <!--CARD APP-->
+        <!--CARD TELEFONO-->
         <card-prevenzione
         icon="phone_iphone"
-        title="Se presente nel tuo Paese, scarica ed iscriviti ad un app indicata dal Governo per il tracciamento dell'andamento del virus!"
-        cardId="app">
+        title="Se presente nel tuo Paese, scarica ed iscriviti ad all'app indicata dal Governo per il tracciamento dell'andamento del virus!"
+        cardId="telefono">
       </card-prevenzione>
       </div>
     </div>
