@@ -41,7 +41,7 @@ export default {
   color: rgba(19, 21, 21, 1);
 }
 
-#app {
+#telefono {
   color: rgba(19, 21, 21, 1)
 }
 
@@ -80,7 +80,7 @@ export default {
     margin-bottom: 0px;
   }
 
-  #igiene, #app {
+  #igiene, #telefono {
     margin-left: 8px;
   }
 }
