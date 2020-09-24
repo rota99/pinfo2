@@ -50,7 +50,7 @@ export default {
 }
 
 @media only screen and (max-device-width: 960px) {
-  #distanza, #mascherina, #donuts, #igiene {
+  #distanza, #mascherina, #donuts, #igiene,#app {
     margin-left: 8px;
     margin-right: 8px;
   }
@@ -78,6 +78,10 @@ export default {
 
   #distanza, #mascherina {
     margin-bottom: 0px;
+  }
+
+  #igiene, #app {
+    margin-left: 8px;
   }
 }
 </style>
