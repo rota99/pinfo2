@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="page-container md-layout-column">
-      
+
       <!--TOOLBAR-->
       <toolbar slot="md-app-toolbar"></toolbar>
 
@@ -24,4 +24,8 @@ export default {
 </script>
 
 <style>
+#app {
+  padding: 0px;
+  margin: 0px;
+}
 </style>
