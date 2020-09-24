@@ -15,7 +15,7 @@
           <md-input v-model="username"></md-input>
         </md-field>
 
-        <md-autocomplete v-model="selectedCountry" :md-options="countries" @md-changed="search" @md-selected="select">
+        <md-autocomplete v-model="selectedCountry" :md-options="countries" :md-open-on-focus="false" :md-dense="true"  @md-changed="search" @md-selected="select"> <!--  v-model="selectedCountry" @md-changed="search" @md-selected="select"-->
           <label>Seleziona un paese</label>
         </md-autocomplete>
         <md-field>

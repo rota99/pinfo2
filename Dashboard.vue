@@ -73,7 +73,6 @@ export default {
       var userImg = [];
       var userPost = [];
       var users = [];
-      var ids = [];
 
       //richiesta per ottenere i post
       DataService.getPosts().then(data => {
@@ -99,7 +98,7 @@ export default {
 
 
         //richiesta per ottenere gli utenti
-
+        
 
         while(users.length > 0) {
           var currentUsers = users.splice(0, 10);
@@ -111,11 +110,22 @@ export default {
               });
             });
 
+
+
+        /*DataService.getUsers(users).then(data => {
+          data.forEach(function(doc) {
+            userImg.push({
+              username: doc.data.username,
+              img: doc.data.proPic
+            });
+          });*/
+
           //dopo aver eseguito le due richieste vengono eseguiti due for per
           //controllare quando gli username combaciano per poter creare un oggetto unico
+
           for(var i = 0; i < userImg.length; i++) {
             for(var j = 0; j < userPost.length; j++) {
-              if(userImg[i].username == userPost[j].username && !ids.includes(userPost[j].postID)) {
+              if(userImg[i].username == userPost[j].username) {
                 this.postList.push({
                   ordinamento: userPost[j].ordinamento,
                   postID: userPost[j].postID,
@@ -124,10 +134,11 @@ export default {
                   postContent: userPost[j].post,
                   date: userPost[j].date
                 });
-                ids.push(userPost[j].postID);
               }
             }
           }
+
+
 
         });
       }
@@ -144,7 +155,7 @@ export default {
 
       while(ultimoScambiato > 0) {
         ultimoScambiato = 0;
-        console.log("ciao");
+
         for(i = 0; i < n; i++) {
           if(this.postList[i].ordinamento < this.postList[i+1].ordinamento) {
             var tmp = this.postList[i];
