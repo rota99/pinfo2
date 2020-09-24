@@ -11,6 +11,9 @@
         </md-autocomplete>
       </div>
 
+      <span>
+        {{ country }}
+      </span>
       <!--CARD NUMERI-->
       <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-90  md-layout md-alignment-top-center">
       <!--POSITIVI-->
@@ -80,6 +83,7 @@ export default {
       data: null,
       countries: [],
       selectedCountry: null,
+      country: null,
       //Progress bar
       showProgress: false,
       //Snackbar
@@ -158,6 +162,7 @@ export default {
   methods: {
     load: function () {
       this.showProgress = true;
+      this.getCountryName();
       this.getConfirmed();
       this.getRecovered();
       this.getDeaths();
@@ -303,6 +308,11 @@ export default {
             this.morti = json[i].Cases;
           }
         }
+      });
+    },
+    getCountryName: function() {
+      DataService.searchCountries(this.$route.params.slug).then((data) => {
+        this.country = data[0];
       });
     },
     //funzione richiamata quando si inizia la ricerca sull'autocomplete

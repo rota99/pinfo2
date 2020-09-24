@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--TOOLBAR-->
-    <md-toolbar id="fixed" class="md-primary">
+    <md-toolbar class="md-primary">
       <md-button id="hamburger-menu" class="md-icon-button" @click="showNavigation = true">
         <md-icon>menu</md-icon>
       </md-button>
@@ -115,11 +115,6 @@ export default {
 <style>
 .md-list-item{
   list-style-type: none;
-}
-
-#logo {
-  width: 32px;
-  height: 32px;
 }
 
 @media only screen and (max-device-width: 959px) {
