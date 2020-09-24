@@ -45,7 +45,7 @@ export default {
   color: rgba(19, 21, 21, 1)
 }
 
-#distanza .md-subhead, #mascherina .md-subhead, #donuts .md-subhead, #igiene .md-subhead, #app .md-subhead {
+#distanza .md-subhead, #mascherina .md-subhead, #donuts .md-subhead, #igiene .md-subhead, #telefono .md-subhead {
   font-weight: bold;
 }
 
