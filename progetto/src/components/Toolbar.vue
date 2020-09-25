@@ -69,6 +69,11 @@
           <span class="md-list-item-text">Osservati</span>
         </md-list-item>
 
+        <md-list-item :to="'/prevenzione'" @click="showNavigation = false">
+          <md-icon>sanitizer</md-icon>
+          <span class="md-list-item-text">Prevenzione</span>
+        </md-list-item>
+
         <md-divider></md-divider>
 
         <md-list-item @click="logout()">

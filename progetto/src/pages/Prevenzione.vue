@@ -3,7 +3,7 @@
     <!--DIV CHE CONTIENE IL DIV CHE CONTIENE LE CARDZ-->
     <div class="md-layout md-alignment-top-center" id="cardiv">
       <!--CARD PREVENZIONE-->
-      <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-90  md-layout md-alignment-center">
+      <div class="md-layout-item md-layout md-alignment-top-center">
         <!--DISTANZA-->
         <card-prevenzione
           icon="6_ft_apart"
@@ -31,15 +31,16 @@
         <!--CARD TELEFONO-->
         <card-prevenzione
         icon="phone_iphone"
-        title="Se presente nel tuo Paese, scarica ed iscriviti ad all'app indicata dal Governo per il tracciamento dell'andamento del virus!"
+        title="Se presente nel tuo Paese, scarica l'app indicata dal Governo locale per il tracciamento dei contagi!"
         cardId="telefono">
       </card-prevenzione>
       </div>
     </div>
+
     <!--DIV CHE CONTIENE I LINK UTILI-->
-    <div class="md-layout md-alignment-bottom-left">
-      <nav>
-      <h1>Link da consultare:</h1>
+    <div class="md-layout md-alignment-top-left" style="margin-left: 16px; margin-top: 20px;">
+      <nav class="md-layout-item md-size-90">
+        <h1>Link da consultare:</h1>
         <ul>
             <li><a href="https://www.who.int/">Sito dell'Organizzazione Mondiale della Sanità</a></li>
             <li><a href="http://www.governo.it/it/coronavirus">Sito del Governo Italiano</a></li>
@@ -54,5 +55,4 @@
 #cardiv {
   margin-top: 20px;
 }
-
 </style>

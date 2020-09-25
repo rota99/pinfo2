@@ -1,11 +1,11 @@
 <template>
   <div>
-    <md-button class="md-fab md-fab-bottom-right md-fixed" @click="addObserved()" v-if="!observedList.includes(this.$route.params.slug)">
-      <md-icon>visibility</md-icon>
+    <md-button class="md-icon-button md-list-action" @click="addObserved()" v-if="!observedList.includes(this.$route.params.slug)">
+      <md-icon class="md-accent">visibility</md-icon>
     </md-button>
 
-    <md-button class="md-fab md-fab-bottom-right md-fixed" @click="removeObserved()" v-if="observedList.includes(this.$route.params.slug)">
-      <md-icon>visibility_off</md-icon>
+    <md-button class="md-icon-button md-list-action" @click="removeObserved()" v-if="observedList.includes(this.$route.params.slug)">
+      <md-icon class="md-accent">visibility_off</md-icon>
     </md-button>
   </div>
 </template>

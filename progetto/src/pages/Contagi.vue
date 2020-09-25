@@ -11,9 +11,17 @@
         </md-autocomplete>
       </div>
 
-      <span>
-        {{ country }}
-      </span>
+      <md-list class="md-layout-item md-size-100 md-layout md-alignment-center-center">
+        <md-list-item class="md-layout-item md-size-40">
+          <span class="md-list-item-text md-title">{{ country }}</span>
+
+          <tasto-lista
+            @newObserved="showSnackbarAdd = true"
+            @observedRemoved="showSnackbarRemove = true" >
+          </tasto-lista>
+        </md-list-item>
+      </md-list>
+
       <!--CARD NUMERI-->
       <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-90  md-layout md-alignment-top-center">
       <!--POSITIVI-->
@@ -50,12 +58,6 @@
         <!--MORTI-->
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
       </div>
-
-      <!--FLOATING ACTION BUTTON-->
-      <fab
-        @newObserved="showSnackbarAdd = true"
-        @observedRemoved="showSnackbarRemove = true" >
-      </fab>
     </div>
 
     <!--SNACKBAR-->
@@ -162,6 +164,7 @@ export default {
   methods: {
     load: function () {
       this.showProgress = true;
+      this.selectedCountry = null;
       this.getCountryName();
       this.getConfirmed();
       this.getRecovered();
@@ -311,7 +314,7 @@ export default {
       });
     },
     getCountryName: function() {
-      DataService.searchCountries(this.$route.params.slug).then((data) => {
+      DataService.searchCountriesBySlug(this.$route.params.slug).then((data) => {
         this.country = data[0];
       });
     },
@@ -353,6 +356,6 @@ export default {
 
 #searchBar {
   margin-top: 20px;
-  margin-bottom: 36px;
+  margin-bottom: 20px;
 }
 </style>

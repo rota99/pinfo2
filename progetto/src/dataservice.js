@@ -34,7 +34,7 @@ export default {
     });
   },
   //funzione per accedere al sito
-  login(username,slug) {
+  login(username, slug) {
     localStorage.setItem('username', username);
     localStorage.setItem('country', slug);
   },
@@ -270,6 +270,12 @@ export default {
   //funzione che prende i Paesi dall'API
   getCountries() {
     return axios.get('https://api.covid19api.com/countries');
+  },
+  //funzione di ricerca dei Paesi attraverso lo slug
+  searchCountriesBySlug(slug) {
+    return axios.get('https://api.covid19api.com/countries').then(data => {
+      return data.data.filter((element) => element.Slug.toLowerCase().indexOf(slug.toLowerCase()) >= 0).map(element => element.Country);
+    });
   },
   //funzione di ricerca dei Paesi
   searchCountries(text) {

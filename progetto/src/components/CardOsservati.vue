@@ -36,7 +36,7 @@ export default {
   methods: {
     //funzione per salvare in una variabile locale il nome di un paese dato lo slug
     getCountryName: function() {
-      DataService.searchCountries(this.slug).then((data) => {
+      DataService.searchCountriesBySlug(this.slug).then((data) => {
         this.country = data[0];
       });
     },
