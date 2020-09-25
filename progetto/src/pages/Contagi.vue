@@ -3,6 +3,16 @@
     <!--PROGRESS BAR-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
+    <md-list class="md-layout-item md-large-size-50 md-small-size-90" >
+      <md-list-item>
+        <span class="md-list-item-text">{{ country }}</span>
+        <tasto-lista
+          @newObserved="showSnackbarAdd = true"
+          @observedRemoved="showSnackbarRemove = true" >
+        </tasto-lista>
+      </md-list-item>
+    </md-list>
+
     <div class="md-layout md-alignment-top-center">
       <!--AUTOCOMPLETE-->
       <div class="md-layout-item md-large-size-60 md-small-size-90">
