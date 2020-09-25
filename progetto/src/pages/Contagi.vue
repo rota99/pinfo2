@@ -3,6 +3,16 @@
     <!--PROGRESS BAR-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
+    <md-list class="md-layout-item md-large-size-50 md-small-size-90" >
+      <md-list-item>
+        <span class="md-list-item-text">{{ country }}</span>
+        <tasto-lista
+          @newObserved="showSnackbarAdd = true"
+          @observedRemoved="showSnackbarRemove = true" >
+        </tasto-lista>
+      </md-list-item>
+    </md-list>
+
     <div class="md-layout md-alignment-top-center">
       <!--AUTOCOMPLETE-->
       <div class="md-layout-item md-large-size-60 md-small-size-90">
@@ -11,9 +21,7 @@
         </md-autocomplete>
       </div>
 
-      <span>
-        {{ country }}
-      </span>
+
       <!--CARD NUMERI-->
       <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-90  md-layout md-alignment-top-center">
       <!--POSITIVI-->
@@ -51,11 +59,6 @@
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
       </div>
 
-      <!--FLOATING ACTION BUTTON-->
-      <fab
-        @newObserved="showSnackbarAdd = true"
-        @observedRemoved="showSnackbarRemove = true" >
-      </fab>
     </div>
 
     <!--SNACKBAR-->
@@ -162,6 +165,7 @@ export default {
   methods: {
     load: function () {
       this.showProgress = true;
+      this.selectedCountry = null;
       this.getCountryName();
       this.getConfirmed();
       this.getRecovered();
