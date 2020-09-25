@@ -18,7 +18,7 @@
 
     <!--ACTIONS-->
     <md-card-actions class="md-layout-item md-size-100">
-      <md-button class="md-icon-button" @click="deletePost(postID)">
+      <md-button class="md-icon-button" @click="deletePost(postID)" v-if="this.$route.name == 'Profilo'">
         <md-icon>delete</md-icon>
       </md-button>
 

@@ -2,7 +2,7 @@
   <div>
     <!--PROGRESS BAR-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
-    
+
     <div class="md-layout md-alignment-top-center">
       <!--AUTOCOMPLETE-->
       <div class="md-layout-item md-large-size-60 md-small-size-90">
@@ -12,7 +12,7 @@
       </div>
 
       <md-list class="md-layout-item md-size-100 md-layout md-alignment-center-center">
-        <md-list-item class="md-layout-item md-size-40">
+        <md-list-item class="md-layout-item md-large-size-40 md-small-size-90">
           <span class="md-list-item-text md-title">{{ country }}</span>
 
           <tasto-lista
