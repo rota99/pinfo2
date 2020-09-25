@@ -1,17 +1,15 @@
 <template>
   <md-card class="md-layout md-alignment-top-right addMargin">
     <!--HEADER-->
-    <router-link :to="'/profilo/' + username" style="cursor: pointer; width: 100%; text-decoration: none; color: rgba(0,0,0,0.87);">
-      <md-card-header class="md-layout-item md-size-100">
-        <md-avatar>
-          <img :src="propic"/>
-        </md-avatar>
-        <md-card-header-text>
-          <div id="titlePers" class="md-title">{{ username }}</div>
-          <div id="subheadPers" class="md-subhead">{{ date }}</div>
-        </md-card-header-text>
-      </md-card-header>
-    </router-link>
+    <md-card-header class="md-layout-item md-size-100">
+      <md-avatar>
+        <img :src="propic"/>
+      </md-avatar>
+      <md-card-header-text>
+        <div id="titlePers" class="md-title">{{ username }}</div>
+        <div id="subheadPers" class="md-subhead">{{ date }}</div>
+      </md-card-header-text>
+    </md-card-header>
 
     <!--CONTENT-->
     <md-card-content class="md-layout-item md-large-size-95 md-small-size-100">
@@ -20,7 +18,7 @@
 
     <!--ACTIONS-->
     <md-card-actions class="md-layout-item md-size-100">
-      <md-button class="md-icon-button" v-if="this.$route.name == 'Profilo' && username == realUser" @click="deletePost(postID)">
+      <md-button class="md-icon-button" @click="deletePost(postID)">
         <md-icon>delete</md-icon>
       </md-button>
 
@@ -49,8 +47,7 @@ export default {
   ],
   data: function() {
     return {
-      likedList: [],
-      realUser: localStorage.getItem('username')
+      likedList: []
     }
   },
   created: function() {

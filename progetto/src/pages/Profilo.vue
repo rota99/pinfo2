@@ -12,7 +12,7 @@
     </copertina>
 
     <div class="md-layout md-alignment-top-center">
-      <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin" v-if="username == realUser">
+      <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin">
         <!--SCRIVI UN POST-->
         <scrivi-post @newPost="newPost();"></scrivi-post>
       </div>
@@ -96,8 +96,7 @@ import DataService from '../dataservice';
 export default {
   data: function() {
     return {
-      username: this.$route.params.username,
-      realUser: localStorage.getItem('username'),
+      username: localStorage.getItem('username'),
       img: null,
       postList: [],
       newProPic: null,
