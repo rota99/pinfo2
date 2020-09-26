@@ -38,9 +38,9 @@
         <md-button class="md-accent" @click="showSnackbar = false">OK</md-button>
       </md-snackbar>
 
-      <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbarDelete" md-persistent>
+      <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbarDeleted" md-persistent>
         <span>Post eliminato correttamente.</span>
-        <md-button class="md-accent" @click="showSnackbarDelete = false">OK</md-button>
+        <md-button class="md-accent" @click="showSnackbarDeleted = false">OK</md-button>
       </md-snackbar>
 
       <!--DIALOG MODIFICA PROPIC-->
