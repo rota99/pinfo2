@@ -1,58 +1,75 @@
 <template>
   <div>
-    <!--Progress Bar-->
+    <!--PROGRESS BAR-->
     <md-progress-bar class="progressBar" md-mode="indeterminate" v-if="showProgress"></md-progress-bar>
 
-    <div id="container" class="md-layout md-alignment-top-center">
-      <!--Autocomplete-->
+    <div class="md-layout md-alignment-top-center">
+      <!--AUTOCOMPLETE-->
       <div class="md-layout-item md-large-size-60 md-small-size-90">
-        <md-autocomplete class="searchBar" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
+        <md-autocomplete id="searchBar" v-model="selectedCountry" :md-options="countries" md-layout="box" md-dense @md-changed="search" @md-selected="select">
           <label>Seleziona un paese</label>
         </md-autocomplete>
       </div>
 
-      <!--Card numeri contagi-->
-      <!--Card Positivi-->
+      <md-list class="md-layout-item md-size-100 md-layout md-alignment-center-center">
+        <md-list-item class="md-layout-item md-large-size-40 md-small-size-90">
+          <span class="md-list-item-text md-title">{{ country }}</span>
+
+          <tasto-lista
+            @newObserved="showSnackbarAdd = true"
+            @observedRemoved="showSnackbarRemove = true" >
+          </tasto-lista>
+        </md-list-item>
+      </md-list>
+
+      <!--CARD NUMERI-->
       <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-90  md-layout md-alignment-top-center">
-        <md-card md-with-hover id="positivi" class="md-layout-item md-medium-size-20 md-small-size-100">
-          <md-ripple>
-            <md-card-header class="header">
-              <div class="md-title">{{ positivi }}</div>
-              <div class="md-subhead">Positivi</div>
-            </md-card-header>
-          </md-ripple>
-        </md-card>
-        <!--Card Guariti-->
-        <md-card md-with-hover id="guariti" class="md-layout-item md-medium-size-20 md-small-size-100">
-          <md-ripple>
-            <md-card-header class="header">
-              <div class="md-title">{{ guariti }}</div>
-              <div class="md-subhead">Guariti</div>
-            </md-card-header>
-          </md-ripple>
-        </md-card>
-        <!--Card Morti-->
-        <md-card md-with-hover id="morti" class="md-layout-item md-medium-size-20 md-small-size-100">
-          <md-ripple>
-            <md-card-header class="header">
-              <div class="md-title">{{ morti }}</div>
-              <div class="md-subhead">Morti</div>
-            </md-card-header>
-          </md-ripple>
-        </md-card>
+      <!--POSITIVI-->
+        <card-numeri
+          title="Positivi"
+          :count="positivi"
+          cardId="positivi" >
+        </card-numeri>
+        <!--GUARITI-->
+        <card-numeri
+          title="Guariti"
+          :count="guariti"
+          cardId="guariti" >
+        </card-numeri>
+        <!--MORTI-->
+        <card-numeri
+          title="Morti"
+          :count="morti"
+          cardId="morti" >
+        </card-numeri>
       </div>
-      <!--Sottotitoli informativo sull'ultimo aggiornamento dei dati-->
+
+      <!--ULTIMO AGGIORNAMENTO-->
       <span class="md-subhead md-layout-item md-size-100 md-layout md-alignment-top-center header">
         <p class="md-layout-item">Dati aggiornati al: {{ data }}</p>
       </span>
 
-      <!--Google Area Charts per ogni card-->
+      <!--GOOGLE AREA CHARTS-->
       <div class="md-layout-item md-large-size-60 md-small-size-100 md-layout md-alignment-top-center">
+        <!--POSITIVI-->
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataConfirmed" :options="chartOptionsConfirmed" />
+        <!--GUARITI-->
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataRecovered" :options="chartOptionsRecovered" />
+        <!--MORTI-->
         <GChart class="md-layout-item md-size-100" type="AreaChart" :data="chartDataDeaths" :options="chartOptionsDeaths" />
       </div>
     </div>
+
+    <!--SNACKBAR-->
+    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbarAdd" md-persistent>
+      <span>Paese aggiunto alla lista osservati!</span>
+      <md-button class="md-accent" @click="showSnackbarAdd = false">OK</md-button>
+    </md-snackbar>
+
+    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbarRemove" md-persistent>
+      <span>Paese rimosso dalla lista osservati.</span>
+      <md-button class="md-accent" @click="showSnackbarRemove = false">OK</md-button>
+    </md-snackbar>
   </div>
 </template>
 
@@ -68,8 +85,15 @@ export default {
       data: null,
       countries: [],
       selectedCountry: null,
-      //Barra di caricamento
+      country: null,
+      //Progress bar
       showProgress: false,
+      //Snackbar
+      showSnackbarAdd: false,
+      showSnackbarRemove: false,
+      position: 'center',
+      duration: 4000,
+      isInfinity: false,
       //Google Charts
       //Grafico dell'andamento dei Positivi
       chartDataConfirmed: [],
@@ -130,6 +154,7 @@ export default {
   },
   watch: {
     $route: function() {
+      //se l'indirizzo cambia, allora viene chiamata la funzione load()
       this.load();
     }
   },
@@ -139,70 +164,165 @@ export default {
   methods: {
     load: function () {
       this.showProgress = true;
-      //Funzione per grafico dei positivi
-      DataService.getDayOneTotalConfirmed(this.$route.params.slug). then((data) => {
-        var tmpObj = {};
-        var date = '';
-        var anno = '';
-        var mese = '';
-        var giorno = '';
-        if(data.status == 200) {
-          tmpObj = data.data.pop();
-          this.positivi = tmpObj.Cases;
-          date = new Date(tmpObj.Date);
-          anno = date.getFullYear();
-          mese = date.getMonth() + 1;
-          giorno = date.getDate();
-          this.data = giorno + "/" + mese + "/" + anno;
-        }
-        else {
-          if(this.$route.params.slug != "italy")
-            this.$router.push({path: 'contagi/italy'});
-          var json = require('../reserves/ConfirmedItaly.json');
-          tmpObj = json.pop();
-          this.positivi = tmpObj.Cases;
-          date = new Date(tmpObj.Date);
-          anno = date.getFullYear();
-          mese = date.getMonth() + 1;
-          giorno = date.getDate();
-          this.data = giorno + "/" + mese + "/" + anno;
-        }
-      });
-      //Funzione per grafico andamento dei Guariti
-      DataService.getDayOneTotalRecovered(this.$route.params.slug). then((data) => {
-        if(data.status == 200) {
-          this.guariti = data.data.pop().Cases;
-        }
-        else {
-          if(this.$route.params.slug != "italy")
-            this.$router.push({path: 'contagi/italy'});
-          var json = require('../reserves/RecoveredItaly.json');
-          var tmpObj = json.pop();
-          this.guariti = tmpObj.Cases;
-        }
-      });
-      //Funzione per grafico andamento dei Morti
-      DataService.getDayOneTotalDeaths(this.$route.params.slug). then((data) => {
-        if(data.status == 200) {
-          this.morti = data.data.pop().Cases;
-        }
-        else {
-          if(this.$route.params.slug != "italy")
-            this.$router.push({path: 'contagi/italy'});
-
-          var json = require('../reserves/DeathsItaly.json');
-          var tmpObj = json.pop();
-          this.morti = tmpObj.Cases;
-        }
-        this.showProgress = false;
-      });
-      this.confirmedChart();
-      this.recoveredChart();
-      this.deathsChart();
+      this.selectedCountry = null;
+      this.getCountryName();
+      this.getConfirmed();
+      this.getRecovered();
+      this.getDeaths();
+      this.showProgress = false;
     },
+    //funzione utilizzata per salvare in variabili locali i numeri per popolare card numeri e grafico positivi
+    getConfirmed: function() {
+      this.chartDataConfirmed.splice(0, this.chartDataConfirmed.length);
+
+      var i = 0;
+      var date = '';
+      var anno = '';
+      var mese = '';
+      var giorno = '';
+      var tmpDate = '';
+
+      this.chartDataConfirmed.push(["Date", "Cases"]);
+
+      DataService.getDayOneTotalConfirmed(this.$route.params.slug).then((data) => {
+        for(i = 0; i < data.data.length; i++) {
+          date = new Date(data.data[i].Date);
+          anno = date.getFullYear();
+          mese = date.getMonth() + 1;
+          giorno = date.getDate();
+          tmpDate = giorno + "/" + mese + "/" + anno;
+          this.chartDataConfirmed.push([tmpDate, data.data[i].Cases]);
+
+          if(i == (data.data.length - 1))
+          {
+            this.positivi = data.data[i].Cases;
+            this.data = tmpDate;
+          }
+        }
+      }).catch(function() {
+        if(this.$route.params.slug != "italy")
+          this.$router.push({path: 'contagi/italy'});
+
+        var json = require('../assets/json/ConfirmedItaly.json');
+
+        for(i = 0; i < json.length; i++) {
+          date = new Date(json[i].Date);
+          anno = date.getFullYear();
+          mese = date.getMonth() + 1;
+          giorno = date.getDate();
+          tmpDate = giorno + "/" + mese + "/" + anno;
+          this.chartDataConfirmed.push([tmpDate, json[i].Cases]);
+
+          if(i == (json.length - 1))
+          {
+            this.positivi = json[i].Cases;
+            this.data = tmpDate;
+          }
+        }
+      });
+    },
+    //funzione utilizzata per salvare in variabili locali i numeri per popolare card numeri e grafico guariti
+    getRecovered: function() {
+      this.chartDataRecovered.splice(0, this.chartDataRecovered.length);
+
+      var i = 0;
+      var date = '';
+      var anno = '';
+      var mese = '';
+      var giorno = '';
+      var tmpDate = '';
+
+      this.chartDataRecovered.push(["Date", "Cases"]);
+
+      DataService.getDayOneTotalRecovered(this.$route.params.slug).then((data) => {
+        for(i = 0; i < data.data.length; i++) {
+          date = new Date(data.data[i].Date);
+          anno = date.getFullYear();
+          mese = date.getMonth() + 1;
+          giorno = date.getDate();
+          tmpDate = giorno + "/" + mese + "/" + anno;
+          this.chartDataRecovered.push([tmpDate, data.data[i].Cases]);
+
+          if(i == (data.data.length - 1)) {
+            this.guariti = data.data[i].Cases;
+          }
+        }
+      }).catch(function() {
+        if(this.$route.params.slug != "italy")
+          this.$router.push({path: 'contagi/italy'});
+
+        var json = require('../assets/json/RecoveredItaly.json');
+
+        for(i = 0; i < json.length; i++) {
+          date = new Date(json[i].Date);
+          anno = date.getFullYear();
+          mese = date.getMonth() + 1;
+          giorno = date.getDate();
+          tmpDate = giorno + "/" + mese + "/" + anno;
+          this.chartDataRecovered.push([tmpDate, json[i].Cases]);
+
+          if(i == (json.length - 1)) {
+            this.guariti = json[i].Cases;
+          }
+        }
+      });
+    },
+    //funzione utilizzata per salvare in variabili locali i numeri per popolare card numeri e grafico morti
+    getDeaths: function() {
+      this.chartDataDeaths.splice(0, this.chartDataDeaths.length);
+
+      var i = 0;
+      var date = '';
+      var anno = '';
+      var mese = '';
+      var giorno = '';
+      var tmpDate = '';
+
+      this.chartDataDeaths.push(["Date", "Cases"]);
+
+      DataService.getDayOneTotalDeaths(this.$route.params.slug).then((data) => {
+        for(i = 0; i < data.data.length; i++) {
+          date = new Date(data.data[i].Date);
+          anno = date.getFullYear();
+          mese = date.getMonth() + 1;
+          giorno = date.getDate();
+          tmpDate = giorno + "/" + mese + "/" + anno;
+          this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
+
+          if(i == (data.data.length - 1)) {
+            this.morti = data.data[i].Cases;
+          }
+        }
+      }).catch(function() {
+        if(this.$route.params.slug != "italy")
+          this.$router.push({path: 'contagi/italy'});
+
+        var json = require('../assets/json/DeathsItaly.json');
+
+        for(i = 0; i < json.length; i++) {
+          date = new Date(json[i].Date);
+          anno = date.getFullYear();
+          mese = date.getMonth() + 1;
+          giorno = date.getDate();
+          tmpDate = giorno + "/" + mese + "/" + anno;
+          this.chartDataDeaths.push([tmpDate, json[i].Cases]);
+
+          if(i == (json.length - 1)) {
+            this.morti = json[i].Cases;
+          }
+        }
+      });
+    },
+    getCountryName: function() {
+      DataService.searchCountriesBySlug(this.$route.params.slug).then((data) => {
+        this.country = data[0];
+      });
+    },
+    //funzione richiamata quando si inizia la ricerca sull'autocomplete
     search: function(term) {
       this.countries = DataService.searchCountries(term);
     },
+    //funzione richiamata quando viene selezionato un paese sull'autocomplete
     select: function(selected) {
       var selectedSlug = '';
 
@@ -216,114 +336,6 @@ export default {
 
         this.$router.push({path: '/contagi/' + selectedSlug});
       });
-    },
-    confirmedChart: function() {
-      DataService.getDayOneTotalConfirmed(this.$route.params.slug).then(data => {
-        var i = 0;
-        var date = '';
-        var anno = '';
-        var mese = '';
-        var giorno = '';
-        var tmpDate = '';
-        var tmpArr = ["Date", "Cases"];
-        this.chartDataConfirmed.push(tmpArr);
-
-        if(data.status == 200) {
-          for(i = 0; i < data.data.length; i++) {
-            date = new Date(data.data[i].Date);
-            anno = date.getFullYear();
-            mese = date.getMonth() + 1;
-            giorno = date.getDate();
-            tmpDate = giorno + "/" + mese + "/" + anno;
-            this.chartDataConfirmed.push([tmpDate, data.data[i].Cases]);
-          }
-        }
-        else {
-          if(this.$route.params.slug != "italy")
-            this.$router.push({path: 'contagi/italy'});
-          var json = require('../reserves/ConfirmedItaly.json');
-          for(i = 0; i < json.length; i++) {
-            date = new Date(json[i].Date);
-            anno = date.getFullYear();
-            mese = date.getMonth() + 1;
-            giorno = date.getDate();
-            tmpDate = giorno + "/" + mese + "/" + anno;
-            this.chartDataConfirmed.push([tmpDate, json[i].Cases]);
-          }
-        }
-      });
-    },
-    recoveredChart: function() {
-      DataService.getDayOneTotalRecovered(this.$route.params.slug).then(data => {
-        var i = 0;
-        var date = '';
-        var anno = '';
-        var mese = '';
-        var giorno = '';
-        var tmpDate = '';
-        var tmpArr = ["Date", "Cases"];
-        this.chartDataRecovered.push(tmpArr);
-
-          if(data.status == 200) {
-            for(i = 0; i < data.data.length; i++) {
-              date = new Date(data.data[i].Date);
-              anno = date.getFullYear();
-              mese = date.getMonth() + 1;
-              giorno = date.getDate();
-              tmpDate = giorno + "/" + mese + "/" + anno;
-              this.chartDataRecovered.push([tmpDate, data.data[i].Cases]);
-            }
-          }
-          else {
-            if(this.$route.params.slug != "italy")
-              this.$router.push({path: 'contagi/italy'});
-            var json = require('../reserves/RecoveredItaly.json');
-            for(i = 0; i < json.length; i++) {
-              date = new Date(json[i].Date);
-              anno = date.getFullYear();
-              mese = date.getMonth() + 1;
-              giorno = date.getDate();
-              tmpDate = giorno + "/" + mese + "/" + anno;
-              this.chartDataRecovered.push([tmpDate, json[i].Cases]);
-            }
-          }
-      });
-    },
-    deathsChart: function() {
-      DataService.getDayOneTotalDeaths(this.$route.params.slug).then(data => {
-        var i = 0;
-        var date = '';
-        var anno = '';
-        var mese = '';
-        var giorno = '';
-        var tmpDate = '';
-        var tmpArr = ["Date", "Cases"];
-        this.chartDataDeaths.push(tmpArr);
-
-          if(data.status == 200) {
-            for(i = 0; i < data.data.length; i++) {
-              date = new Date(data.data[i].Date);
-              anno = date.getFullYear();
-              mese = date.getMonth() + 1;
-              giorno = date.getDate();
-              tmpDate = giorno + "/" + mese + "/" + anno;
-              this.chartDataDeaths.push([tmpDate, data.data[i].Cases]);
-            }
-          }
-          else {
-            if(this.$route.params.slug != "italy")
-              this.$router.push({path: 'contagi/italy'});
-            var json = require('../reserves/DeathsItaly.json');
-            for(i = 0; i < json.length; i++) {
-              date = new Date(json[i].Date);
-              anno = date.getFullYear();
-              mese = date.getMonth() + 1;
-              giorno = date.getDate();
-              tmpDate = giorno + "/" + mese + "/" + anno;
-              this.chartDataDeaths.push([tmpDate, json[i].Cases]);
-            }
-          }
-      });
     }
   }
 }
@@ -331,9 +343,9 @@ export default {
 
 <style>
 .md-content {
-  margin: 0px;
-  padding: 0px;
-  border: none;
+  margin: 0px !important;
+  padding: 0px !important;
+  border: none !important;
 }
 
 .progressBar {
@@ -342,60 +354,8 @@ export default {
   width: 100%;
 }
 
-/*#container {
-  margin-top: 16px;
-  margin-right: 16px;
-  margin-left: 16px;
-  width: 100%;
-}*/
-
-.searchBar {
+#searchBar {
   margin-top: 20px;
-  margin-bottom: 36px;
-}
-
-.header {
-  text-align: center;
-}
-
-#positivi {
-  color: rgba(247, 92, 3, 1);
-}
-
-#guariti {
-  color: rgba(25, 178, 144, 1);
-}
-
-#morti {
-  color: rgba(19, 21, 21, 1);
-}
-
-#positivi .md-subhead, #guariti .md-subhead, #morti .md-subhead {
-  font-weight: bold;
-}
-
-@media only screen and (max-device-width: 960px) {
-  #positivi, #guariti, #morti {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-
-  #positivi, #guariti {
-    margin-bottom: 8px;
-  }
-}
-
-@media only screen and (min-device-width: 961px) {
-  #positivi, #guariti, #morti {
-    margin-right: 8px;
-  }
-
-  #guariti, #morti {
-    margin-left: 8px;
-  }
-
-  #positivi, #guariti {
-    margin-bottom: 0px;
-  }
+  margin-bottom: 20px;
 }
 </style>

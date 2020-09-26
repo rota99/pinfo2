@@ -1,32 +1,36 @@
 <template>
-  <div class="md-layout md-alignment-top-center">
-    <!--Welcome-->
+  <div id="container" class="md-layout md-alignment-top-center">
+    <!--WELCOME-->
     <div class="md-layout-item md-size-100">
       <img src="../images/immaginelogin.png" />
     </div>
 
-    <!--Dialog-->
-    <md-dialog :md-active.sync="showDialog">
+    <!--DIALOG LOGIN-->
+    <md-dialog :md-active.sync="showDialog" id="popup">
       <md-dialog-title>Registrati</md-dialog-title>
-      <!--Contenuto del dialog-->
+
       <md-dialog-content class="md-size-95">
         <md-field>
           <label>Username</label>
           <md-input v-model="username"></md-input>
         </md-field>
-        <!--Autocomplete-->
-        <md-autocomplete v-model="selectedCountry" :md-options="countries" :md-open-on-focus="false" @md-changed="search" @md-selected="select">
-          <label>Seleziona un paese</label>
-        </md-autocomplete>
+
+        <md-field>
+          <label>Selezione un paese</label>
+          <md-select v-model="selectedCountry" @md-selected="select">
+            <md-option v-for="country in countries" :key="country.slug" :value="country.slug">{{ country.country }}</md-option>
+          </md-select>
+        </md-field>
+
         <md-field>
           <label>Immagine del profilo (link)</label>
           <md-input v-model="img"></md-input>
         </md-field>
       </md-dialog-content>
-      <!--Bottone per registrarsi-->
+
       <md-dialog-actions>
         <md-button class="md-primary" @click="showDialog = false">Annulla</md-button>
-        <md-button class="md-primary" @click="checkUser()">Registrati</md-button>
+        <md-button class="md-primary" :disabled="!username || !paese || !img" @click="checkUser()">Registrati</md-button>
       </md-dialog-actions>
     </md-dialog>
 
@@ -44,6 +48,8 @@ export default {
       paese: '',
       img: '',
       countries: [],
+      selectedCountry: '',
+      //Dialog
       showDialog: false
     }
   },
@@ -51,8 +57,29 @@ export default {
     this.load();
   },
   methods: {
+    //funzione per ottenere la lista di paesi associati al proprio slug
+    load: function() {
+      DataService.getCountries().then(data => {
+        for(var i = 0; i < data.data.length; i++) {
+          this.countries[i] = {
+            country: data.data[i].Country,
+            slug: data.data[i].Slug
+          };
+        }
+
+        this.countries.sort(this.sortCountries);
+      });
+    },
+    sortCountries: function(first, second) {
+      if (first.country < second.country)
+        return -1;
+      if (first.country > second.country)
+        return 1;
+
+      return 0;
+    },
+    //funzione per controllare se un utente ha già effettuato il sign in
     checkUser: function() {
-      //funzione per controllare se un utente ha già effettuato il sign in
       DataService.isSignedIn(this.username, this.paese).then(data => {
         if(data) {
           DataService.login(this.username, this.paese);
@@ -65,30 +92,9 @@ export default {
 
       this.$router.push({path: '/'});
     },
-    load: function() {
-      //funzione per ottenere la lista di paesi associati al proprio slug
-      DataService.getCountries().then(data => {
-        for(var i = 0; i < data.data.length; i++) {
-          this.countries[i] = {
-            country: data.data[i].Country,
-            slug: data.data[i].Slug
-          };
-        }
-      });
-    },
-    search: function(term) {
-      this.countries = DataService.searchCountries(term);
-    },
+    //funzione richiamata quando viene selezionato un paese sull'autocomplete
     select: function(selected) {
-      var selectedSlug = '';
-
-      DataService.getCountries().then(data => {
-        for(var i = 0; i < data.data.length; i++) {
-          if(data.data[i].Country == selected)
-            selectedSlug = data.data[i].Slug
-        }
-        this.paese = selectedSlug;
-      });
+        this.paese = selected;
     }
   }
 }
@@ -96,11 +102,11 @@ export default {
 
 <style>
 .md-menu-content {
-  z-index: 11;
+  z-index: 11 !important;
 }
 
 @media only screen and (max-device-width: 1000px) {
-  .md-content {
+  #container {
     padding-top: 20px;
     padding-right: 32px;
     padding-left: 32px;
@@ -108,7 +114,7 @@ export default {
 }
 
 @media only screen and (min-device-width: 1001px) {
-  .md-content {
+  #container {
     padding-top: 20px;
     padding-right: 200px;
     padding-left: 200px;
