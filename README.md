@@ -1,5 +1,5 @@
 # LockedIn
-
+LockedIn è un'applicazione web, sotto forma di bolg, che consente agli utenti di interagire fra di loro attraverso la pubblicazione dei post, nei quali essi raccontano delle loro esperienze, riflessioni ed emozioni vissute nel periodo di lockdown causato dall'emergenza Covid-19. Oltre alla sua funzione principale, il sito permette un constante aggiornamento della situazione generale in tutto il mondo e suggerisce alcune norme di comportamento da seguire per limitare l'andamento dei contagi.
 > A Vue.js project
 
 ## Project setup
