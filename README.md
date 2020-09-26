@@ -27,17 +27,29 @@ Registrarsi nel sito con:
 - Country: Italy;
 - Immagine di profilo a piacere.
 
-Dalla pagina 'Dashboard':
+Nella pagina 'Bacheca':
 - scrivere un post,
-- visualizzare tutti i post scritti dagli altri utenti del sito.
+- visualizzare tutti i post scritti da tutti gli altri utenti del sito,
+- mettere 'mi piace' ai post di altri utenti, attraverso l'icona del cuore.
 
-Dalla pagina 'Profilo':
-- visualizzare tutti i post scritti dall'utente con cui si è effettutato il Login.
-  Sull'immagine di copertina è presente un Kebab menu. Cliccare sul menù e modificare i seguenti elementi:
+Nella pagina 'Profilo':
+- visualizzare tutti i post scritti dall'utente con cui si è effettutato il Login,
+- eliminare un post scritto in precedenza.
+  Sull'immagine di copertina è presente un Kebab menu. Cliccare sul menù per modificare i seguenti elementi:
   - immagine di profilo,
   - immagine di copertina,
   - biografia dell'utente.
 
-Dalla pagina 'Contagi':
+Nella pagina 'Contagi':
 - visualizzare le cards e i grafici riguardanti l'andamento del virus e i numeri riferiti al paese inserito nel SignIn/Login;
-- cercare altri paesi nella barra di ricerca e visualizzare i dati riferiti al paese scelto.
+- cercare altri paesi attraverso la barra di ricerca e visualizzare i dati riferiti al paese scelto,
+- inserire il paese cercato nella categoria 'Osservati', attraverso l'icona posta in corrispondenza del nome.
+
+Nella pagina 'Osservati':
+- visualizzare i Paesi che sono stati salvati in questa categoria,
+- eliminare il Paese dalla categoria,
+- ritornare ella pagina dei contagi del Paese attraverso l'icona.
+
+Nella pagina 'Prevenzione': 
+- visualizzare i corretti comportamenti da attuare nel periodo di emergenza Covid-19,
+- consultare i link utili, quali WHO e Governo Italiano per maggiori informazioni.
