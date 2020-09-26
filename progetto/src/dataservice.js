@@ -75,7 +75,7 @@ export default {
       console.log("Error getting documents: ", error);
     });
   },
-  //funzione che prende i post degli utenti per la pagina di profilo
+  //funzione che prende i post degli utenti per la pagina di dashboard
   getPosts() {
     var postList = [];
 

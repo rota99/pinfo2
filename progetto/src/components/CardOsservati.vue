@@ -43,7 +43,7 @@ export default {
     //funzione per rimuovere un paese dalla lista osservati
     removeObserved: function() {
       DataService.removeObserved(this.slug).then(() => {
-        this.load();
+        this.$emit('refresh');
       });
     },
     //funzione per reindirizzare l'utente al paese interessato

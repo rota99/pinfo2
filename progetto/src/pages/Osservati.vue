@@ -7,7 +7,8 @@
       <!--LISTA OSSERVATI-->
       <md-card id="card" md-with-hover class="md-layout-item md-size-20 md-small-size-100" v-for="country in observedList" :key="country">
         <card-osservati
-          :slug="country" >
+          :slug="country"
+          @refresh="getObserved();" >
         </card-osservati>
       </md-card>
     </div>
@@ -73,9 +74,20 @@ export default {
   margin-top: 10px;
 }
 
-#card {
-  margin: 10px;
-  padding: 0px;
-  height: 160px;
+@media only screen and (max-device-width: 960px) {
+  #card {
+    margin: 10px;
+    margin-right: 0px;
+    padding: 0px;
+    height: 160px;
+  }
+}
+
+@media only screen and (min-device-width: 961px) {
+  #card {
+    margin: 10px;
+    padding: 0px;
+    height: 160px;
+  }
 }
 </style>

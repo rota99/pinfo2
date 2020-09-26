@@ -5,6 +5,7 @@
 
     <!--COPERTINA-->
     <copertina
+      :key="coverKey"
       :propic="img"
       @showDialogProPic="showDialogProPic = true;"
       @showDialogCoverPic="showDialogCoverPic = true;"
@@ -14,7 +15,7 @@
     <div class="md-layout md-alignment-top-center">
       <div class="md-layout-item md-large-size-66 md-small-size-95 addMargin">
         <!--SCRIVI UN POST-->
-        <scrivi-post @newPost="newPost();"></scrivi-post>
+        <scrivi-post :key="newPostKey" @newPost="newPost();"></scrivi-post>
       </div>
 
       <div class="md-layout-item md-large-size-66 md-small-size-95">
@@ -102,6 +103,8 @@ export default {
       newProPic: null,
       newCoverPic: null,
       newBio: null,
+      coverKey: 0,
+      newPostKey: 0,
       //Snackbar
       showSnackbar: false,
       showSnackbarDeleted: false,
@@ -116,12 +119,6 @@ export default {
       showDialogBio: false
     }
   },
-  watch: {
-    $route: function() {
-      //se l'indirizzo cambia, allora viene chiamata la funzione load()
-      this.load();
-    }
-  },
   created:function() {
     this.load();
   },
@@ -133,6 +130,8 @@ export default {
     },
     //funzione utilizzata per salvare in una variabile locale l'indirizzo dell'immagine di profilo dell'utente
     getProPic: function() {
+      this.img = null;
+
       DataService.getUserInfo(this.username).then((data) => {
         data.forEach(doc => {
           this.img = doc.data().proPic;
@@ -176,7 +175,11 @@ export default {
       DataService.setProPic(this.newProPic).then(() => {
         this.showDialogProPic = false;
 
-        this.getPropic();
+        this.getProPic();
+        this.getPost();
+        this.coverKey += 1;
+        this.newPostKey += 1;
+        this.newProPic = null;
       });
     },
     //funzione per modificare l'immagine di copertina
@@ -184,7 +187,8 @@ export default {
       DataService.setCoverPic(this.newCoverPic).then(() => {
         this.showDialogCoverPic = false;
 
-        this.getCoverPic();
+        this.coverKey += 1;
+        this.newCoverPic = null;
       });
     },
     //funzione per modificare la bio dell'utente
@@ -192,7 +196,8 @@ export default {
       DataService.setBio(this.newBio).then(() => {
         this.showDialogBio = false;
 
-        this.getBio();
+        this.coverKey += 1;
+        this.newBio = null;
       });
     },
     //funzione che viene richiamata quando viene pubblicato un nuovo post
