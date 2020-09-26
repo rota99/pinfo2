@@ -25,23 +25,23 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-# Istruzioni per l'uso
+## Istruzioni per l'uso
 
-## Registrazione
+### Registrazione
 
 Registrarsi nel sito con:
 - Username a piacere;
 - Country: Italy;
 - Immagine di profilo a piacere.
 
-## Bacheca
+### Bacheca
 
 Nella pagina 'Bacheca':
 - scrivere un post,
 - visualizzare tutti i post scritti da tutti gli altri utenti del sito,
 - mettere 'mi piace' ai post di altri utenti, attraverso l'icona del cuore.
 
-## Profilo
+### Profilo
 
 Nella pagina 'Profilo':
 - visualizzare tutti i post scritti dall'utente con cui si è effettutato il Login,
@@ -51,21 +51,21 @@ Nella pagina 'Profilo':
   - immagine di copertina,
   - biografia dell'utente.
   
-## Contagi
+### Contagi
 
 Nella pagina 'Contagi':
 - visualizzare le cards e i grafici riguardanti l'andamento del virus e i numeri riferiti al paese inserito nel SignIn/Login;
 - cercare altri paesi attraverso la barra di ricerca e visualizzare i dati riferiti al paese scelto,
 - inserire il paese cercato nella categoria 'Osservati', attraverso l'icona posta in corrispondenza del nome.
 
-## Osservati
+### Osservati
 
 Nella pagina 'Osservati':
 - visualizzare i Paesi che sono stati salvati in questa categoria,
 - eliminare il Paese dalla categoria,
 - ritornare ella pagina dei contagi del Paese attraverso l'icona.
 
-## Prevenzione
+### Prevenzione
 
 Nella pagina 'Prevenzione': 
 - visualizzare i corretti comportamenti da attuare nel periodo di emergenza Covid-19,
